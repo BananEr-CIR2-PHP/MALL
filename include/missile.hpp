@@ -6,6 +6,7 @@
 
 class Missile : public Entity {
 protected:
+    EntityType entityType = EntityType::Missile;
     Vector2 velocity;
 
 public:

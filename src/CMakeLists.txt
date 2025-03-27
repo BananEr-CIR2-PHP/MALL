@@ -6,4 +6,6 @@ add_executable(Mall
     item.cpp
     missile.cpp
     livingEntity.cpp
+    mob.cpp
+    player.cpp
 )

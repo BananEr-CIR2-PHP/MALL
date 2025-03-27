@@ -2,11 +2,14 @@
 #define ITEM_HPP
 
 #include "entity.hpp"
-
+#include "itemType.hpp"
 
 class Item : public Entity {
 protected:
+    EntityType entityType = EntityType::Item;
+    ItemType itemType = ItemType::None;
     /* data */
+    
 public:
     // Constructor/destructor
     Item();

@@ -12,7 +12,7 @@ Item::Item() { }
  * 
  * @param other The entity to copy
  */
-Item::Item(const Item& other) : Entity(other) { }
+Item::Item(const Item& other) : Entity(other), itemType(other.itemType) { }
 
 /**
  * Constructor

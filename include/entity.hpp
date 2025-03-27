@@ -4,6 +4,7 @@
 #include <QtGlobal>
 
 #include "vector2.hpp"
+#include "entityType.hpp"
 #include "sprite.hpp"
 
 class Entity {
@@ -17,6 +18,7 @@ private:
 
 protected:
     const Sprite* sprite = nullptr;     // sprite object cannot be modified but pointer can
+    EntityType entityType = EntityType::None;
 
 public:
     // Constructor/destructor

@@ -22,6 +22,7 @@ Entity::Entity(const Entity& other) {
     position = other.position;
     dimensions = other.dimensions;
     sprite = other.sprite;      // No copy here because Entities don't own sprite management/deletion
+    entityType = other.entityType;
 
     updateCollisionBox();
 }
