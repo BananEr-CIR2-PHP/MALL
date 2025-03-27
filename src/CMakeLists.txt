@@ -3,4 +3,5 @@ add_executable(Mall
     vector2.cpp
     sprite.cpp
     entity.cpp
+    item.cpp
 )
