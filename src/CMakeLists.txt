@@ -5,4 +5,5 @@ add_executable(Mall
     entity.cpp
     item.cpp
     missile.cpp
+    livingEntity.cpp
 )
