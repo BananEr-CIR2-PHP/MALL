@@ -2,15 +2,17 @@
 #define ENTITY_HPP
 
 #include "vector2.hpp"
+#include "sprite.hpp"
 
 class Entity {
-private:
+protected:
     Vector2 position;
+    const Sprite* sprite = nullptr;     // sprite object cannot be modified but pointer can
 public:
     // Constructor/destructor
     Entity();
     Entity(const Entity& other);
-    Entity(const Vector2 position);
+    Entity(const Vector2 position, const Sprite* sprite=nullptr);
     ~Entity();
 
     // Getters

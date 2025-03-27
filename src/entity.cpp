@@ -22,10 +22,9 @@ Entity::Entity(const Entity& other) {
  * Constructor
  * 
  * @param pos Starting position of entity
+ * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
-Entity::Entity(const Vector2 pos) {
-    position = pos;
-}
+Entity::Entity(const Vector2 position, const Sprite* sprite) : position(position), sprite(sprite) { }
 
 /**
  * Destructor
