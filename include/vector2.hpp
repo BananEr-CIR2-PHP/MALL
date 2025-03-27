@@ -10,6 +10,13 @@ private:
     double y=0;
 
 public:
+    // Public constants
+    static const Vector2 zero;
+    static const Vector2 up;
+    static const Vector2 down;
+    static const Vector2 left;
+    static const Vector2 right;
+
     // Constructors
     Vector2();
     Vector2(double x, double y);
