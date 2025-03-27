@@ -4,4 +4,5 @@ add_executable(Mall
     sprite.cpp
     entity.cpp
     item.cpp
+    missile.cpp
 )

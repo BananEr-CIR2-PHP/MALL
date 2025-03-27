@@ -1,14 +1,47 @@
 #include "../include/item.hpp"
 
+// --- CONSTRUCTOR/DESTRUCTOR ---
 
+/**
+ * Default constructor
+ */
 Item::Item() { }
 
-Item::Item(const Item& other) { }
+/**
+ * Copy constructor
+ * 
+ * @param other The entity to copy
+ */
+Item::Item(const Item& other) : Entity(other) { }
 
+/**
+ * Constructor
+ * 
+ * @param position Starting position of entity
+ * @param dimensions Collision box dimensions. Box is centered on position.
+ * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
+ */
 Item::Item(const Vector2 position, const Vector2 dimensions, const Sprite* sprite) : Entity(position, dimensions, sprite) {
 
 }
 
+/**
+ * Destructor
+ */
 Item::~Item() { }
 
+// --- INHERITED METHODS ---
+
+/**
+ * Called when this Entity collides with another
+ * 
+ * @param other The entity this object collided with
+ */
 void Item::onCollide(Entity& other) { }
+
+/**
+ * Called once per frame
+ * 
+ * @param deltaTime Time elapsed since last frame, in milliseconds
+ */
+void Item::onUpdate(qint64 deltaTime) { }

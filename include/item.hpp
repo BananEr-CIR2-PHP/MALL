@@ -14,7 +14,9 @@ public:
     Item(const Vector2 position, const Vector2 dimensions, const Sprite* sprite = nullptr);
     ~Item();
 
+    // Inherited methods
     virtual void onCollide(Entity& other);
+    virtual void onUpdate(qint64 deltaTime);
 };
 
 #endif   // ITEM_HPP

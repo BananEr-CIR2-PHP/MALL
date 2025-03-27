@@ -1,6 +1,8 @@
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 
+#include <QtGlobal>
+
 #include "vector2.hpp"
 #include "sprite.hpp"
 
@@ -36,6 +38,7 @@ public:
 
     // Abstract methods
     virtual void onCollide(Entity& other) = 0;
+    virtual void onUpdate(qint64 deltaTime) = 0;
 };
 
 #endif   // ENTITY_HPP
