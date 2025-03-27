@@ -2,11 +2,16 @@
 #define ITEM_HPP
 
 #include "entity.hpp"
-#include "itemType.hpp"
 
 class Item : public Entity {
+public:
+    enum ItemType {
+        None,
+        Gold,
+        HPPotion
+    };
+
 protected:
-    EntityType entityType = EntityType::Item;
     ItemType itemType = ItemType::None;
     /* data */
     

@@ -3,16 +3,18 @@
 
 #include "livingEntity.hpp"
 
-class Mob : public LivingEntity {
-protected:
-    EntityType entityType = EntityType::Mob;
-    
+class Mob : public LivingEntity {    
 public:
     // Constructors/destructors
     Mob();
     Mob(const Mob& other);
     Mob(double life, const Vector2 position, const Vector2 dimensions, const Sprite* sprite=nullptr);
     ~Mob();
+
+    // Inherited methods
+    virtual void onDeath();
+    virtual void onCollide(Entity& other);
+    virtual void onUpdate(qint64 deltaTime);
 };
 
 #endif   // MOB_HPP

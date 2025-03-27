@@ -7,6 +7,7 @@
  */
 Missile::Missile() {
     velocity = Vector2::zero;
+    entityType = EntityType::Missile;
 }
 
 /**
@@ -14,7 +15,9 @@ Missile::Missile() {
  * 
  * @param other The missile to copy
  */
-Missile::Missile(const Missile& other) : Entity(other), velocity(other.velocity) { }
+Missile::Missile(const Missile& other) : Entity(other), velocity(other.velocity) {
+    entityType = EntityType::Missile;
+}
 
 /**
  * Constructor
@@ -24,7 +27,9 @@ Missile::Missile(const Missile& other) : Entity(other), velocity(other.velocity)
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
-Missile::Missile(const Vector2 velocity, const Vector2 position, const Vector2 dimensions, const Sprite* sprite) : Entity(position, dimensions, sprite), velocity(velocity) { }
+Missile::Missile(const Vector2 velocity, const Vector2 position, const Vector2 dimensions, const Sprite* sprite) : Entity(position, dimensions, sprite), velocity(velocity) {
+    entityType = EntityType::Missile;
+}
 
 /**
  * Destructor

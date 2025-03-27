@@ -74,6 +74,15 @@ Vector2 Entity::getDims() const {
     return dimensions;
 }
 
+/**
+ * Get the type of entity
+ * 
+ * @return Type of entity
+ */
+Entity::EntityType Entity::getType() const {
+    return entityType;
+}
+
 // --- SETTERS ---
 
 /**

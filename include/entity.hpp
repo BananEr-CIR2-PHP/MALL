@@ -2,12 +2,22 @@
 #define ENTITY_HPP
 
 #include <QtGlobal>
+#include <iostream>
 
 #include "vector2.hpp"
-#include "entityType.hpp"
 #include "sprite.hpp"
 
 class Entity {
+public:
+    enum class EntityType {
+        None,
+        Item,
+        Mob,
+        Player,
+        Missile,
+        EffectZone
+    };
+
 private:
     Vector2 collisionTL;    // Collision box, top left corner
     Vector2 collisionBR;    // Collision box, bottom right corner
@@ -20,16 +30,18 @@ protected:
     const Sprite* sprite = nullptr;     // sprite object cannot be modified but pointer can
     EntityType entityType = EntityType::None;
 
+    Entity(const Entity& other);
+
 public:
     // Constructor/destructor
     Entity();
-    Entity(const Entity& other);
     Entity(const Vector2 position, const Vector2 dimensions, const Sprite* sprite=nullptr);
     ~Entity();
 
     // Getters
     Vector2 getPos() const;
     Vector2 getDims() const;
+    EntityType getType() const;
 
     // Setters
     void setPos(const Vector2 pos);

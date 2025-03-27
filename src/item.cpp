@@ -1,3 +1,4 @@
+#include "../include/player.hpp"
 #include "../include/item.hpp"
 
 // --- CONSTRUCTOR/DESTRUCTOR ---
@@ -5,14 +6,18 @@
 /**
  * Default constructor
  */
-Item::Item() { }
+Item::Item() {
+    entityType = EntityType::Item;
+}
 
 /**
  * Copy constructor
  * 
  * @param other The entity to copy
  */
-Item::Item(const Item& other) : Entity(other), itemType(other.itemType) { }
+Item::Item(const Item& other) : Entity(other), itemType(other.itemType) {
+    entityType = EntityType::Item;
+}
 
 /**
  * Constructor
@@ -22,7 +27,7 @@ Item::Item(const Item& other) : Entity(other), itemType(other.itemType) { }
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
 Item::Item(const Vector2 position, const Vector2 dimensions, const Sprite* sprite) : Entity(position, dimensions, sprite) {
-
+    entityType = EntityType::Item;
 }
 
 /**
@@ -37,7 +42,13 @@ Item::~Item() { }
  * 
  * @param other The entity this object collided with
  */
-void Item::onCollide(Entity& other) { }
+void Item::onCollide(Entity& other) {
+    if (other.getType() == EntityType::Player) {
+        // IMPORTANT: Safe as long as ALL copy constructors of classes above in hierarchy are protected
+        Player* player = static_cast<Player*>(&other);
+        // TODO: Use interface instead of having nestled classes
+    }
+}
 
 /**
  * Called once per frame

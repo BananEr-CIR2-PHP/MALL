@@ -8,10 +8,11 @@ class LivingEntity : public Entity{
 protected:
     double life;
 
+    LivingEntity(const LivingEntity& other);
+
 public:
     // Constructors/destructors
     LivingEntity();
-    LivingEntity(const LivingEntity& other);
     LivingEntity(double life, const Vector2 position, const Vector2 dimensions, const Sprite* sprite=nullptr);
     ~LivingEntity();
 
