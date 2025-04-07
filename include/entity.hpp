@@ -2,12 +2,14 @@
 #define ENTITY_HPP
 
 #include <QtGlobal>
+#include <QPainter>
+#include <QGraphicsItem>
 #include <iostream>
 
 #include "vector2.hpp"
 #include "sprite.hpp"
 
-class Entity {
+class Entity : public QGraphicsItem {
 public:
     enum class EntityType {
         None,
@@ -19,12 +21,8 @@ public:
     };
 
 private:
-    Vector2 collisionTL;    // Collision box, top left corner
-    Vector2 collisionBR;    // Collision box, bottom right corner
     Vector2 position;
     Vector2 dimensions;
-
-    void updateCollisionBox();
 
 protected:
     const Sprite* sprite = nullptr;     // sprite object cannot be modified but pointer can
@@ -35,7 +33,7 @@ protected:
 public:
     // Constructor/destructor
     Entity();
-    Entity(const Vector2 position, const Vector2 dimensions, const Sprite* sprite=nullptr);
+    Entity(const Vector2 position, const Vector2 dimensions, Sprite* sprite=nullptr);
     ~Entity();
 
     // Getters
@@ -47,8 +45,9 @@ public:
     void setPos(const Vector2 pos);
     void setDims(const Vector2 dims);
 
-    // Methods
-    bool collidesWith(const Entity& other) const;
+    // --- GRAPHICS METHODS ---
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
 
     // Abstract methods
     virtual void onCollide(Entity& other) = 0;

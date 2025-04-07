@@ -2,6 +2,7 @@
 #define ITEM_HPP
 
 #include "entity.hpp"
+#include <QPainter>
 
 class Item : public Entity {
 public:
@@ -13,13 +14,12 @@ public:
 
 protected:
     ItemType itemType = ItemType::None;
-    /* data */
     
 public:
     // Constructor/destructor
     Item();
     Item(const Item& other);
-    Item(const Vector2 position, const Vector2 dimensions, const Sprite* sprite = nullptr);
+    Item(const Vector2 position, const Vector2 dimensions, Sprite* sprite = nullptr);
     ~Item();
 
     // Inherited methods

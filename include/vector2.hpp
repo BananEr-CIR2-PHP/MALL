@@ -2,12 +2,13 @@
 #define VECTOR2_HPP
 
 #include <iostream>
+#include <QtGlobal>
 
 // Vector2 is immutable
 class Vector2 {
 private:
-    double x=0;
-    double y=0;
+    qreal x=0;
+    qreal y=0;
 
 public:
     // Public constants
@@ -19,30 +20,30 @@ public:
 
     // Constructors
     Vector2();
-    Vector2(double x, double y);
+    Vector2(qreal x, qreal y);
     Vector2(const Vector2& other);
 
     // Destructor
     ~Vector2();
 
     // Getters
-    double getX() const;
-    double getY() const;
+    qreal getX() const;
+    qreal getY() const;
 
     // Operators
     Vector2 operator+(const Vector2& other) const;
     Vector2 operator-(const Vector2& other) const;
-    Vector2 operator*(double scalar) const;
-    Vector2 operator/(double scalar) const;
+    Vector2 operator*(qreal scalar) const;
+    Vector2 operator/(qreal scalar) const;
 
     // Operation on magnitude
-    double magnitude() const;
-    double sqrMagnitude() const;
+    qreal magnitude() const;
+    qreal sqrMagnitude() const;
     Vector2 normalized() const;
 
     // Dot product / Vector product
-    double dot(const Vector2& other) const;
-    double cross(const Vector2& other) const;
+    qreal dot(const Vector2& other) const;
+    qreal cross(const Vector2& other) const;
 
     // Comparisons
     bool operator==(const Vector2& other) const;
@@ -51,7 +52,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Vector2& v);    // From chatGPT
 
     // Other
-    Vector2 rotate(double angle) const;
+    Vector2 rotate(qreal angle) const;
     Vector2 projectOnto(const Vector2& other) const;
 };
 

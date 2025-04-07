@@ -1,27 +1,28 @@
 #ifndef LIVING_ENTITY_HPP
 #define LIVING_ENTITY_HPP
 
+#include <QtGlobal>
 #include "entity.hpp"
 
 // Abstract class
-class LivingEntity : public Entity{
+class LivingEntity : public Entity {
 protected:
-    double life;
+    qreal life;
 
     LivingEntity(const LivingEntity& other);
 
 public:
     // Constructors/destructors
     LivingEntity();
-    LivingEntity(double life, const Vector2 position, const Vector2 dimensions, const Sprite* sprite=nullptr);
+    LivingEntity(qreal life, const Vector2 position, const Vector2 dimensions, Sprite* sprite=nullptr);
     ~LivingEntity();
 
     // Getters
-    double getLife() const;
+    qreal getLife() const;
 
     // Setters
-    void setLife(const double life);
-    void takeDamage(const double damage);
+    void setLife(const qreal life);
+    void takeDamage(const qreal damage);
 
     // Abstract methods
     virtual void onDeath() = 0;

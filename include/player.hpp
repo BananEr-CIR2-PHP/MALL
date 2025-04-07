@@ -9,7 +9,7 @@ public:
     // Constructors/destructors
     Player();
     Player(const Player& other);
-    Player(double life, const Vector2 position, const Vector2 dimensions, const Sprite* sprite=nullptr);
+    Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprite* sprite=nullptr);
     ~Player();
 
     void gatherItem(Item::ItemType type);

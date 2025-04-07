@@ -24,7 +24,7 @@ Vector2::Vector2() {
  * 
  * @param x, y Coordinates of vector
  */
-Vector2::Vector2(double x, double y) : x(x), y(y) {}
+Vector2::Vector2(qreal x, qreal y) : x(x), y(y) {}
 
 /**
  * Copy constructor
@@ -48,7 +48,7 @@ Vector2::~Vector2() {}
  * 
  * @return abscissa of the vector
  */
-double Vector2::getX() const {
+qreal Vector2::getX() const {
     return x;
 }
 
@@ -57,7 +57,7 @@ double Vector2::getX() const {
  * 
  * @return ordinate of the vector
  */
-double Vector2::getY() const {
+qreal Vector2::getY() const {
     return y;
 }
 
@@ -89,7 +89,7 @@ Vector2 Vector2::operator-(const Vector2& other) const {
  * @param scalar Scalar to multiply this vector with
  * @return This vector multiplied with the scalar
  */
-Vector2 Vector2::operator*(double scalar) const {
+Vector2 Vector2::operator*(qreal scalar) const {
     return Vector2(x * scalar, y * scalar);
 }
 
@@ -99,7 +99,7 @@ Vector2 Vector2::operator*(double scalar) const {
  * @param scalar Scalar to divide this vector with
  * @return This vector divided with the scalar. Throws an error if scalar is zero
  */
-Vector2 Vector2::operator/(double scalar) const {
+Vector2 Vector2::operator/(qreal scalar) const {
     if (scalar == 0) {
         throw std::runtime_error("Erreur : Division par zéro !");
         return Vector2();
@@ -116,7 +116,7 @@ Vector2 Vector2::operator/(double scalar) const {
  * 
  * @return magnitude of this vector
  */
-double Vector2::magnitude() const {
+qreal Vector2::magnitude() const {
     return std::sqrt(x*x + y*y);
 }
 
@@ -125,7 +125,7 @@ double Vector2::magnitude() const {
  * 
  * @return squared magnitude of this vector
  */
-double Vector2::sqrMagnitude() const {
+qreal Vector2::sqrMagnitude() const {
     return x*x + y*y;
 }
 
@@ -135,7 +135,7 @@ double Vector2::sqrMagnitude() const {
  * @return this vector, normalized
  */
 Vector2 Vector2::normalized() const {
-    double mag = magnitude();
+    qreal mag = magnitude();
     if (mag == 0) {
         // If magnitude is zero, keep vector as it was before
         return *this;
@@ -153,7 +153,7 @@ Vector2 Vector2::normalized() const {
  * @param other Another vector
  * @return dot product of this vector and the other
  */
-double Vector2::dot(const Vector2& other) const {
+qreal Vector2::dot(const Vector2& other) const {
     return x * other.x + y * other.y;
 }
 
@@ -163,7 +163,7 @@ double Vector2::dot(const Vector2& other) const {
  * @param other Another vector
  * @return 2D "cross product"
  */
-double Vector2::cross(const Vector2& other) const {
+qreal Vector2::cross(const Vector2& other) const {
     return x * other.y - y * other.x;
 }
 
@@ -205,10 +205,10 @@ std::ostream& operator<<(std::ostream& os, const Vector2& v) {              // F
  * @param angle Angle to rotate this vector with
  * @return Rotated vector
  */
-Vector2 Vector2::rotate(double angle) const {
-    double rad = angle * (M_PI / 180.0);        // Convert angle to rad
-    double cosAngle = std::cos(rad);
-    double sinAngle = std::sin(rad);
+Vector2 Vector2::rotate(qreal angle) const {
+    qreal rad = angle * (M_PI / 180.0);        // Convert angle to rad
+    qreal cosAngle = std::cos(rad);
+    qreal sinAngle = std::sin(rad);
     return Vector2(x * cosAngle - y * sinAngle, x * sinAngle + y * cosAngle);
 }
 
@@ -219,6 +219,6 @@ Vector2 Vector2::rotate(double angle) const {
  * @return Projected vector
  */
 Vector2 Vector2::projectOnto(const Vector2& other) const {
-    double scalar = dot(other) / other.sqrMagnitude();
+    qreal scalar = dot(other) / other.sqrMagnitude();
     return other * scalar;
 }

@@ -9,8 +9,6 @@ Entity::Entity() {
     position = Vector2::zero;
     dimensions = Vector2::zero;
     sprite = nullptr;
-
-    updateCollisionBox();
 }
 
 /**
@@ -23,8 +21,6 @@ Entity::Entity(const Entity& other) {
     dimensions = other.dimensions;
     sprite = other.sprite;      // No copy here because Entities don't own sprite management/deletion
     entityType = other.entityType;
-
-    updateCollisionBox();
 }
 
 /**
@@ -34,24 +30,13 @@ Entity::Entity(const Entity& other) {
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
-Entity::Entity(const Vector2 position, const Vector2 dimensions, const Sprite* sprite) : position(position), dimensions(dimensions), sprite(sprite) {
-    updateCollisionBox();
-}
+Entity::Entity(const Vector2 position, const Vector2 dimensions, Sprite* sprite) : position(position), dimensions(dimensions), sprite(sprite) { }
 
 /**
  * Destructor
  */
 Entity::~Entity() {}
 
-// --- PRIVATE METHODS ---
-
-/**
- * Updates collision box. Should be called whenever position or dimension is modified.
- */
-void Entity::updateCollisionBox() {
-    collisionTL = position - dimensions/2;
-    collisionBR = position + dimensions/2;
-}
 
 // --- GETTERS ---
 
@@ -92,31 +77,37 @@ Entity::EntityType Entity::getType() const {
  */
 void Entity::setPos(const Vector2 pos) {
     position = pos;
-    updateCollisionBox();
 }
 
+/**
+ * Set dimensions of entity (bounding rect size)
+ * 
+ * @param dims New dimensions of the entity
+ */
 void Entity::setDims(const Vector2 dims) {
     if (dims.getX() >= 0 && dims.getY() >= 0) {
         dimensions = dims;
-        updateCollisionBox();
     }
     else {
         throw std::runtime_error("Dimensions cannot be negative!");
     }
 }
 
-// --- METHODS ---
+// --- GRAPHICS METHODS ---
 
 /**
- * Detects collision with given entity
- * 
- * @param other The entity to detect collision with
- * @return Whether collision occured or not.
+ * Get boundingRect of this entity
  */
-bool Entity::collidesWith(const Entity& other) const {
-    // Is true if this collision box is NOT: at right of this other box or at right AND is NOT: above other box or below
-    return !(
-        ( collisionTL.getX() > other.collisionBR.getX() || collisionBR.getX() < other.collisionTL.getX() ) &&
-        ( collisionTL.getY() < other.collisionBR.getY() || collisionBR.getY() > other.collisionTL.getY() )
-    );
+QRectF Entity::boundingRect() const {
+    return QRectF(position.getX(), position.getY(), dimensions.getX(), dimensions.getY());
+}
+
+/**
+ * Paint object on scene
+ */
+void Entity::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
+    // Draw sprite if it exists
+    if (sprite != nullptr) {
+        painter->drawImage(boundingRect(), *(sprite->getImage()));
+    }
 }

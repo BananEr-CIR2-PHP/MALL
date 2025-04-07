@@ -1,13 +1,43 @@
-#include <iostream>
 #include "../include/sprite.hpp"
+#include <iostream>
 
-// TODO: this class entirely
+// --- Constructor/destructor ---
 
-// --- Constructor/destructor
-Sprite::Sprite() {}
-Sprite::Sprite(const Sprite& other) {}
-Sprite::~Sprite() {}
+/**
+ * Constructor
+ * 
+ * @param img Image of the sprite
+ */
+Sprite::Sprite(QImage* img) : image(img) { }
 
-void Sprite::render() const {
-    std::cout << "Rendering sprite.";
+/**
+ * Copy constructor
+ * 
+ * @param other Another sprite
+ */
+Sprite::Sprite(const Sprite& other) {
+    this->image = other.image;
+}
+
+/**
+ * Destructor
+ */
+Sprite::~Sprite() { }
+
+/**
+ * Get a shared pointer to the texture image
+ * 
+ * @return A shared pointer to the image
+ */
+QSharedPointer<QImage> Sprite::getImage() const {
+    return image;
+}
+
+/**
+ * Set the image texture to the given one
+ * 
+ * @param img The new image texture
+ */
+void Sprite::setImage(QSharedPointer<QImage> img) {
+    image = img;
 }

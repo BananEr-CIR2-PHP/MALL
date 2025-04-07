@@ -26,7 +26,7 @@ LivingEntity::LivingEntity(const LivingEntity& other) : Entity(other) {
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
-LivingEntity::LivingEntity(double life, const Vector2 position, const Vector2 dimensions, const Sprite* sprite) : Entity(position, dimensions, sprite) {
+LivingEntity::LivingEntity(qreal life, const Vector2 position, const Vector2 dimensions, Sprite* sprite) : Entity(position, dimensions, sprite) {
     this->life = life > 0 ? life : 1;   // Do not start with 0 HP
 }
 
@@ -42,7 +42,7 @@ LivingEntity::~LivingEntity() { }
  * 
  * @return Life of the living entity
  */
-double LivingEntity::getLife() const {
+qreal LivingEntity::getLife() const {
     return life;
 }
 
@@ -53,7 +53,7 @@ double LivingEntity::getLife() const {
  * 
  * @param life New life of the entity
  */
-void LivingEntity::setLife(const double life) {
+void LivingEntity::setLife(const qreal life) {
     if (life > 0) {
         this->life = life;
     }
@@ -68,7 +68,7 @@ void LivingEntity::setLife(const double life) {
  * 
  * @param damage Damage the living entity should take
  */
-void LivingEntity::takeDamage(const double damage) {
+void LivingEntity::takeDamage(const qreal damage) {
     if (damage > life) {
         life = 0;
         this->onDeath();

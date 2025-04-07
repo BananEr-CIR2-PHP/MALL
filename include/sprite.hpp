@@ -1,19 +1,22 @@
 #ifndef SPRITE_HPP
 #define SPRITE_HPP
 
-// TODO: this class entirely
+#include <QImage>
+#include <QSharedPointer>
 
 class Sprite {
 protected:
-    double example = 56;    // Example attribute so the class stores at least a bit of data
+    QSharedPointer<QImage> image;
+
+    Sprite(const Sprite& other);
 
 public:
     // Constructor/destructor
-    Sprite();
-    Sprite(const Sprite& other);
+    Sprite(QImage* img = nullptr);
     ~Sprite();
 
-    void render() const;
+    QSharedPointer<QImage> getImage() const;
+    void setImage(QSharedPointer<QImage> img);
 };
 
 #endif   // SPRITE_HPP

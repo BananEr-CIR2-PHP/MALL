@@ -27,7 +27,7 @@ Missile::Missile(const Missile& other) : Entity(other), velocity(other.velocity)
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
-Missile::Missile(const Vector2 velocity, const Vector2 position, const Vector2 dimensions, const Sprite* sprite) : Entity(position, dimensions, sprite), velocity(velocity) {
+Missile::Missile(const Vector2 velocity, const Vector2 position, const Vector2 dimensions, Sprite* sprite) : Entity(position, dimensions, sprite), velocity(velocity) {
     entityType = EntityType::Missile;
 }
 
