@@ -10,25 +10,20 @@
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
+    
+    QMainWindow *mainWindow = new QMainWindow;
+    mainWindow->setWindowTitle("Main Window");
+    
 
-    QWidget *stMenu = new QWidget;
+    QWidget *stMenu = new QWidget(mainWindow);
     QPushButton *newGame = new QPushButton("Nouvelle Partie");
     QPushButton *quitGame = new QPushButton("Quitter le jeu");
     QHBoxLayout *stMenuLayout = new QHBoxLayout(stMenu);
     stMenuLayout->addWidget(newGame);
     stMenuLayout->addWidget(quitGame);
-    
-    QMainWindow *mainWindow = new QMainWindow(stMenu);
-    mainWindow->setWindowTitle("Main Window");
-    QMenuBar *menuBar = mainWindow->menuBar();
+    // "&QApplication::quit" -> pour quitter automatiquement, jsp comment l'intégrer
 
-    QMenu *fileMenu = menuBar->addMenu("Fichier");
-    fileMenu->addAction("Nouveau");
-    fileMenu->addAction("Ouvrir le jeu");
-    fileMenu->addAction("Enregistrer");
-    fileMenu->addAction("Quitter", &app, &QApplication::quit);
+    mainWindow->showMaximized();
 
-    stMenu->show();
-    mainWindow->show();
     return app.exec();
 };
