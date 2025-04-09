@@ -8,4 +8,5 @@ add_executable(Mall
     livingEntity.cpp
     mob.cpp
     player.cpp
+    mainScene.cpp
 )
