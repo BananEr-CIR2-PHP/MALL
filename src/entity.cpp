@@ -62,6 +62,17 @@ Vector2 Entity::getDims() const {
     return dimensions;
 }
 
+/**
+ * Get deletion state of this entity
+ * True if it should be deleted whithin the game loop, false otherwise.
+ * Note: deletion state only applies to game logic. Entity may need to be deleted even though deletion state is false.
+ * 
+ * @return Whether this entity should be deleted or not
+ */
+bool Entity::getDeleted() const {
+    return isDeleted;
+}
+
 // --- SETTERS ---
 
 /**
@@ -85,6 +96,10 @@ void Entity::setDims(const Vector2 dims) {
     else {
         throw std::runtime_error("Dimensions cannot be negative!");
     }
+}
+
+void Entity::setDeleted(const bool del) {
+    isDeleted = del;
 }
 
 // --- GRAPHICS METHODS ---

@@ -72,9 +72,24 @@ void MainScene::updateEntities() {
 }
 
 /**
+ * Cleanup the scene from removed entities
+ */
+void MainScene::cleanupScene() {
+    for (int i=0; i<entities->size(); i++) {
+        Entity* entity = entities->at(i);
+        if (entity->getDeleted()) {     // if entity has been removed
+            entities->removeAt(i);       // remove it
+            delete entity;
+            i--;                        // Readjust i to avoid out of list bounds
+        }
+    }
+}
+
+/**
  * Main game loop. Triggered every frame.
  */
 void MainScene::gameLoop() {
     updateEntities();
     checkCollisions();
+    cleanupScene();
 }

@@ -1,5 +1,4 @@
 #include "../include/sprite.hpp"
-#include <iostream>
 
 // --- Constructor/destructor ---
 
@@ -95,6 +94,4 @@ void Sprite::deleteCachedSprites() {
     spritesLoc = nullptr;
     delete spritesCache;
     spritesCache = nullptr;
-
-    std::cout << "DELETION!!!" << std::endl;
 }

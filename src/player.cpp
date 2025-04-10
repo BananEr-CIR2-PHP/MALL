@@ -30,6 +30,7 @@ Player::~Player() { }
 
 void Player::gatherItem(Item* item) {
     std::cout << "Item picked up!" << std::endl;
+    item->setDeleted(true);
 }
 
 // --- INHERITED METHODS ---

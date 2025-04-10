@@ -18,6 +18,7 @@ protected:
     void addEntity(Entity* entity);
     void checkCollisions();
     void updateEntities();
+    void cleanupScene();
     void gameLoop();
 
 public:

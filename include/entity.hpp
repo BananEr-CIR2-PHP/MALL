@@ -16,6 +16,7 @@ private:
 
 protected:
     const Sprite* sprite = nullptr;     // sprite object cannot be modified but pointer can
+    bool isDeleted = false;     // Set to true when entity is deleted. Ensures entity exists until not needed anymore.
 
     Entity(const Entity& other);
 
@@ -28,10 +29,12 @@ public:
     // Getters
     Vector2 getPos() const;
     Vector2 getDims() const;
+    bool getDeleted() const;
 
     // Setters
     void setPos(const Vector2 pos);
     void setDims(const Vector2 dims);
+    void setDeleted(const bool del);
 
     // --- GRAPHICS METHODS ---
     QRectF boundingRect() const;
