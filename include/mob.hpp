@@ -13,7 +13,7 @@ public:
 
     // Inherited methods
     virtual void onDeath();
-    virtual void onCollide(Entity& other);
+    virtual void onCollide(Entity* other);
     virtual void onUpdate(qint64 deltaTime);
 };
 

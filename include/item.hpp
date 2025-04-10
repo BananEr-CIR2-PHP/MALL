@@ -23,7 +23,7 @@ public:
     ~Item();
 
     // Inherited methods
-    virtual void onCollide(Entity& other);
+    virtual void onCollide(Entity* other);
     virtual void onUpdate(qint64 deltaTime);
 };
 

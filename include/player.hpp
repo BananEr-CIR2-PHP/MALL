@@ -12,11 +12,11 @@ public:
     Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprite* sprite=nullptr);
     ~Player();
 
-    void gatherItem(Item::ItemType type);
+    void gatherItem(Item* item);
 
     // Inherited methods
     virtual void onDeath();
-    virtual void onCollide(Entity& other);
+    virtual void onCollide(Entity* other);
     virtual void onUpdate(qint64 deltaTime);
 };
 

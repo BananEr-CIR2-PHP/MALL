@@ -20,7 +20,6 @@ Entity::Entity(const Entity& other) {
     position = other.position;
     dimensions = other.dimensions;
     sprite = other.sprite;      // No copy here because Entities don't own sprite management/deletion
-    entityType = other.entityType;
 }
 
 /**
@@ -57,15 +56,6 @@ Vector2 Entity::getPos() const {
  */
 Vector2 Entity::getDims() const {
     return dimensions;
-}
-
-/**
- * Get the type of entity
- * 
- * @return Type of entity
- */
-Entity::EntityType Entity::getType() const {
-    return entityType;
 }
 
 // --- SETTERS ---

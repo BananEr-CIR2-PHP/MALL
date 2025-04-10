@@ -22,7 +22,7 @@ public:
     void setSpeed(const Vector2 speed);
 
     // Inherited methods
-    virtual void onCollide(Entity& other);
+    virtual void onCollide(Entity* other);
     virtual void onUpdate(qint64 deltaTime);
 };
 

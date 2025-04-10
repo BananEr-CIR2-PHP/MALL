@@ -5,17 +5,13 @@
 /**
  * Default constructor
  */
-Player::Player() {
-    entityType = EntityType::Player;
-}
+Player::Player() { }
 
 /** Copy constructor
  * 
  * @param other Another Player
  */
-Player::Player(const Player& other) : LivingEntity(other) {
-    entityType = EntityType::Player;
-}
+Player::Player(const Player& other) : LivingEntity(other) { }
 
 /**
  * Constructor
@@ -25,17 +21,15 @@ Player::Player(const Player& other) : LivingEntity(other) {
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
-Player::Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprite* sprite) : LivingEntity(life, position, dimensions, sprite) {
-    entityType = EntityType::Player;
-}
+Player::Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprite* sprite) : LivingEntity(life, position, dimensions, sprite) { }
 
 /**
  * Destructor
  */
 Player::~Player() { }
 
-void Player::gatherItem(Item::ItemType type) {
-    std::cout << type << std::endl;
+void Player::gatherItem(Item* item) {
+    std::cout << "Item picked up!" << std::endl;
 }
 
 // --- INHERITED METHODS ---
@@ -50,7 +44,11 @@ void Player::onDeath() { }
  * 
  * @param other The entity this object collided with
  */
-void Player::onCollide(Entity& other) { }
+void Player::onCollide(Entity* other) {
+    if (Item* item = dynamic_cast<Item*>(other)) {
+        gatherItem(item);
+    }
+}
 
 /**
  * Called once per frame

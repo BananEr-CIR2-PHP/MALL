@@ -1,4 +1,4 @@
-add_executable(Mall
+qt_add_executable(Mall
     main.cpp
     vector2.cpp
     sprite.cpp
@@ -9,4 +9,5 @@ add_executable(Mall
     mob.cpp
     player.cpp
     mainScene.cpp
+    ../include/mainScene.hpp    # Useful for Automoc
 )

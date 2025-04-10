@@ -1,4 +1,3 @@
-#include "../include/player.hpp"
 #include "../include/item.hpp"
 
 // --- CONSTRUCTOR/DESTRUCTOR ---
@@ -6,18 +5,14 @@
 /**
  * Default constructor
  */
-Item::Item() {
-    entityType = EntityType::Item;
-}
+Item::Item() { }
 
 /**
  * Copy constructor
  * 
  * @param other The entity to copy
  */
-Item::Item(const Item& other) : Entity(other), itemType(other.itemType) {
-    entityType = EntityType::Item;
-}
+Item::Item(const Item& other) : Entity(other), itemType(other.itemType) { }
 
 /**
  * Constructor
@@ -26,9 +21,7 @@ Item::Item(const Item& other) : Entity(other), itemType(other.itemType) {
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
-Item::Item(const Vector2 position, const Vector2 dimensions, Sprite* sprite) : Entity(position, dimensions, sprite) {
-    entityType = EntityType::Item;
-}
+Item::Item(const Vector2 position, const Vector2 dimensions, Sprite* sprite) : Entity(position, dimensions, sprite) { }
 
 /**
  * Destructor
@@ -42,12 +35,9 @@ Item::~Item() { }
  * 
  * @param other The entity this object collided with
  */
-void Item::onCollide(Entity& other) {
-    if (other.getType() == EntityType::Player) {
-        // IMPORTANT: Safe as long as ALL copy constructors of classes above in hierarchy are protected
-        Player* player = static_cast<Player*>(&other);
-        player->gatherItem(itemType);
-    }
+void Item::onCollide(Entity* other) {
+    // Nothing to do here.
+    // Pickup item by Player is handled by Player
 }
 
 /**

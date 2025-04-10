@@ -5,17 +5,13 @@
 /**
  * Default constructor
  */
-Mob::Mob() {
-    entityType = EntityType::Mob;
-}
+Mob::Mob() { }
 
 /** Copy constructor
  * 
  * @param other Another Mob
  */
-Mob::Mob(const Mob& other) : LivingEntity(other) {
-    entityType = EntityType::Mob;
-}
+Mob::Mob(const Mob& other) : LivingEntity(other) { }
 
 /**
  * Constructor
@@ -25,9 +21,7 @@ Mob::Mob(const Mob& other) : LivingEntity(other) {
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
-Mob::Mob(qreal life, const Vector2 position, const Vector2 dimensions, Sprite* sprite) : LivingEntity(life, position, dimensions, sprite) {
-    entityType = EntityType::Mob;
-}
+Mob::Mob(qreal life, const Vector2 position, const Vector2 dimensions, Sprite* sprite) : LivingEntity(life, position, dimensions, sprite) { }
 
 /**
  * Destructor
@@ -46,7 +40,7 @@ void Mob::onDeath() { }
  * 
  * @param other The entity this object collided with
  */
-void Mob::onCollide(Entity& other) { }
+void Mob::onCollide(Entity* other) { }
 
 /**
  * Called once per frame
