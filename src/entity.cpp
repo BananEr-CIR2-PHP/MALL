@@ -64,7 +64,7 @@ Vector2 Entity::getDims() const {
 
 /**
  * Get deletion state of this entity
- * True if it should be deleted whithin the game loop, false otherwise.
+ * True if it should be deleted within the game loop, false otherwise.
  * Note: deletion state only applies to game logic. Entity may need to be deleted even though deletion state is false.
  * 
  * @return Whether this entity should be deleted or not
@@ -82,6 +82,7 @@ bool Entity::getDeleted() const {
  */
 void Entity::setPos(const Vector2 pos) {
     position = pos;
+    QGraphicsItem::setPos(position.getX(), position.getY());
 }
 
 /**
@@ -98,6 +99,13 @@ void Entity::setDims(const Vector2 dims) {
     }
 }
 
+/**
+ * Set deletion state of this entity
+ * Marking this entity as deleted informs the game loop that this entity should be deleted soon.
+ * Use this instead of directly deleting it if you want to ensure this entity lives for the rest of current loop
+ * 
+ * @param del New deletion state
+ */
 void Entity::setDeleted(const bool del) {
     isDeleted = del;
 }

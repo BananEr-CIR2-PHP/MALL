@@ -5,13 +5,17 @@
 /**
  * Default constructor
  */
-Player::Player() { }
+Player::Player() {
+    initFlags();
+}
 
 /** Copy constructor
  * 
  * @param other Another Player
  */
-Player::Player(const Player& other) : LivingEntity(other) { }
+Player::Player(const Player& other) : LivingEntity(other) {
+    initFlags();
+}
 
 /**
  * Constructor
@@ -21,7 +25,9 @@ Player::Player(const Player& other) : LivingEntity(other) { }
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
-Player::Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : LivingEntity(life, position, dimensions, sprite) { }
+Player::Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : LivingEntity(life, position, dimensions, sprite) {
+    initFlags();
+}
 
 /**
  * Destructor
@@ -31,6 +37,14 @@ Player::~Player() { }
 void Player::gatherItem(Item* item) {
     std::cout << "Item picked up!" << std::endl;
     item->setDeleted(true);
+}
+
+/**
+ * Initialize player flags for inputs listening 
+ */
+void Player::initFlags() {
+    setFlag(QGraphicsItem::ItemIsFocusable);
+    setFocus();
 }
 
 // --- INHERITED METHODS ---
@@ -56,4 +70,84 @@ void Player::onCollide(Entity* other) {
  * 
  * @param deltaTime Time elapsed since last frame, in milliseconds
  */
-void Player::onUpdate(qint64 deltaTime) { }
+void Player::onUpdate(qint64 deltaTime) {
+    // Build direction based on key presses
+    Vector2 direction = Vector2(
+        (rightKeyPressed ? 1 : 0) - (leftKeyPressed ? 1 : 0),
+        (downKeyPressed ? 1 : 0) - (upKeyPressed ? 1 : 0)
+    ).normalized();
+
+    // Update position
+    setPos(getPos() + direction * PLAYER_SPEED * deltaTime);
+}
+
+// --- INPUT EVENTS ---
+
+/**
+ * Handle key press (keyboard event)
+ */
+void Player::keyPressEvent(QKeyEvent* event) {
+    switch (event->key()) {
+        case Qt::Key_Left:
+        case Qt::Key_Q:
+            leftKeyPressed = true;
+            break;
+        case Qt::Key_Right:
+        case Qt::Key_D:
+            rightKeyPressed = true;
+            break;
+        case Qt::Key_Up:
+        case Qt::Key_Z:
+            upKeyPressed = true;
+            break;
+        case Qt::Key_Down:
+        case Qt::Key_S:
+            downKeyPressed = true;
+            break;
+    }
+}
+
+/**
+ * Handle key release (keyboard event)
+ */
+void Player::keyReleaseEvent(QKeyEvent* event) {
+    switch (event->key()) {
+        case Qt::Key_Left:
+        case Qt::Key_Q:
+            leftKeyPressed = false;
+            break;
+        case Qt::Key_Right:
+        case Qt::Key_D:
+            rightKeyPressed = false;
+            break;
+        case Qt::Key_Up:
+        case Qt::Key_Z:
+            upKeyPressed = false;
+            break;
+        case Qt::Key_Down:
+        case Qt::Key_S:
+            downKeyPressed = false;
+            break;
+    }
+}
+
+/**
+ * Handle mouse press (mouse event)
+ */
+void Player::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+    QGraphicsItem::mousePressEvent(event); // Call the base class to ensure normal behavior
+}
+
+/**
+ * Handle mouse release (mouse event)
+ */
+void Player::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+    QGraphicsItem::mouseReleaseEvent(event); // Call the base class to ensure normal behavior
+}
+
+/**
+ * Handle mouse movement (mouse event)
+ */
+void Player::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
+    QGraphicsItem::mouseMoveEvent(event); // Call the base class to ensure normal behavior
+}
