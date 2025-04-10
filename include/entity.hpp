@@ -22,7 +22,7 @@ protected:
 public:
     // Constructor/destructor
     Entity();
-    Entity(const Vector2 position, const Vector2 dimensions, Sprite* sprite=nullptr);
+    Entity(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite=Sprites::SpriteImage::None);
     virtual ~Entity();
 
     // Getters

@@ -14,7 +14,7 @@ protected:
 public:
     // Constructors/destructors
     LivingEntity();
-    LivingEntity(qreal life, const Vector2 position, const Vector2 dimensions, Sprite* sprite=nullptr);
+    LivingEntity(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     ~LivingEntity();
 
     // Getters

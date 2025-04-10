@@ -8,7 +8,7 @@
 Entity::Entity() {
     position = Vector2::zero;
     dimensions = Vector2::zero;
-    sprite = nullptr;
+    sprite = new Sprite(Sprites::SpriteImage::None);
 }
 
 /**
@@ -19,7 +19,7 @@ Entity::Entity() {
 Entity::Entity(const Entity& other) {
     position = other.position;
     dimensions = other.dimensions;
-    sprite = other.sprite;      // No copy here because Entities don't own sprite management/deletion
+    sprite = new Sprite(*other.sprite);
 }
 
 /**
@@ -27,14 +27,18 @@ Entity::Entity(const Entity& other) {
  * 
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
- * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
+ * @param sprite Sprite image type
  */
-Entity::Entity(const Vector2 position, const Vector2 dimensions, Sprite* sprite) : position(position), dimensions(dimensions), sprite(sprite) { }
+Entity::Entity(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : position(position), dimensions(dimensions) {
+    this->sprite = new Sprite(sprite);
+}
 
 /**
  * Destructor
  */
-Entity::~Entity() {}
+Entity::~Entity() {
+    delete sprite;
+}
 
 
 // --- GETTERS ---

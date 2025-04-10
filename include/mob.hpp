@@ -8,7 +8,7 @@ public:
     // Constructors/destructors
     Mob();
     Mob(const Mob& other);
-    Mob(qreal life, const Vector2 position, const Vector2 dimensions, Sprite* sprite=nullptr);
+    Mob(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     ~Mob();
 
     // Inherited methods

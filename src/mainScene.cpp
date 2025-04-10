@@ -12,13 +12,9 @@ MainScene::MainScene(QObject* parent, int fps) {
     setItemIndexMethod(QGraphicsScene::NoIndex);      // Collision detection method : linear
     entities = new QList<Entity*>();
 
-    // TODO: fix memory leak, better entity spawn
-    QImage* img = new QImage("../res/img/coin.png");
-    Sprite* sp1 = new Sprite(img);
-    Sprite* sp2 = new Sprite(img);
-    Item* it = new Item(Vector2(50, 600), Vector2(50, 50), sp1);
+    Item* it = new Item(Vector2(50, 600), Vector2(50, 50), Sprites::SpriteImage::Coin);
     addEntity(it);
-    Player* pl = new Player(20, Vector2(50, 600), Vector2(50, 50), sp2);
+    Player* pl = new Player(20, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player);
     addEntity(pl);
 
     // Activate game loop

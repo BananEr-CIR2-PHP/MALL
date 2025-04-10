@@ -21,7 +21,7 @@ Item::Item(const Item& other) : Entity(other), itemType(other.itemType) { }
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
-Item::Item(const Vector2 position, const Vector2 dimensions, Sprite* sprite) : Entity(position, dimensions, sprite) { }
+Item::Item(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : Entity(position, dimensions, sprite) { }
 
 /**
  * Destructor

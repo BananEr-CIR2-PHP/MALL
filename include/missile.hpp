@@ -12,7 +12,7 @@ public:
     // Constructor/destructor
     Missile();
     Missile(const Missile& other);
-    Missile(const Vector2 velocity, const Vector2 position, const Vector2 dimensions, Sprite* sprite = nullptr);
+    Missile(const Vector2 velocity, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     ~Missile();
 
     // Getters

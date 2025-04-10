@@ -19,7 +19,7 @@ public:
     // Constructor/destructor
     Item();
     Item(const Item& other);
-    Item(const Vector2 position, const Vector2 dimensions, Sprite* sprite = nullptr);
+    Item(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite=Sprites::SpriteImage::None);
     ~Item();
 
     // Inherited methods
