@@ -6,7 +6,7 @@
  * Default constructor
  */
 Entity::Entity() {
-    position = Vector2::zero;
+    setPos(Vector2::zero);
     dimensions = Vector2::zero;
     sprite = new Sprite(Sprites::SpriteImage::None);
 }
@@ -17,7 +17,7 @@ Entity::Entity() {
  * @param other The entity to copy
  */
 Entity::Entity(const Entity& other) {
-    position = other.position;
+    setPos(other.position);
     dimensions = other.dimensions;
     sprite = new Sprite(*other.sprite);
 }
@@ -29,7 +29,8 @@ Entity::Entity(const Entity& other) {
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite Sprite image type
  */
-Entity::Entity(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : position(position), dimensions(dimensions) {
+Entity::Entity(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : dimensions(dimensions) {
+    setPos(position);
     this->sprite = new Sprite(sprite);
 }
 
@@ -116,7 +117,7 @@ void Entity::setDeleted(const bool del) {
  * Get boundingRect of this entity
  */
 QRectF Entity::boundingRect() const {
-    return QRectF(position.getX(), position.getY(), dimensions.getX(), dimensions.getY());
+    return QRectF(0, 0, dimensions.getX(), dimensions.getY());
 }
 
 /**

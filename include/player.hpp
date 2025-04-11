@@ -28,7 +28,8 @@ public:
     // Inherited methods
     virtual void onDeath();
     virtual void onCollide(Entity* other);
-    virtual void onUpdate(qint64 deltaTime);
+    virtual bool onUpdate(qint64 deltaTime);
+    virtual Entity* getSpawned();
 
     // Input events
     void keyPressEvent(QKeyEvent* event) override;

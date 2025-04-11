@@ -3,13 +3,24 @@
 
 #include <QtGlobal>
 #include "entity.hpp"
+#include "effect.hpp"
 
 // Abstract class
 class LivingEntity : public Entity {
+private:
+    Effect burning;
+    Effect poisoned;
+    Effect frozen;
+
+    void initEffects();
+
 protected:
     qreal life;
-
+    const qint64 burningTime = 3000;
+    const qint64 poisonedTime = 10000;
+    
     LivingEntity(const LivingEntity& other);
+    qreal getSpeedMultiplier() const;
 
 public:
     // Constructors/destructors
@@ -24,8 +35,12 @@ public:
     void setLife(const qreal life);
     void takeDamage(const qreal damage);
 
-    // Abstract methods
+    // Virtual methods
     virtual void onDeath() = 0;
+    virtual bool onUpdate(qint64 deltaTime);
+
+    // Methods
+    void giveEffect(const Effect& effect);
 };
 
 #endif   // LIVING_ENTITY_HPP

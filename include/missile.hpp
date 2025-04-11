@@ -27,7 +27,8 @@ public:
 
     // Inherited methods
     virtual void onCollide(Entity* other);
-    virtual void onUpdate(qint64 deltaTime);
+    virtual bool onUpdate(qint64 deltaTime);
+    virtual Entity* getSpawned();
 };
 
 #endif   // MISSILE_HPP

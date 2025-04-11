@@ -37,12 +37,13 @@ public:
     void setDeleted(const bool del);
 
     // --- GRAPHICS METHODS ---
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
+    virtual QRectF boundingRect() const;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
 
     // Abstract methods
     virtual void onCollide(Entity* other) = 0;
-    virtual void onUpdate(qint64 deltaTime) = 0;
+    virtual bool onUpdate(qint64 deltaTime) = 0;
+    virtual Entity* getSpawned() = 0;
 };
 
 #endif   // ENTITY_HPP

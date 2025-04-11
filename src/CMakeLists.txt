@@ -9,6 +9,8 @@ qt_add_executable(Mall
     mob.cpp
     player.cpp
     rocket.cpp
+    effectZone.cpp
+    effect.cpp
     mainScene.cpp
     ../include/mainScene.hpp    # Useful for Automoc
 )

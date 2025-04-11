@@ -7,6 +7,7 @@
  */
 LivingEntity::LivingEntity() {
     life = 1;
+    initEffects();
 }
 
 /**
@@ -14,7 +15,7 @@ LivingEntity::LivingEntity() {
  * 
  * @param other Another LivingEntity
  */
-LivingEntity::LivingEntity(const LivingEntity& other) : Entity(other) {
+LivingEntity::LivingEntity(const LivingEntity& other) : Entity(other), burning(other.burning), poisoned(other.poisoned), frozen(other.frozen) {
     life = 1;
 }
 
@@ -28,6 +29,7 @@ LivingEntity::LivingEntity(const LivingEntity& other) : Entity(other) {
  */
 LivingEntity::LivingEntity(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : Entity(position, dimensions, sprite) {
     this->life = life > 0 ? life : 1;   // Do not start with 0 HP
+    initEffects();
 }
 
 /**
@@ -44,6 +46,21 @@ LivingEntity::~LivingEntity() { }
  */
 qreal LivingEntity::getLife() const {
     return life;
+}
+
+/**
+ * Get speed multiplier of this living entity
+ * 
+ * @return Speed multiplier of this entity
+ */
+qreal LivingEntity::getSpeedMultiplier() const {
+    if (frozen.hasDied()) {
+        return 1;
+    }
+    else {
+        // The closer frozen strength is to 0, the stronger the freeze
+        return frozen.getStrength();
+    }
 }
 
 // --- SETTERS ---
@@ -76,4 +93,91 @@ void LivingEntity::takeDamage(const qreal damage) {
     else {
         life -= damage;
     }
+}
+
+// ---METHODS --
+
+/**
+ * Initialize living entity effects
+ */
+void LivingEntity::initEffects() {
+    burning = Effect(Effects::EffectType::Burning, 0, 0);
+    poisoned = Effect(Effects::EffectType::Poisoned, 0, 0);
+    frozen = Effect(Effects::EffectType::Frozen, 0, 0);
+}
+
+/**
+ * Give an effect to this living entity
+ * 
+ * @param effect The effect to give. If effect is frozen, this method will take effect duration. For all other effect types, duration is handled by this method
+ */
+void LivingEntity::giveEffect(const Effect& effect) {
+    switch (effect.getType()) {
+        // Burning/poisoned/frozen : make effect last longer if new duration is bigger
+        // And set new strength if new strength is bigger
+        case Effects::EffectType::Burning:
+            burning.setDuration(burningTime);
+
+            if (effect.getStrength() > burning.getStrength()) {
+                burning.setStrength(effect.getStrength());
+            }
+            break;
+
+        case Effects::EffectType::Poisoned:
+            poisoned.setDuration(poisonedTime);
+
+            if (effect.getStrength() > poisoned.getStrength()) {
+                poisoned.setStrength(effect.getStrength());
+            }
+            break;
+
+        case Effects::EffectType::Frozen:
+            if (effect.getDurationLeft() > frozen.getDurationLeft()) {
+                frozen.setDuration(effect.getDurationLeft());
+            }
+            if (effect.getStrength() < frozen.getStrength()) {
+                frozen.setStrength(effect.getStrength());
+            }
+            break;
+
+        case Effects::EffectType::Boom:
+            takeDamage(effect.getStrength());
+            break;
+    }
+}
+
+/**
+ * Called once per frame
+ * 
+ * @param deltaTime Time elapsed since last frame, in milliseconds
+ * @return Whether this entity wants to spawn another entity or not
+ */
+bool LivingEntity::onUpdate(qint64 deltaTime) {
+    // Update burning effect
+    if (burning.hasDied()) {
+        burning.setStrength(0);
+    }
+    else {
+        takeDamage(deltaTime*burning.getStrength());
+        burning.decreaseDuration(deltaTime);
+    }
+
+    // Update poisoned effect
+    if (poisoned.hasDied()) {
+        poisoned.setStrength(0);
+    }
+    else {
+        takeDamage(deltaTime*poisoned.getStrength());
+        poisoned.decreaseDuration(deltaTime);
+    }
+
+    // Update frozen effect
+    if (frozen.hasDied()) {
+        frozen.setStrength(1);      // Less strong freeze possible
+    }
+    else {
+        frozen.decreaseDuration(deltaTime);
+    }
+
+    return false;
 }

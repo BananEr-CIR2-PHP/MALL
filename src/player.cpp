@@ -35,7 +35,6 @@ Player::Player(qreal life, const Vector2 position, const Vector2 dimensions, Spr
 Player::~Player() { }
 
 void Player::gatherItem(Item* item) {
-    std::cout << "Item picked up!" << std::endl;
     item->setDeleted(true);
 }
 
@@ -69,8 +68,11 @@ void Player::onCollide(Entity* other) {
  * Called once per frame
  * 
  * @param deltaTime Time elapsed since last frame, in milliseconds
+ * @return Whether this entity wants to spawn another entity or not
  */
-void Player::onUpdate(qint64 deltaTime) {
+bool Player::onUpdate(qint64 deltaTime) {
+    bool wantSpawn = LivingEntity::onUpdate(deltaTime);
+
     // Build direction based on key presses
     Vector2 direction = Vector2(
         (rightKeyPressed ? 1 : 0) - (leftKeyPressed ? 1 : 0),
@@ -78,7 +80,18 @@ void Player::onUpdate(qint64 deltaTime) {
     ).normalized();
 
     // Update position
-    setPos(getPos() + direction * PLAYER_SPEED * deltaTime);
+    setPos(getPos() + direction * PLAYER_SPEED * getSpeedMultiplier() * deltaTime);
+
+    return wantSpawn;
+}
+
+/**
+ * Get next Entity this entity wants to spawn
+ * 
+ * @return Pointer to the new entity. nullptr if no other entity to spawn.
+ */
+Entity* Player::getSpawned() {
+    return nullptr;
 }
 
 // --- INPUT EVENTS ---

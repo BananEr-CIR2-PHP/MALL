@@ -46,5 +46,17 @@ void Mob::onCollide(Entity* other) { }
  * Called once per frame
  * 
  * @param deltaTime Time elapsed since last frame, in milliseconds
+ * @return Whether this entity wants to spawn another entity or not
  */
-void Mob::onUpdate(qint64 deltaTime) { }
+bool Mob::onUpdate(qint64 deltaTime) {
+    return LivingEntity::onUpdate(deltaTime);
+}
+
+/**
+ * Get next Entity this entity wants to spawn
+ * 
+ * @return Pointer to the new entity. nullptr if no other entity to spawn.
+ */
+Entity* Mob::getSpawned() {
+    return nullptr;
+}

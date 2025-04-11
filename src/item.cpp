@@ -44,5 +44,17 @@ void Item::onCollide(Entity* other) {
  * Called once per frame
  * 
  * @param deltaTime Time elapsed since last frame, in milliseconds
+ * @return Whether this entity wants to spawn another entity
  */
-void Item::onUpdate(qint64 deltaTime) { }
+bool Item::onUpdate(qint64 deltaTime) {
+    return false;
+}
+
+/**
+ * Get next Entity this entity wants to spawn
+ * 
+ * @return Pointer to the new entity. nullptr if no other entity to spawn.
+ */
+Entity* Item::getSpawned() {
+    return nullptr;
+}

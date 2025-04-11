@@ -1,5 +1,6 @@
 #include "../include/item.hpp"
 #include "../include/player.hpp"
+#include "../include/mob.hpp"
 #include "../include/rocket.hpp"
 #include "../include/mainScene.hpp"
 
@@ -17,7 +18,7 @@ MainScene::MainScene(QObject* parent, int fps) {
     addEntity(it);
     Player* pl = new Player(20, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player);
     addEntity(pl);
-    Rocket* ro = new Rocket(Vector2(0, 0.1), 500, Vector2(300, 0), Vector2(50, 50), Sprites::SpriteImage::Coin);
+    Rocket* ro = new Rocket(Effect(Effects::EffectType::Boom, 10000, 3000), 50, Vector2(0, 0.1), 800, Vector2(300, 0), Vector2(50, 50), Sprites::SpriteImage::Coin);
     addEntity(ro);
 
     // Activate game loop
@@ -69,8 +70,18 @@ void MainScene::checkCollisions() {
  * Triggers onUpdate() on each Entity
  */
 void MainScene::updateEntities() {
-    for (Entity* entity : *entities) {
-        entity->onUpdate(deltaTime);
+    for (qint64 i=0; i<entities->size(); i++) {
+        Entity* entity =entities->at(i);
+        
+        if (entity->onUpdate(deltaTime)) {      // Update entity. True if entity wants to spawn another entity
+
+            // Spawn new entities while current entity in loop wants to spawn entities
+            Entity* newEntity = entity->getSpawned();
+            while (newEntity != nullptr) {
+                addEntity(newEntity);
+                newEntity = entity->getSpawned();
+            }
+        }
     }
 }
 
@@ -78,7 +89,7 @@ void MainScene::updateEntities() {
  * Cleanup the scene from removed entities
  */
 void MainScene::cleanupScene() {
-    for (int i=0; i<entities->size(); i++) {
+    for (qint64 i=0; i<entities->size(); i++) {
         Entity* entity = entities->at(i);
         if (entity->getDeleted()) {     // if entity has been removed
             entities->removeAt(i);       // remove it
@@ -92,7 +103,7 @@ void MainScene::cleanupScene() {
  * Main game loop. Triggered every frame.
  */
 void MainScene::gameLoop() {
-    updateEntities();
     checkCollisions();
+    updateEntities();
     cleanupScene();
 }
