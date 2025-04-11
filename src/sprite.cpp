@@ -62,7 +62,12 @@ void Sprite::setImage(Sprites::SpriteImage img) {
     }
     else {
         // If the image is not in cache, create a new one and add it to cache
-        image = QSharedPointer<QImage>(new QImage(spritesLoc->take(img)));
+        if (img == Sprites::SpriteImage::None) {
+            image = QSharedPointer<QImage>(nullptr);    // No image
+        }
+        else {
+            image = QSharedPointer<QImage>(new QImage(spritesLoc->take(img)));
+        }
         spritesCache->insert(img, image);
     }
 }
@@ -74,7 +79,6 @@ void Sprite::setImage(Sprites::SpriteImage img) {
  */
 void Sprite::generateSpritesLoc() {
     spritesLoc = new QMap<Sprites::SpriteImage, QString>();
-    spritesLoc->insert(Sprites::SpriteImage::None, "../res/img/default_texture.png");
     spritesLoc->insert(Sprites::SpriteImage::Coin, "../res/img/coin.png");
     spritesLoc->insert(Sprites::SpriteImage::Player, "../res/img/player.png");
 }

@@ -126,6 +126,9 @@ QRectF Entity::boundingRect() const {
 void Entity::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
     // Draw sprite if it exists
     if (sprite != nullptr) {
-        painter->drawImage(boundingRect(), *(sprite->getImage()));
+        QSharedPointer<QImage> image = sprite->getImage();
+        if (image != nullptr) {
+            painter->drawImage(boundingRect(), *image);
+        }
     }
 }
