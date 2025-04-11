@@ -7,12 +7,16 @@
 class Missile : public Entity {
 protected:
     Vector2 velocity;
+    qreal lifetime;    // Distance left to travel before despawn
+    qreal damage;
+    bool pierceEntities;
+
+    Missile(const Missile& other);
 
 public:
     // Constructor/destructor
     Missile();
-    Missile(const Missile& other);
-    Missile(const Vector2 velocity, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    Missile(const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     ~Missile();
 
     // Getters

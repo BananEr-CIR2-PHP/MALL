@@ -1,5 +1,6 @@
 #include "../include/item.hpp"
 #include "../include/player.hpp"
+#include "../include/rocket.hpp"
 #include "../include/mainScene.hpp"
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
@@ -16,6 +17,8 @@ MainScene::MainScene(QObject* parent, int fps) {
     addEntity(it);
     Player* pl = new Player(20, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player);
     addEntity(pl);
+    Rocket* ro = new Rocket(Vector2(0, 0.1), 500, Vector2(300, 0), Vector2(50, 50), Sprites::SpriteImage::Coin);
+    addEntity(ro);
 
     // Activate game loop
     deltaTime = (qint64) (1000/fps);
