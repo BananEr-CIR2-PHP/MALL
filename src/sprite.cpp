@@ -79,6 +79,7 @@ void Sprite::setImage(Sprites::SpriteImage img) {
  */
 void Sprite::generateSpritesLoc() {
     spritesLoc = new QMap<Sprites::SpriteImage, QString>();
+    spritesLoc->insert(Sprites::SpriteImage::BoomZone, "../res/img/boom.png");
     spritesLoc->insert(Sprites::SpriteImage::Coin, "../res/img/coin.png");
     spritesLoc->insert(Sprites::SpriteImage::Player, "../res/img/player.png");
 }

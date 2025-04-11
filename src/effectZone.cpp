@@ -33,11 +33,35 @@ EffectZone::EffectZone(Effect effect, const Vector2 position, const qreal range,
 }
 
 /**
+ * Constructor
+ * 
+ * @param effect Effect of the zone
+ * @param position Starting position of entity
+ * @param range Collision box dimensions. Box is centered on position.
+ */
+EffectZone::EffectZone(Effect effect, const Vector2 position, const qreal range) :
+    Entity(position, Vector2(2*range, 2*range), getEffectSprite(effect.getType())), range(range), effect(effect)
+{
+
+}
+
+/**
  * Destructor
  */
 EffectZone::~EffectZone() { }
 
 // --- INHERITED METHODS ---
+
+/**
+ * Redefine shape of effect zone (circle)
+ * 
+ * @return shape of the effect zone
+ */
+QPainterPath EffectZone::shape() const {
+    QPainterPath path;
+    path.addEllipse(0, 0, range, range);
+    return path;
+}
 
 /**
  * Called when this Entity collides with another
@@ -100,6 +124,25 @@ bool EffectZone::onUpdate(qint64 deltaTime) {
  */
 Entity* EffectZone::getSpawned() {
     return nullptr;
+}
+
+// --- METHODS ---
+
+/**
+ * Get sprite of effect zone from the effect type
+ */
+Sprites::SpriteImage EffectZone::getEffectSprite(Effects::EffectType effectType) {
+    Sprites::SpriteImage img;
+    switch (effectType) {
+        case Effects::EffectType::Repel:
+            img = Sprites::SpriteImage::BoomZone;
+            break;
+
+        default:
+            img = Sprites::SpriteImage::None;
+            break;
+    }
+    return img;
 }
 
 /**

@@ -11,15 +11,18 @@ private:
     Effect effect;
 
 protected:
+    Sprites::SpriteImage getEffectSprite(Effects::EffectType effectType);
     EffectZone(const EffectZone& other);
 
 public:
     // Constructor/destructor
     EffectZone();
-    EffectZone(Effect effect, const Vector2 position, const qreal range, Sprites::SpriteImage sprite=Sprites::SpriteImage::None);
+    EffectZone(Effect effect, const Vector2 position, const qreal range, Sprites::SpriteImage sprite);
+    EffectZone(Effect effect, const Vector2 position, const qreal range);
     ~EffectZone();
 
     // Inherited methods
+    QPainterPath shape() const;
     virtual void onCollide(Entity* other);
     virtual bool onUpdate(qint64 deltaTime);
     virtual Entity* getSpawned();

@@ -10,7 +10,8 @@ namespace Sprites {
     enum SpriteImage {
         None,
         Coin,
-        Player
+        Player,
+        BoomZone
     };
 }
 

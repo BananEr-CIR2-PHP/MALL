@@ -118,13 +118,13 @@ Entity* Rocket::getSpawned() {
             qreal effectStrength = effect->getStrength();
 
             effect->setDuration(1);     // Lasts one frame
-            effectZone = new EffectZone(*effect, getPos(), effectRange, Sprites::None);      // TODO: sprite
+            effectZone = new EffectZone(*effect, getPos(), effectRange);
             
             delete effect;
             effect = new Effect(Effects::EffectType::Repel, effectStrength, repelDuration);
         }
         else {
-            effectZone = new EffectZone(*effect, getPos(), effectRange, Sprites::None);      // TODO: sprite
+            effectZone = new EffectZone(*effect, getPos(), effectRange);
             delete effect;
             effect = nullptr;
         }
