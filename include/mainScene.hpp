@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QObject>
 #include "entity.hpp"
+#include "player.hpp"
 
 class MainScene : public QGraphicsScene {
     Q_OBJECT  // This macro should be the first thing inside the class definition

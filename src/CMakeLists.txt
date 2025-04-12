@@ -13,4 +13,5 @@ qt_add_executable(Mall
     effect.cpp
     mainScene.cpp
     ../include/mainScene.hpp    # Useful for Automoc
+    mainGraphicsView.cpp
 )

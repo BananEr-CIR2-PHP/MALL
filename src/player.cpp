@@ -179,3 +179,17 @@ void Player::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
 void Player::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
     QGraphicsItem::mouseMoveEvent(event); // Call the base class to ensure normal behavior
 }
+
+/**
+ * Called when player loses focus
+ */
+void Player::focusOutEvent(QFocusEvent *event) {
+    // TODO: important: do it in another way
+    // This is forced focus. Doing this way works, but creates lag
+    // And may create infinite loop if multiple players are on the scene
+
+    // Whenever player loses focus, set focus back on it.
+    if (!hasFocus()) {
+        setFocus();
+    }
+}

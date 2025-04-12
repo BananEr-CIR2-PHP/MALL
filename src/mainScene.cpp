@@ -9,11 +9,13 @@
 /**
  * Default constructor.
  */
-MainScene::MainScene(QObject* parent, int fps) {
+MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
+    // Scene options
     setSceneRect(0, 0, 1000, 1000);       // Scene size
     setItemIndexMethod(QGraphicsScene::NoIndex);      // Collision detection method : linear
     entities = new QList<Entity*>();
 
+    // Scene setup example
     Item* it = new Item(Vector2(50, 600), Vector2(50, 50), Sprites::SpriteImage::Coin);
     addEntity(it);
     Player* pl = new Player(20, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player);
