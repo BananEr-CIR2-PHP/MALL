@@ -1,5 +1,5 @@
-#include "../include/missile.hpp"
-#include "../include/livingEntity.hpp"
+#include "../../include/entity/missile.hpp"
+#include "../../include/entity/livingEntity.hpp"
 
 // --- CONSTRUCTOR/DESTRUCTOR ---
 

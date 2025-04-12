@@ -1,4 +1,4 @@
-#include "../include/effect.hpp"
+#include "../../include/entity/effect.hpp"
 #include <iostream>
 
 // --- CONSTRUCTOR/DESTRUCTOR

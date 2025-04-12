@@ -1,5 +1,5 @@
-#include "../include/player.hpp"
-#include "../include/mob.hpp"
+#include "../../include/entity/player.hpp"
+#include "../../include/entity/mob.hpp"
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
 

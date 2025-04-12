@@ -4,7 +4,7 @@
 
 #include "../include/mainScene.hpp"
 #include "../include/mainGraphicsView.hpp"
-#include "../include/item.hpp"
+#include "../include/entity/item.hpp"
 
 void setupScene();
 

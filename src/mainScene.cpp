@@ -1,7 +1,7 @@
-#include "../include/item.hpp"
-#include "../include/player.hpp"
-#include "../include/mob.hpp"
-#include "../include/rocket.hpp"
+#include "../include/entity/item.hpp"
+#include "../include/entity/player.hpp"
+#include "../include/entity/mob.hpp"
+#include "../include/entity/rocket.hpp"
 #include "../include/mainScene.hpp"
 
 // --- CONSTRUCTORS/DESTRUCTORS ---

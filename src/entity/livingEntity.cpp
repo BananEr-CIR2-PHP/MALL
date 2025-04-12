@@ -1,4 +1,4 @@
-#include "../include/livingEntity.hpp"
+#include "../../include/entity/livingEntity.hpp"
 
 // --- CONSTRUCTOR/DESTRUCTOR ---
 

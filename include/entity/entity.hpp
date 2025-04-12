@@ -6,8 +6,8 @@
 #include <QGraphicsItem>
 #include <iostream>
 
-#include "vector2.hpp"
-#include "sprite.hpp"
+#include "../vector2.hpp"
+#include "../sprite.hpp"
 
 class Entity : public QGraphicsItem {
 private:

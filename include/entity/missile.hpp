@@ -1,7 +1,7 @@
 #ifndef MISSILE_HPP
 #define MISSILE_HPP
 
-#include "vector2.hpp"
+#include "../vector2.hpp"
 #include "entity.hpp"
 
 class Missile : public Entity {

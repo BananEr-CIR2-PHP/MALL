@@ -1,4 +1,4 @@
-#include "../include/mob.hpp"
+#include "../../include/entity/mob.hpp"
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
 

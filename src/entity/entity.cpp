@@ -1,4 +1,4 @@
-#include "../include/entity.hpp"
+#include "../../include/entity/entity.hpp"
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
 

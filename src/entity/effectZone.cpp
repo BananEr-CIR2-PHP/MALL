@@ -1,5 +1,5 @@
-#include "../include/effectZone.hpp"
-#include "../include/livingEntity.hpp"
+#include "../../include/entity/effectZone.hpp"
+#include "../../include/entity/livingEntity.hpp"
 
 // --- CONSTRUCTOR/DESTRUCTOR ---
 
