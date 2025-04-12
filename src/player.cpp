@@ -1,4 +1,5 @@
 #include "../include/player.hpp"
+#include "../include/mob.hpp"
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
 
@@ -34,8 +35,16 @@ Player::Player(qreal life, const Vector2 position, const Vector2 dimensions, Spr
  */
 Player::~Player() { }
 
+/**
+ * Gather the given item
+ * 
+ * @param item The item to gather
+ */
 void Player::gatherItem(Item* item) {
-    item->setDeleted(true);
+    if (!isDead) {
+        item->setDeleted(true);
+        // TODO: add to player inventory
+    }
 }
 
 /**
@@ -62,6 +71,9 @@ void Player::onCollide(Entity* other) {
     if (Item* item = dynamic_cast<Item*>(other)) {
         gatherItem(item);
     }
+    else if (Mob* mob = dynamic_cast<Mob*>(other)) {
+        takeDamage(mob->getDamage());
+    }
 }
 
 /**
@@ -73,14 +85,16 @@ void Player::onCollide(Entity* other) {
 bool Player::onUpdate(qint64 deltaTime) {
     bool wantSpawn = LivingEntity::onUpdate(deltaTime);
 
-    // Build direction based on key presses
-    Vector2 direction = Vector2(
-        (rightKeyPressed ? 1 : 0) - (leftKeyPressed ? 1 : 0),
-        (downKeyPressed ? 1 : 0) - (upKeyPressed ? 1 : 0)
-    ).normalized();
+    if (!isDead) {
+        // Build direction based on key presses
+        Vector2 direction = Vector2(
+            (rightKeyPressed ? 1 : 0) - (leftKeyPressed ? 1 : 0),
+            (downKeyPressed ? 1 : 0) - (upKeyPressed ? 1 : 0)
+        ).normalized();
 
-    // Update position
-    setPos(getPos() + direction * PLAYER_SPEED * getSpeedMultiplier() * deltaTime);
+        // Update position
+        setPos(getPos() + direction * PLAYER_SPEED * getSpeedMultiplier() * deltaTime);
+    }
 
     return wantSpawn;
 }
@@ -124,6 +138,7 @@ void Player::keyPressEvent(QKeyEvent* event) {
  * Handle key release (keyboard event)
  */
 void Player::keyReleaseEvent(QKeyEvent* event) {
+    // TODO: solve bug: player event focus
     switch (event->key()) {
         case Qt::Key_Left:
         case Qt::Key_Q:

@@ -16,6 +16,7 @@ private:
 
 protected:
     qreal life;
+    bool isDead;
     const qint64 burningTime = 3000;
     const qint64 poisonedTime = 10000;
     

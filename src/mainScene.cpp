@@ -18,6 +18,8 @@ MainScene::MainScene(QObject* parent, int fps) {
     addEntity(it);
     Player* pl = new Player(20, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player);
     addEntity(pl);
+    // Mob* mob = new Mob(20, 20, Vector2(300, 300), Vector2(60, 60), Sprites::SpriteImage::Player);
+    // addEntity(mob);
     Rocket* ro = new Rocket(Effect(Effects::EffectType::Boom, 10000, 3000), 50, Vector2(0, 0.1), 800, Vector2(300, 0), Vector2(50, 50), Sprites::SpriteImage::Coin);
     addEntity(ro);
 

@@ -114,7 +114,9 @@ void Entity::setDeleted(const bool del) {
 // --- GRAPHICS METHODS ---
 
 /**
- * Get boundingRect of this entity
+ * Get boundingRect of this entity (relative to entity position)
+ * 
+ * @return bounding rect of this entity
  */
 QRectF Entity::boundingRect() const {
     return QRectF(0, 0, dimensions.getX(), dimensions.getY());
@@ -122,6 +124,8 @@ QRectF Entity::boundingRect() const {
 
 /**
  * Paint object on scene
+ * 
+ * @param painter Painter to draw entity on
  */
 void Entity::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
     // Draw sprite if it exists

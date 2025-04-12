@@ -7,6 +7,7 @@
  */
 LivingEntity::LivingEntity() {
     life = 1;
+    isDead = false;
     initEffects();
 }
 
@@ -17,6 +18,7 @@ LivingEntity::LivingEntity() {
  */
 LivingEntity::LivingEntity(const LivingEntity& other) : Entity(other), burning(other.burning), poisoned(other.poisoned), frozen(other.frozen) {
     life = 1;
+    isDead = false;
 }
 
 /**
@@ -29,6 +31,7 @@ LivingEntity::LivingEntity(const LivingEntity& other) : Entity(other), burning(o
  */
 LivingEntity::LivingEntity(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : Entity(position, dimensions, sprite) {
     this->life = life > 0 ? life : 1;   // Do not start with 0 HP
+    isDead = false;
     initEffects();
 }
 
@@ -88,6 +91,7 @@ void LivingEntity::setLife(const qreal life) {
 void LivingEntity::takeDamage(const qreal damage) {
     if (damage > life) {
         life = 0;
+        isDead = true;
         this->onDeath();
     }
     else {
