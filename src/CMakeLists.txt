@@ -11,6 +11,9 @@ qt_add_executable(Mall
     entity/rocket.cpp
     entity/effectZone.cpp
     entity/effect.cpp
+    weapon/weapon.cpp
+    weapon/gun.cpp
+    weapon/rocketLauncher.cpp
     mainScene.cpp
     ../include/mainScene.hpp    # Useful for Automoc
     mainGraphicsView.cpp

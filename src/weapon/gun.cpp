@@ -1,0 +1,115 @@
+#include "../../include/weapon/gun.hpp"
+
+// --- CONSTRUCTOR/DESTRUCTOR ---
+
+/**
+ * Constructor
+ * 
+ * @param gunType Type of gun
+ */
+Gun::Gun(const WeaponType::GunType::GunType gunType) {
+    // TODO: fill with weapon details
+    // TODO: weapon details in a separate file
+    switch (gunType) {
+        case WeaponType::GunType::DesertEagle:
+            bulletRange = 600;
+            bulletDamage = 1;
+            bulletPierces = false;
+            bulletSpeed = 0.2;
+            bulletDimensions = Vector2(15, 50);
+            bulletSprite = Sprites::SpriteImage::None;
+            setSprite(Sprites::SpriteImage::None);
+            break;
+
+        default:
+            bulletRange = 0;
+            bulletDamage = 0;
+            bulletPierces = false;
+            bulletSpeed = 0;
+            bulletDimensions = Vector2::zero;
+            bulletSprite = Sprites::SpriteImage::None;
+            setSprite(Sprites::SpriteImage::None);
+            break;
+    }
+}
+
+/**
+ * Constructor
+ * 
+ * @param gunType type of gun
+ */
+Gun::Gun(const WeaponType::RocketLauncherType::RocketLauncherType gunType) {
+    // TODO: fill with weapon details
+    // TODO: weapon details in a separate file
+    switch (gunType) {
+        case WeaponType::RocketLauncherType::Bazooka:
+            bulletRange = 400;
+            bulletDamage = 0;
+            bulletPierces = false;
+            bulletSpeed = 0.1;
+            bulletDimensions = Vector2(30, 30);
+            bulletSprite = Sprites::SpriteImage::None;
+            setSprite(Sprites::SpriteImage::None);
+            break;
+
+        default:
+            bulletRange = 0;
+            bulletDamage = 0;
+            bulletPierces = false;
+            bulletSpeed = 0;
+            bulletDimensions = Vector2::zero;
+            bulletSprite = Sprites::SpriteImage::None;
+            setSprite(Sprites::SpriteImage::None);
+            break;
+    }
+}
+
+/**
+ * Copy contructor
+ * 
+ * @param other Another gun
+ */
+Gun::Gun(const Gun& other) :
+    Weapon(other), bulletRange(other.bulletRange), bulletDamage(other.bulletDamage), bulletPierces(other.bulletPierces),
+    bulletSpeed(other.bulletSpeed), bulletDimensions(other.bulletDimensions), bulletSprite(other.bulletSprite)
+{
+
+}
+
+/**
+ * Constructor
+ * 
+ * @param bulletRange Range of the bullets the gun shoots
+ * @param bulletDamage Damage of the bullets the gun shoots
+ * @param bulletPierces Whether if the bullets despawn on first hit or not
+ * @param bulletSpeed Speed of the bullets
+ * @param bulletDimensions Dimensions of the bullets
+ * @param bulletSprite Sprite of spawned bullets
+ * @param sprite Sprite of weapon
+ */
+Gun::Gun(const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const Sprites::SpriteImage bulletSprite, const Sprites::SpriteImage sprite) :
+    Weapon(sprite), bulletRange(bulletRange), bulletDamage(bulletDamage), bulletPierces(bulletPierces),
+    bulletSpeed(bulletSpeed), bulletDimensions(bulletDimensions), bulletSprite(bulletSprite)
+{
+
+}
+
+/**
+ * Destructor
+ */
+Gun::~Gun() { }
+
+// --- INHERITED METHODS ---
+
+/**
+ * Use gun attack at given position, towards given direction
+ * 
+ * @param position Gun position
+ * @param direction Gun pointing direction
+ * @return Entity spawned during attack. nullptr if no Entity spawned
+ */
+Entity* Gun::attack(Vector2 position, Vector2 direction) {
+    Vector2 velocity = direction.normalized() * bulletSpeed;
+
+    return new Missile(velocity, bulletRange, bulletDamage, bulletPierces, position, bulletDimensions, bulletSprite);
+}
