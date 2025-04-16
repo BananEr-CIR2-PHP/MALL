@@ -16,6 +16,7 @@ public:
     Weapon(Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     virtual ~Weapon();
 
+    virtual Weapon* clone() const = 0;
     virtual Entity* attack(Vector2 position, Vector2 direction) = 0;
 };
 

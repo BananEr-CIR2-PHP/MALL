@@ -2,30 +2,42 @@
 #define ITEM_HPP
 
 #include "entity.hpp"
+#include "../weapon/weapon.hpp"
 #include <QPainter>
 
-class Item : public Entity {
-public:
+namespace ItemType {
     enum ItemType {
         None,
         Gold,
-        HPPotion
+        HPPotion,
+        Weapon
     };
+}
 
+class Item : public Entity {
 protected:
-    ItemType itemType = ItemType::None;
+    ItemType::ItemType itemType = ItemType::None;
+    Weapon* itemWeapon = nullptr;
     
 public:
     // Constructor/destructor
     Item();
     Item(const Item& other);
-    Item(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite=Sprites::SpriteImage::None);
+    Item(const Vector2 position, const Vector2 dimensions, ItemType::ItemType itemType, Sprites::SpriteImage sprite=Sprites::SpriteImage::None);
     ~Item();
 
     // Inherited methods
     virtual void onCollide(Entity* other);
     virtual bool onUpdate(qint64 deltaTime);
     virtual Entity* getSpawned();
+
+    // Getters
+    ItemType::ItemType getType() const;
+    bool hasWeapon() const;
+    Weapon* takeWeapon();
+
+    // Setters
+    void setWeapon(Weapon* newWeapon);
 };
 
 #endif   // ITEM_HPP

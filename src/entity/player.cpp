@@ -33,17 +33,139 @@ Player::Player(qreal life, const Vector2 position, const Vector2 dimensions, Spr
 /**
  * Destructor
  */
-Player::~Player() { }
+Player::~Player() {
+    delete weapon1;
+    delete weapon2;
+    delete droppedWeapon;
+}
 
 /**
  * Gather the given item
+ * May fail if non-human circumstances are met (e.g.: gather more than 1 item per frame)
  * 
  * @param item The item to gather
+ * @return True if succeeded, false otherwise. May fail if non-human circumstances are met (more than 1 grab per frame)
  */
-void Player::gatherItem(Item* item) {
+bool Player::gatherItem(Item* item) {
     if (!isDead) {
-        item->setDeleted(true);
-        // TODO: add to player inventory
+        // Player wants to gather only 1 item per key input
+        grabKeyPressed = false;
+
+        switch (item->getType()) {
+            case ItemType::Gold:
+                // TODO
+                std::cout << "Gather GOLD!" << std::endl;
+                break;
+            case ItemType::HPPotion:
+                // TODO
+                std::cout << "Healing!" << std::endl;
+                break;
+            case ItemType::Weapon:
+                // If item has a weapon and player can drop its active weapon
+                if (item->hasWeapon() && dropWeapon(activeWeaponSlot)) {
+                    grabWeapon(item->takeWeapon(), activeWeaponSlot);
+                    item->setDeleted(true);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+        }
+    }
+    return false;
+}
+
+/**
+ * Grab the given weapon and add it to the given inventory slot.
+ * May fail if non-human circumstances are met (e.g.: more than 1 grab per frame)
+ * If succeeded, given weapon is now managed by this player.
+ * 
+ * @param weapon The weapon to grab
+ * @param slot The slot to add the weapon to
+ * @return True if succeeded, false otherwise
+ */
+bool Player::grabWeapon(Weapon* weapon, Inventory::WeaponSlot slot) {
+    // If successfully dropped the active weapon, grab the weapon
+    if (!hasWeapon(slot)) {
+        switch (slot) {
+            case Inventory::WeaponSlot_1:
+                weapon1 = weapon;
+                break;
+            case Inventory::WeaponSlot_2:
+                weapon2 = weapon;
+                break;
+        }
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+/**
+ * Drop the weapon that is in the given inventory slot
+ * May fail if non-human circumstances are met (e.g.: more than 1 grab per frame)
+ * 
+ * @param slot The slot to drop the weapon from
+ * @return True if succeeded, false otherwise
+ */
+bool Player::dropWeapon(Inventory::WeaponSlot slot) {
+    // If droppedWeapon is already set, return false (method failed)
+    if (droppedWeapon) {
+        return false;
+    }
+    else {
+        // If a weapon is held in slot, held weapon becomes dropped wweapon
+        switch (slot) {
+            case Inventory::WeaponSlot_1:
+                droppedWeapon = weapon1;
+                weapon1 = nullptr;
+
+                break;
+            case Inventory::WeaponSlot_2:
+                droppedWeapon = weapon2;
+                weapon2 = nullptr;
+                break;
+        }
+        return true;
+    }
+}
+
+/**
+ * Know whether if player has a weapon in given slot
+ * 
+ * @return True if a weapon is in the given slot, false otherwise
+ */
+bool Player::hasWeapon(Inventory::WeaponSlot slot) const {
+    switch (slot) {
+        case Inventory::WeaponSlot_1:
+            return weapon1 != nullptr;
+        
+        case Inventory::WeaponSlot_2:
+            return weapon2 != nullptr;
+
+        default:
+            return false;
+    }
+}
+
+/**
+ * Change active weapon
+ */
+void Player::changeActiveWeapon() {
+    // Using a switch here because it's easier to add new slots this way.
+    // TODO: need to test whether if we need to call player rect reload on weapon change, or not
+    if (!isDead) {
+        switch (activeWeaponSlot) {
+            case Inventory::WeaponSlot_1:
+                activeWeaponSlot = Inventory::WeaponSlot_2;
+                std::cout << "Active: slot 2: " << weapon2 << std::endl;
+                break;
+            case Inventory::WeaponSlot_2:
+                activeWeaponSlot = Inventory::WeaponSlot_1;
+                std::cout << "Active: slot 1: " << weapon1 << std::endl;
+                break;
+        }
     }
 }
 
@@ -69,7 +191,9 @@ void Player::onDeath() { }
  */
 void Player::onCollide(Entity* other) {
     if (Item* item = dynamic_cast<Item*>(other)) {
-        gatherItem(item);
+        if (grabKeyPressed) {
+            gatherItem(item);
+        }
     }
     else if (Mob* mob = dynamic_cast<Mob*>(other)) {
         takeDamage(mob->getDamage());
@@ -83,7 +207,7 @@ void Player::onCollide(Entity* other) {
  * @return Whether this entity wants to spawn another entity or not
  */
 bool Player::onUpdate(qint64 deltaTime) {
-    bool wantSpawn = LivingEntity::onUpdate(deltaTime);
+    bool wantSpawn = LivingEntity::onUpdate(deltaTime) || droppedWeapon;
 
     if (!isDead) {
         // Build direction based on key presses
@@ -105,7 +229,16 @@ bool Player::onUpdate(qint64 deltaTime) {
  * @return Pointer to the new entity. nullptr if no other entity to spawn.
  */
 Entity* Player::getSpawned() {
-    return nullptr;
+    if (droppedWeapon) {
+        std::cout << droppedWeapon << std::endl;
+        Item* drop = new Item(getPos(), Vector2(30, 30), ItemType::Weapon, Sprites::SpriteImage::Player);
+        drop->setWeapon(droppedWeapon);
+        droppedWeapon = nullptr;
+        return drop;
+    }
+    else {
+        return nullptr;
+    }
 }
 
 // --- INPUT EVENTS ---
@@ -131,6 +264,12 @@ void Player::keyPressEvent(QKeyEvent* event) {
         case Qt::Key_S:
             downKeyPressed = true;
             break;
+        case Qt::Key_E:
+            grabKeyPressed = true;
+            break;
+        case Qt::Key_A:
+            changeActiveWeapon();
+            break;
     }
 }
 
@@ -155,6 +294,9 @@ void Player::keyReleaseEvent(QKeyEvent* event) {
         case Qt::Key_Down:
         case Qt::Key_S:
             downKeyPressed = false;
+            break;
+        case Qt::Key_E:
+            grabKeyPressed = false;
             break;
     }
 }

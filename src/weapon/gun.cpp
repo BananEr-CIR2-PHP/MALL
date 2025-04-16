@@ -102,6 +102,15 @@ Gun::~Gun() { }
 // --- INHERITED METHODS ---
 
 /**
+ * Clone this gun
+ * 
+ * @return Cloned gun (allocated using new keyword)
+ */
+Weapon* Gun::clone() const {
+    return new Gun(*this);
+}
+
+/**
  * Use gun attack at given position, towards given direction
  * 
  * @param position Gun position

@@ -2,6 +2,7 @@
 #include "../include/entity/player.hpp"
 #include "../include/entity/mob.hpp"
 #include "../include/entity/rocket.hpp"
+#include "../include/weapon/gun.hpp"
 #include "../include/mainScene.hpp"
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
@@ -16,14 +17,18 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     entities = new QList<Entity*>();
 
     // Scene setup example
-    Item* it = new Item(Vector2(50, 600), Vector2(50, 50), Sprites::SpriteImage::Coin);
+    Item* it = new Item(Vector2(50, 600), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
+    it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
+    addEntity(it);
+    it = new Item(Vector2(50, 300), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
+    it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
     addEntity(it);
     Player* pl = new Player(20, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player);
     addEntity(pl);
-    // Mob* mob = new Mob(20, 20, Vector2(300, 300), Vector2(60, 60), Sprites::SpriteImage::Player);
-    // addEntity(mob);
-    Rocket* ro = new Rocket(Effect(Effects::EffectType::Boom, 10000, 3000), 50, Vector2(0, 0.1), 800, Vector2(300, 0), Vector2(50, 50), Sprites::SpriteImage::Coin);
-    addEntity(ro);
+
+    // TODO: important
+    // Solve bug: cannot render more than two identical sprites
+    // Solve bug: "QFSFileEngine::open: No file name specified" (seems to be linked to more than two identical sprites)
 
     // Activate game loop
     deltaTime = (qint64) (1000/fps);

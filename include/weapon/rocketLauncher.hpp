@@ -17,6 +17,7 @@ public:
     RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const Sprites::SpriteImage rocketSprite = Sprites::SpriteImage::None, const Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     ~RocketLauncher();
 
+    Weapon* clone() const override;
     Entity* attack(Vector2 position, Vector2 direction) override;
 };
 

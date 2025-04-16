@@ -22,6 +22,7 @@ public:
     Gun(const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const Sprites::SpriteImage bulletSprite = Sprites::SpriteImage::None, const Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     ~Gun();
 
+    Weapon* clone() const override;
     Entity* attack(Vector2 position, Vector2 direction) override;
 };
 

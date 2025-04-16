@@ -75,6 +75,15 @@ RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRang
 RocketLauncher::~RocketLauncher() { }
 
 /**
+ * Clone this rocket launcher
+ * 
+ * @return Cloned rocket launcher (allocated using new keyword)
+ */
+Weapon* RocketLauncher::clone() const {
+    return new RocketLauncher(*this);
+}
+
+/**
  * Use gun attack at given position, towards given direction
  * 
  * @param position Gun position
