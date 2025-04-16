@@ -58,15 +58,15 @@ QSharedPointer<QImage> Sprite::getImage() const {
 void Sprite::setImage(Sprites::SpriteImage img) {
     if (spritesCache->contains(img)) {
         // If the image is in cache, simply take it from cache
-        image = spritesCache->take(img);
+        image = spritesCache->value(img);
     }
     else {
         // If the image is not in cache, create a new one and add it to cache
         if (img == Sprites::SpriteImage::None) {
             image = QSharedPointer<QImage>(nullptr);    // No image
         }
-        else {
-            image = QSharedPointer<QImage>(new QImage(spritesLoc->take(img)));
+        else { 
+            image = QSharedPointer<QImage>(new QImage(spritesLoc->value(img)));
         }
         spritesCache->insert(img, image);
     }

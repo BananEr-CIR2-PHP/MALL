@@ -23,12 +23,12 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     it = new Item(Vector2(50, 300), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
     it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
     addEntity(it);
+    it = new Item(Vector2(50, 50), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
+    it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
+    addEntity(it);
     Player* pl = new Player(20, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player);
     addEntity(pl);
-
-    // TODO: important
-    // Solve bug: cannot render more than two identical sprites
-    // Solve bug: "QFSFileEngine::open: No file name specified" (seems to be linked to more than two identical sprites)
+    
 
     // Activate game loop
     deltaTime = (qint64) (1000/fps);
