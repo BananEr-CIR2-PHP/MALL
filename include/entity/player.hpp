@@ -39,7 +39,7 @@ public:
     // Constructors/destructors
     Player();
     Player(const Player& other);
-    Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
     ~Player();
 
     // Methods

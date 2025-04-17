@@ -11,7 +11,7 @@ public:
     // Constructors/destructors
     Mob();
     Mob(const Mob& other);
-    Mob(const qreal life, const qreal damage, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    Mob(const qreal life, const qreal damage, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
     ~Mob();
 
     // Inherited methods

@@ -18,7 +18,7 @@ public:
     ~RocketLauncher();
 
     Weapon* clone() const override;
-    void attack(Vector2 position, Vector2 direction) override;
+    void attack(Vector2 position, Vector2 direction, Teams::Team team) override;
 };
 
 #endif   // ROCKETLAUNCHER_HPP

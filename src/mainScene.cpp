@@ -2,7 +2,7 @@
 #include "../include/entity/player.hpp"
 #include "../include/entity/mob.hpp"
 #include "../include/entity/rocket.hpp"
-#include "../include/weapon/gun.hpp"
+#include "../include/weapon/rocketLauncher.hpp"
 #include "../include/mainScene.hpp"
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
@@ -18,7 +18,7 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
 
     // Scene setup example
     Item* it = new Item(Vector2(50, 600), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
-    it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
+    it->setWeapon(new RocketLauncher(WeaponType::RocketLauncherType::Bazooka));
     addEntity(it);
     it = new Item(Vector2(50, 300), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
     it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
@@ -26,7 +26,7 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     it = new Item(Vector2(50, 50), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
     it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
     addEntity(it);
-    Player* pl = new Player(20, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player);
+    Player* pl = new Player(20, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
     setControlledPlayer(pl);
     addEntity(pl);
     

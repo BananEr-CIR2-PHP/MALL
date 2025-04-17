@@ -9,6 +9,7 @@ Entity::Entity() {
     setPos(Vector2::zero);
     dimensions = Vector2::zero;
     sprite = new Sprite(Sprites::SpriteImage::None);
+    team = Teams::None;
 }
 
 /**
@@ -20,6 +21,7 @@ Entity::Entity(const Entity& other) {
     setPos(other.position);
     dimensions = other.dimensions;
     sprite = new Sprite(*other.sprite);
+    team = other.team;
 }
 
 /**
@@ -28,8 +30,9 @@ Entity::Entity(const Entity& other) {
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite Sprite image type
+ * @param team The team this entity belongs to
  */
-Entity::Entity(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : dimensions(dimensions) {
+Entity::Entity(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : dimensions(dimensions), team(team) {
     setPos(position);
     this->sprite = new Sprite(sprite);
 }
@@ -72,6 +75,13 @@ Vector2 Entity::getDims() const {
  */
 bool Entity::getDeleted() const {
     return isDeleted;
+}
+
+/**
+ * Get the team of this entity
+ */
+Teams::Team Entity::getTeam() const {
+    return team;
 }
 
 // --- SETTERS ---

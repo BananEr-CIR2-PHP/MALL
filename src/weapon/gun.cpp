@@ -48,7 +48,7 @@ Gun::Gun(const WeaponType::RocketLauncherType::RocketLauncherType gunType) {
             bulletPierces = false;
             bulletSpeed = 0.1;
             bulletDimensions = Vector2(30, 30);
-            bulletSprite = Sprites::SpriteImage::None;
+            bulletSprite = Sprites::SpriteImage::Coin;
             setSprite(Sprites::SpriteImage::None);
             break;
 
@@ -117,12 +117,12 @@ Weapon* Gun::clone() const {
  * @param direction Gun pointing direction
  * @return Entity spawned during attack. nullptr if no Entity spawned
  */
-void Gun::attack(Vector2 position, Vector2 direction) {
+void Gun::attack(Vector2 position, Vector2 direction, Teams::Team team) {
     Vector2 velocity = direction.normalized() * bulletSpeed;
 
     // If no bullet is waiting for spawn
     if (!bulletSpawn) {
-        bulletSpawn = new Missile(velocity, bulletRange, bulletDamage, bulletPierces, position, bulletDimensions, bulletSprite);
+        bulletSpawn = new Missile(velocity, bulletRange, bulletDamage, bulletPierces, position, bulletDimensions, bulletSprite, team);
     }
 }
 

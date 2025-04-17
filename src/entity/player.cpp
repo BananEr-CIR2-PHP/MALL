@@ -1,5 +1,6 @@
 #include "../../include/entity/player.hpp"
 #include "../../include/entity/mob.hpp"
+#include "../../include/entity/missile.hpp"
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
 
@@ -25,8 +26,9 @@ Player::Player(const Player& other) : LivingEntity(other) {
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
+ * @param team The team this entity belongs to
  */
-Player::Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : LivingEntity(life, position, dimensions, sprite) {
+Player::Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : LivingEntity(life, position, dimensions, sprite, team) {
     initFlags();
 }
 
@@ -192,7 +194,9 @@ void Player::onCollide(Entity* other) {
         }
     }
     else if (Mob* mob = dynamic_cast<Mob*>(other)) {
-        takeDamage(mob->getDamage());
+        if (mob->getTeam() != getTeam()) {
+            takeDamage(mob->getDamage());
+        }
     }
 }
 
@@ -272,7 +276,7 @@ void Player::actionUseWeapon(Vector2 direction) {
 
     // If player is holding a weapon
     if (heldWeapon) {
-        heldWeapon->attack(getPos(), direction);
+        heldWeapon->attack(getPos(), direction, team);
     }
 }
 

@@ -23,9 +23,10 @@ Mob::Mob(const Mob& other) : LivingEntity(other), damage(other.damage) { }
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
+ * @param team The team this entity belongs to
  */
-Mob::Mob(const qreal life, const qreal damage, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) :
-    LivingEntity(life, position, dimensions, sprite), damage(damage)
+Mob::Mob(const qreal life, const qreal damage, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) :
+    LivingEntity(life, position, dimensions, sprite, team), damage(damage)
 {
 
 }

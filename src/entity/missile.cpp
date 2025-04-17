@@ -30,9 +30,10 @@ Missile::Missile(const Missile& other) : Entity(other), velocity(other.velocity)
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
+ * @param team The team this entity belongs to
  */
-Missile::Missile(const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : 
-    Entity(position, dimensions, sprite), velocity(velocity), lifetime(range), damage(damage), pierceEntities(pierceEntities) { }
+Missile::Missile(const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : 
+    Entity(position, dimensions, sprite, team), velocity(velocity), lifetime(range), damage(damage), pierceEntities(pierceEntities) { }
 
 /**
  * Destructor
@@ -69,9 +70,15 @@ void Missile::setSpeed(const Vector2 speed) {
  * @param other The entity this object collided with
  */
 void Missile::onCollide(Entity* other) {
-    // If does not pierce entities, delete this entity
-    if (!pierceEntities) {
-        setDeleted(true);
+    if (LivingEntity* entity = dynamic_cast<LivingEntity*>(other)) {
+        if (entity->getTeam() != getTeam()) {
+            entity->takeDamage(damage);
+
+            // If does not pierce entities, delete this entity
+            if (!pierceEntities) {
+                setDeleted(true);
+            }
+        }
     }
 }
 
