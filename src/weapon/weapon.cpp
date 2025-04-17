@@ -2,8 +2,12 @@
 
 /**
  * Default constructor
+ * 
+ * @param sprite Sprite of weapon
+ * @param dimensions Dimensions of weapon
  */
-Weapon::Weapon(Sprites::SpriteImage sprite) {
+Weapon::Weapon(Vector2 dimensions, Sprites::SpriteImage sprite) {
+    this->dimensions = dimensions;
     this->sprite = new Sprite(sprite);
 }
 
@@ -12,7 +16,8 @@ Weapon::Weapon(Sprites::SpriteImage sprite) {
  * 
  * @param other Another weapon
  */
-Weapon::Weapon(const Weapon& other) : sprite(other.sprite) {
+Weapon::Weapon(const Weapon& other) {
+    this->dimensions = other.dimensions;
     this->sprite = new Sprite(*other.sprite);
 }
 
@@ -32,4 +37,22 @@ Weapon::~Weapon() {
  */
 void Weapon::setSprite(Sprites::SpriteImage sprite) {
     this->sprite = new Sprite(sprite);
+}
+
+/**
+ * Get the sprite of this weapon
+ * 
+ * @return Sprite of this weapon
+ */
+const Sprite* Weapon::getSprite() const {
+    return sprite;
+}
+
+/**
+ * Get the dimensions of the sprite of this weapon
+ * 
+ * @return dimensions of the sprite of this weapon
+ */
+Vector2 Weapon::getDims() const {
+    return dimensions;
 }

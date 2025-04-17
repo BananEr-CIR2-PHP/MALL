@@ -9,11 +9,13 @@ private:
     const Sprite* sprite = nullptr;     // Sprite object cannot be modified but pointer can
     
 protected:
+    Vector2 dimensions;
+
     Weapon(const Weapon& other);
     void setSprite(Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     
 public:
-    Weapon(Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    Weapon(Vector2 dimensions = Vector2::zero, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     virtual ~Weapon();
 
     virtual Weapon* clone() const = 0;
@@ -21,6 +23,9 @@ public:
     virtual Entity* getSpawned() = 0;
     virtual bool wantSpawn() = 0;
     virtual void destroySpawned() = 0;
+
+    const Sprite* getSprite() const;
+    Vector2 getDims() const;
 };
 
 #endif   // WEAPON_HPP

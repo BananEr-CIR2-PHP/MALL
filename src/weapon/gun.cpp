@@ -18,7 +18,8 @@ Gun::Gun(const WeaponType::GunType::GunType gunType) {
             bulletSpeed = 0.2;
             bulletDimensions = Vector2(15, 50);
             bulletSprite = Sprites::SpriteImage::Coin;
-            setSprite(Sprites::SpriteImage::None);
+            setSprite(Sprites::SpriteImage::Player);
+            dimensions = Vector2(50, 50);
             break;
 
         default:
@@ -29,6 +30,7 @@ Gun::Gun(const WeaponType::GunType::GunType gunType) {
             bulletDimensions = Vector2::zero;
             bulletSprite = Sprites::SpriteImage::None;
             setSprite(Sprites::SpriteImage::None);
+            dimensions = Vector2::zero;
             break;
     }
 }
@@ -49,7 +51,8 @@ Gun::Gun(const WeaponType::RocketLauncherType::RocketLauncherType gunType) {
             bulletSpeed = 0.1;
             bulletDimensions = Vector2(30, 30);
             bulletSprite = Sprites::SpriteImage::Coin;
-            setSprite(Sprites::SpriteImage::None);
+            setSprite(Sprites::SpriteImage::Player);
+            dimensions = Vector2(70, 40);
             break;
 
         default:
@@ -60,6 +63,7 @@ Gun::Gun(const WeaponType::RocketLauncherType::RocketLauncherType gunType) {
             bulletDimensions = Vector2::zero;
             bulletSprite = Sprites::SpriteImage::None;
             setSprite(Sprites::SpriteImage::None);
+            dimensions = Vector2::zero;
             break;
     }
 }
@@ -85,10 +89,11 @@ Gun::Gun(const Gun& other) :
  * @param bulletSpeed Speed of the bullets
  * @param bulletDimensions Dimensions of the bullets
  * @param bulletSprite Sprite of spawned bullets
+ * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-Gun::Gun(const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const Sprites::SpriteImage bulletSprite, const Sprites::SpriteImage sprite) :
-    Weapon(sprite), bulletRange(bulletRange), bulletDamage(bulletDamage), bulletPierces(bulletPierces),
+Gun::Gun(const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const Sprites::SpriteImage bulletSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+    Weapon(dimensions, sprite), bulletRange(bulletRange), bulletDamage(bulletDamage), bulletPierces(bulletPierces),
     bulletSpeed(bulletSpeed), bulletDimensions(bulletDimensions), bulletSprite(bulletSprite)
 {
 

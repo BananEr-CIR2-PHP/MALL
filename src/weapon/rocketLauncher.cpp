@@ -44,10 +44,11 @@ RocketLauncher::RocketLauncher(const RocketLauncher& other) :
  * @param rocketSpeed Speed of the rocket
  * @param rocketDimensions Dimensions of the rocket
  * @param rocketSprite Sprite of spawned rocket
+ * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketDamage, const bool rocketPierces, const qreal rocketSpeed, const Vector2 rocketDimensions, const Sprites::SpriteImage rocketSprite, const Sprites::SpriteImage sprite) :
-    Gun(rocketRange, rocketDamage, rocketPierces, rocketSpeed, rocketDimensions, rocketSprite, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
+RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketDamage, const bool rocketPierces, const qreal rocketSpeed, const Vector2 rocketDimensions, const Sprites::SpriteImage rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+    Gun(rocketRange, rocketDamage, rocketPierces, rocketSpeed, rocketDimensions, rocketSprite, dimensions, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
 {
 
 }
@@ -61,10 +62,11 @@ RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRang
  * @param rocketSpeed Speed of the rockets
  * @param rocketDimensions Dimensions of the rockets
  * @param rocketSprite Sprite of spawned rockets
+ * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const Sprites::SpriteImage rocketSprite, const Sprites::SpriteImage sprite) :
-    Gun(rocketRange, 0, false, rocketSpeed, rocketDimensions, rocketSprite, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
+RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const Sprites::SpriteImage rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+    Gun(rocketRange, 0, false, rocketSpeed, rocketDimensions, rocketSprite, dimensions, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
 {
 
 }

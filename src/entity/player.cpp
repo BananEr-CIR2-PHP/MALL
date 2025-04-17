@@ -234,7 +234,6 @@ bool Player::onUpdate(qint64 deltaTime) {
 Entity* Player::getSpawned() {
     // If a weapon was dropped
     if (droppedWeapon) {
-        std::cout << droppedWeapon << std::endl;
         Item* drop = new Item(getPos(), Vector2(30, 30), ItemType::Weapon, Sprites::SpriteImage::Player);
         drop->setWeapon(droppedWeapon);
         droppedWeapon = nullptr;
@@ -249,6 +248,31 @@ Entity* Player::getSpawned() {
                 return weapon2->getSpawned();
         }
         return nullptr;
+    }
+}
+
+/**
+ * Paint player on scene
+ * 
+ * @param painter Painter to draw entity on
+ */
+void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem* styleOption, QWidget* widget) {
+    // Draw player sprite if it exists
+    if (sprite != nullptr) {
+        QSharedPointer<QImage> image = sprite->getImage();
+        if (image != nullptr) {
+            painter->drawImage(boundingRect(), *image);
+        }
+    }
+    
+    Weapon* activeWeapon = getActiveWeapon();
+    if (activeWeapon) {
+        if (const Sprite* weaponSprite = activeWeapon->getSprite()) {
+            if (QSharedPointer<QImage> image = weaponSprite->getImage()) {
+                Vector2 weaponDims = activeWeapon->getDims();
+                painter->drawImage(QRectF(0, 0, weaponDims.getX(), weaponDims.getY()), *image);
+            }
+        }
     }
 }
 
@@ -352,14 +376,12 @@ void Player::actionChangeWeapon() {
                 if (weapon1) {
                     weapon1->destroySpawned();
                 }
-                std::cout << "Active: slot 2: " << weapon2 << std::endl;
                 break;
             case Inventory::WeaponSlot_2:
                 activeWeaponSlot = Inventory::WeaponSlot_1;
                 if (weapon2) {
                     weapon2->destroySpawned();
                 }
-                std::cout << "Active: slot 1: " << weapon1 << std::endl;
                 break;
         }
     }

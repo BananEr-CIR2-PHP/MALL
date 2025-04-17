@@ -13,8 +13,8 @@ protected:
     
 public:
     RocketLauncher(const WeaponType::RocketLauncherType::RocketLauncherType weaponType = WeaponType::RocketLauncherType::None);
-    RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketDamage, const bool rocketPierces, const qreal rocketSpeed, const Vector2 rocketDimensions, const Sprites::SpriteImage rocketSprite = Sprites::SpriteImage::None, const Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
-    RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const Sprites::SpriteImage rocketSprite = Sprites::SpriteImage::None, const Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketDamage, const bool rocketPierces, const qreal rocketSpeed, const Vector2 rocketDimensions, const Sprites::SpriteImage rocketSprite = Sprites::SpriteImage::None, Vector2 dimensions = Vector2::zero, const Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const Sprites::SpriteImage rocketSprite = Sprites::SpriteImage::None, Vector2 dimensions = Vector2::zero, const Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     ~RocketLauncher();
 
     Weapon* clone() const override;

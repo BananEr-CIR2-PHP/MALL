@@ -21,7 +21,7 @@ protected:
 
 public:
     Gun(const WeaponType::GunType::GunType gunType = WeaponType::GunType::None);
-    Gun(const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const Sprites::SpriteImage bulletSprite = Sprites::SpriteImage::None, const Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    Gun(const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const Sprites::SpriteImage bulletSprite = Sprites::SpriteImage::None, Vector2 dimensions = Vector2::zero, const Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     ~Gun();
 
     Weapon* clone() const override;
