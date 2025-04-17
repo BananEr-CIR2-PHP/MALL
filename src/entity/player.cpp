@@ -150,26 +150,6 @@ bool Player::hasWeapon(Inventory::WeaponSlot slot) const {
 }
 
 /**
- * Change active weapon
- */
-void Player::changeActiveWeapon() {
-    // Using a switch here because it's easier to add new slots this way.
-    // TODO: need to test whether if we need to call player rect reload on weapon change, or not
-    if (!isDead) {
-        switch (activeWeaponSlot) {
-            case Inventory::WeaponSlot_1:
-                activeWeaponSlot = Inventory::WeaponSlot_2;
-                std::cout << "Active: slot 2: " << weapon2 << std::endl;
-                break;
-            case Inventory::WeaponSlot_2:
-                activeWeaponSlot = Inventory::WeaponSlot_1;
-                std::cout << "Active: slot 1: " << weapon1 << std::endl;
-                break;
-        }
-    }
-}
-
-/**
  * Initialize player flags for inputs listening 
  */
 void Player::initFlags() {
@@ -244,94 +224,107 @@ Entity* Player::getSpawned() {
 // --- INPUT EVENTS ---
 
 /**
- * Handle key press (keyboard event)
+ * Player action:
+ * Use active weapon, if player is holding any
  */
-void Player::keyPressEvent(QKeyEvent* event) {
-    switch (event->key()) {
-        case Qt::Key_Left:
-        case Qt::Key_Q:
-            leftKeyPressed = true;
+void Player::actionUseWeapon(Vector2 direction) {
+    Weapon* heldWeapon;
+    switch (activeWeaponSlot) {
+        case Inventory::WeaponSlot_1:
+            heldWeapon = weapon1;
             break;
-        case Qt::Key_Right:
-        case Qt::Key_D:
-            rightKeyPressed = true;
+        
+        case Inventory::WeaponSlot_2:
+            heldWeapon = weapon2;
             break;
-        case Qt::Key_Up:
-        case Qt::Key_Z:
-            upKeyPressed = true;
+        
+        default:
+            heldWeapon = nullptr;
             break;
-        case Qt::Key_Down:
-        case Qt::Key_S:
-            downKeyPressed = true;
-            break;
-        case Qt::Key_E:
-            grabKeyPressed = true;
-            break;
-        case Qt::Key_A:
-            changeActiveWeapon();
-            break;
+    }
+
+    // If player is holding a weapon
+    if (heldWeapon) {
+        // TODO: this is wrong way
+        heldWeapon->attack(getPos(), direction);
     }
 }
 
 /**
- * Handle key release (keyboard event)
+ * Player action:
+ * Set left movement
+ * 
+ * @param mvt Left movement. Must be between 0 and 1.
  */
-void Player::keyReleaseEvent(QKeyEvent* event) {
-    // TODO: solve bug: player event focus
-    switch (event->key()) {
-        case Qt::Key_Left:
-        case Qt::Key_Q:
-            leftKeyPressed = false;
-            break;
-        case Qt::Key_Right:
-        case Qt::Key_D:
-            rightKeyPressed = false;
-            break;
-        case Qt::Key_Up:
-        case Qt::Key_Z:
-            upKeyPressed = false;
-            break;
-        case Qt::Key_Down:
-        case Qt::Key_S:
-            downKeyPressed = false;
-            break;
-        case Qt::Key_E:
-            grabKeyPressed = false;
-            break;
+void Player::actionSetLeftMovement(qreal mvt) {
+    if (mvt >= 0 && mvt <= 1) {
+        leftKeyPressed = mvt;
     }
 }
 
 /**
- * Handle mouse press (mouse event)
+ * Player action:
+ * Set right movement
+ * 
+ * @param mvt Right movement. Must be between 0 and 1.
  */
-void Player::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-    QGraphicsItem::mousePressEvent(event); // Call the base class to ensure normal behavior
+void Player::actionSetRightMovement(qreal mvt) {
+    if (mvt >= 0 && mvt <= 1) {
+        rightKeyPressed = mvt;
+    }
 }
 
 /**
- * Handle mouse release (mouse event)
+ * Player action:
+ * Set up movement
+ * 
+ * @param mvt Up movement. Must be between 0 and 1.
  */
-void Player::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
-    QGraphicsItem::mouseReleaseEvent(event); // Call the base class to ensure normal behavior
+void Player::actionSetUpMovement(qreal mvt) {
+    if (mvt >= 0 && mvt <= 1) {
+        upKeyPressed = mvt;
+    }
 }
 
 /**
- * Handle mouse movement (mouse event)
+ * Player action:
+ * Set down movement
+ * 
+ * @param mvt Down movement. Must be between 0 and 1.
  */
-void Player::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
-    QGraphicsItem::mouseMoveEvent(event); // Call the base class to ensure normal behavior
+void Player::actionSetDownMovement(qreal mvt) {
+    if (mvt >= 0 && mvt <= 1) {
+        downKeyPressed = mvt;
+    }
 }
 
 /**
- * Called when player loses focus
+ * Player action:
+ * Set grab key press state
+ * 
+ * @param isGrabbing Grab state
  */
-void Player::focusOutEvent(QFocusEvent *event) {
-    // TODO: important: do it in another way
-    // This is forced focus. Doing this way works, but creates lag
-    // And may create infinite loop if multiple players are on the scene
+void Player::actionSetGrabPress(bool isGrabbing) {
+    grabKeyPressed = isGrabbing;
+}
 
-    // Whenever player loses focus, set focus back on it.
-    if (!hasFocus()) {
-        setFocus();
+/**
+ * Player action:
+ * Change active weapon
+ */
+void Player::actionChangeWeapon() {
+    // Using a switch here because it's easier to add new slots this way.
+    // TODO: need to test whether if we need to call player rect reload on weapon change, or not
+    if (!isDead) {
+        switch (activeWeaponSlot) {
+            case Inventory::WeaponSlot_1:
+                activeWeaponSlot = Inventory::WeaponSlot_2;
+                std::cout << "Active: slot 2: " << weapon2 << std::endl;
+                break;
+            case Inventory::WeaponSlot_2:
+                activeWeaponSlot = Inventory::WeaponSlot_1;
+                std::cout << "Active: slot 1: " << weapon1 << std::endl;
+                break;
+        }
     }
 }

@@ -2,6 +2,7 @@
 #define PLAYER_HPP
 
 #include <QKeyEvent>
+#include <QGraphicsSceneMouseEvent>
 #include "livingEntity.hpp"
 #include "item.hpp"
 #include "../weapon/weapon.hpp"
@@ -17,10 +18,10 @@ namespace Inventory {
 
 class Player : public LivingEntity {
 private:
-    bool leftKeyPressed = false;
-    bool rightKeyPressed = false;
-    bool upKeyPressed = false;
-    bool downKeyPressed = false;
+    qreal leftKeyPressed = 0;
+    qreal rightKeyPressed = 0;
+    qreal upKeyPressed = 0;
+    qreal downKeyPressed = 0;
     bool grabKeyPressed = false;
 
     Weapon* weapon1 = nullptr;
@@ -42,7 +43,6 @@ public:
 
     // Methods
     bool gatherItem(Item* item);
-    void changeActiveWeapon();
 
     // Inherited methods
     virtual void onDeath();
@@ -50,14 +50,14 @@ public:
     virtual bool onUpdate(qint64 deltaTime);
     virtual Entity* getSpawned();
 
-    // Input events
-    void keyPressEvent(QKeyEvent* event) override;
-    void keyReleaseEvent(QKeyEvent* event) override;
-    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
-
-    void focusOutEvent(QFocusEvent *event);
+    // Player actions. Actions are reactions to input events
+    void actionUseWeapon(Vector2 direction);
+    void actionSetLeftMovement(qreal mvt);
+    void actionSetRightMovement(qreal mvt);
+    void actionSetUpMovement(qreal mvt);
+    void actionSetDownMovement(qreal mvt);
+    void actionSetGrabPress(bool isGrabbing);
+    void actionChangeWeapon();
 };
 
 #endif   // PLAYER_HPP
