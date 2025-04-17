@@ -6,21 +6,46 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QHBoxLayout>
-#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QLineEdit>
+#include <QScreen>
+#include <QGuiApplication>
+
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    
     QMainWindow *mainWindow = new QMainWindow;
-    mainWindow->setWindowTitle("Main Window");
     
+    //QScreen *screen = gApp->primaryScreen();
+    //QSize screenSize = screen->availableSize();
 
+    
     QWidget *stMenu = new QWidget(mainWindow);
+    QVBoxLayout *menuLayout = new QVBoxLayout(stMenu);
+    QLineEdit *pseudoInput = new QLineEdit(stMenu);
+    QWidget *boxLayout = new QWidget(stMenu);
     QPushButton *newGame = new QPushButton("Nouvelle Partie");
     QPushButton *quitGame = new QPushButton("Quitter le jeu");
-    QHBoxLayout *stMenuLayout = new QHBoxLayout(stMenu);
-    stMenuLayout->addWidget(newGame);
-    stMenuLayout->addWidget(quitGame);
+    QPushButton *scoreBoard = new QPushButton("Tableau des scores");
+    QHBoxLayout *buttonLayout = new QHBoxLayout(boxLayout);
+
+    mainWindow->setWindowTitle("Main Window");
+    //int mWinWidth = (&screenSize)->width();
+    //int mWinHeight = (&screenSize)->height();
+
+    stMenu->setGeometry(450,300,500,300);
+    
+    pseudoInput->setPlaceholderText("Nom du Héros");
+    menuLayout->addWidget(pseudoInput);
+    
+    boxLayout->setGeometry(0,150,500,150);
+
+    buttonLayout->addWidget(newGame);
+    buttonLayout->addWidget(scoreBoard);
+    buttonLayout->addWidget(quitGame);
+    
+    menuLayout->addWidget(boxLayout);
+
     // "&QApplication::quit" -> pour quitter automatiquement, jsp comment l'intégrer
 
     mainWindow->showMaximized();

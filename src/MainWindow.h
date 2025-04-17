@@ -7,7 +7,7 @@
 #include <QTextEdit>
 
 class MainWindow : public QMainWindow {
-        Q_Object
+    Q_Object
     public :
         MainWindow(QWidget* parent = nullptr);
         virtual ~MainWindow(){};

@@ -1,3 +1,3 @@
-add_executable(Mall
+add_executable(Mall 
     main.cpp
 )
