@@ -1,3 +1,17 @@
-add_executable(Mall 
+qt_add_executable(Mall 
     main.cpp
+    vector2.cpp
+    sprite.cpp
+    entity/entity.cpp
+    entity/item.cpp
+    entity/missile.cpp
+    entity/livingEntity.cpp
+    entity/mob.cpp
+    entity/player.cpp
+    entity/rocket.cpp
+    entity/effectZone.cpp
+    entity/effect.cpp
+    mainScene.cpp
+    ../include/mainScene.hpp    # Useful for Automoc
+    mainGraphicsView.cpp
 )

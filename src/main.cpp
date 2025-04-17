@@ -1,4 +1,6 @@
 #include <iostream>
+#include <QtMath>
+#include <QtWidgets>
 #include <QApplication>
 #include <QMainWindow>
 #include <QMenu>
@@ -10,6 +12,10 @@
 #include <QLineEdit>
 #include <QScreen>
 #include <QGuiApplication>
+
+#include "../include/mainScene.hpp"
+#include "../include/mainGraphicsView.hpp"
+#include "../include/entity/item.hpp"
 
 
 int main(int argc, char *argv[]) {
@@ -49,6 +55,16 @@ int main(int argc, char *argv[]) {
     // "&QApplication::quit" -> pour quitter automatiquement, jsp comment l'intégrer
 
     mainWindow->showMaximized();
+  
+    // Show scene example
+    // MainScene scene;       // container for QGraphicsItems
+
+    // MainGraphicsView view(&scene);         // Scrollable area
+    // view.setRenderHint(QPainter::Antialiasing);     // Use antialiasing when rendering
+  
+    // QTimer timer;
+    // QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
+    // timer.start(1000 / 33);     // 30 fps
 
     return app.exec();
 };
