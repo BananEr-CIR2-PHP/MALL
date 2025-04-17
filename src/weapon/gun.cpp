@@ -17,7 +17,7 @@ Gun::Gun(const WeaponType::GunType::GunType gunType) {
             bulletPierces = false;
             bulletSpeed = 0.2;
             bulletDimensions = Vector2(15, 50);
-            bulletSprite = Sprites::SpriteImage::None;
+            bulletSprite = Sprites::SpriteImage::Coin;
             setSprite(Sprites::SpriteImage::None);
             break;
 
@@ -117,8 +117,40 @@ Weapon* Gun::clone() const {
  * @param direction Gun pointing direction
  * @return Entity spawned during attack. nullptr if no Entity spawned
  */
-Entity* Gun::attack(Vector2 position, Vector2 direction) {
+void Gun::attack(Vector2 position, Vector2 direction) {
     Vector2 velocity = direction.normalized() * bulletSpeed;
 
-    return new Missile(velocity, bulletRange, bulletDamage, bulletPierces, position, bulletDimensions, bulletSprite);
+    // If no bullet is waiting for spawn
+    if (!bulletSpawn) {
+        bulletSpawn = new Missile(velocity, bulletRange, bulletDamage, bulletPierces, position, bulletDimensions, bulletSprite);
+    }
+}
+
+/**
+ * Know whether if this gun wants to spawn an entity or not
+ * 
+ * @return True if it wants to spawn an entity, false otherwise
+ */
+bool Gun::wantSpawn() {
+    return bulletSpawn;
+}
+
+/**
+ * Get an entity that this gun wants to spawn, if any
+ * 
+ * @return Spawned entity, nullptr if no entity to spawn
+ */
+Entity* Gun::getSpawned() {
+    Missile* newMissile = bulletSpawn;
+    bulletSpawn = nullptr;
+    return newMissile;
+}
+
+/**
+ * If this gun wants to spawn an entity, destroy it.
+ * Useful when gun changes state, and can no longer spawn an object for a while
+ */
+void Gun::destroySpawned() {
+    delete bulletSpawn;
+    bulletSpawn = nullptr;
 }

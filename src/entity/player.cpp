@@ -150,6 +150,22 @@ bool Player::hasWeapon(Inventory::WeaponSlot slot) const {
 }
 
 /**
+ * Get active weapon of Player
+ * 
+ * @return Active weapon
+ */
+Weapon* Player::getActiveWeapon() const {
+    switch (activeWeaponSlot) {
+        case Inventory::WeaponSlot_1:
+            return weapon1;
+        case Inventory::WeaponSlot_2:
+            return weapon2;
+        default:
+            return nullptr;     // Should never happen
+    }
+}
+
+/**
  * Initialize player flags for inputs listening 
  */
 void Player::initFlags() {
@@ -188,6 +204,9 @@ void Player::onCollide(Entity* other) {
  */
 bool Player::onUpdate(qint64 deltaTime) {
     bool wantSpawn = LivingEntity::onUpdate(deltaTime) || droppedWeapon;
+    if (Weapon* activeWeapon = getActiveWeapon()) {
+        wantSpawn = wantSpawn || activeWeapon->wantSpawn();
+    }
 
     if (!isDead) {
         // Build direction based on key presses
@@ -209,6 +228,7 @@ bool Player::onUpdate(qint64 deltaTime) {
  * @return Pointer to the new entity. nullptr if no other entity to spawn.
  */
 Entity* Player::getSpawned() {
+    // If a weapon was dropped
     if (droppedWeapon) {
         std::cout << droppedWeapon << std::endl;
         Item* drop = new Item(getPos(), Vector2(30, 30), ItemType::Weapon, Sprites::SpriteImage::Player);
@@ -217,6 +237,13 @@ Entity* Player::getSpawned() {
         return drop;
     }
     else {
+        // Take spawn requests from active weapon
+        switch (activeWeaponSlot) {
+            case Inventory::WeaponSlot_1:
+                return weapon1->getSpawned();
+            case Inventory::WeaponSlot_2:
+                return weapon2->getSpawned();
+        }
         return nullptr;
     }
 }
@@ -245,7 +272,6 @@ void Player::actionUseWeapon(Vector2 direction) {
 
     // If player is holding a weapon
     if (heldWeapon) {
-        // TODO: this is wrong way
         heldWeapon->attack(getPos(), direction);
     }
 }
@@ -319,10 +345,16 @@ void Player::actionChangeWeapon() {
         switch (activeWeaponSlot) {
             case Inventory::WeaponSlot_1:
                 activeWeaponSlot = Inventory::WeaponSlot_2;
+                if (weapon1) {
+                    weapon1->destroySpawned();
+                }
                 std::cout << "Active: slot 2: " << weapon2 << std::endl;
                 break;
             case Inventory::WeaponSlot_2:
                 activeWeaponSlot = Inventory::WeaponSlot_1;
+                if (weapon2) {
+                    weapon2->destroySpawned();
+                }
                 std::cout << "Active: slot 1: " << weapon1 << std::endl;
                 break;
         }

@@ -13,6 +13,8 @@ protected:
     qreal bulletSpeed;
     Vector2 bulletDimensions;
     Sprites::SpriteImage bulletSprite;
+
+    Missile* bulletSpawn = nullptr;
     
     Gun(const Gun& other);
 
@@ -23,7 +25,10 @@ public:
     ~Gun();
 
     Weapon* clone() const override;
-    Entity* attack(Vector2 position, Vector2 direction) override;
+    void attack(Vector2 position, Vector2 direction) override;
+    Entity* getSpawned() override;
+    void destroySpawned() override;
+    bool wantSpawn() override;
 };
 
 #endif   // GUN_HPP

@@ -17,7 +17,10 @@ public:
     virtual ~Weapon();
 
     virtual Weapon* clone() const = 0;
-    virtual Entity* attack(Vector2 position, Vector2 direction) = 0;
+    virtual void attack(Vector2 position, Vector2 direction) = 0;
+    virtual Entity* getSpawned() = 0;
+    virtual bool wantSpawn() = 0;
+    virtual void destroySpawned() = 0;
 };
 
 #endif   // WEAPON_HPP

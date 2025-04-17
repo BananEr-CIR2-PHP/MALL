@@ -18,7 +18,7 @@ public:
     ~RocketLauncher();
 
     Weapon* clone() const override;
-    Entity* attack(Vector2 position, Vector2 direction) override;
+    void attack(Vector2 position, Vector2 direction) override;
 };
 
 #endif   // ROCKETLAUNCHER_HPP

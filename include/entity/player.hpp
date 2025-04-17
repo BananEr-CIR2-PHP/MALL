@@ -33,6 +33,7 @@ private:
     bool grabWeapon(Weapon* weapon, Inventory::WeaponSlot slot);
     bool dropWeapon(Inventory::WeaponSlot slot);
     bool hasWeapon(Inventory::WeaponSlot slot) const;
+    Weapon* getActiveWeapon() const;
 
 public:
     // Constructors/destructors
@@ -45,10 +46,10 @@ public:
     bool gatherItem(Item* item);
 
     // Inherited methods
-    virtual void onDeath();
-    virtual void onCollide(Entity* other);
-    virtual bool onUpdate(qint64 deltaTime);
-    virtual Entity* getSpawned();
+    void onDeath() override;
+    void onCollide(Entity* other) override;
+    bool onUpdate(qint64 deltaTime) override;
+    Entity* getSpawned() override;
 
     // Player actions. Actions are reactions to input events
     void actionUseWeapon(Vector2 direction);

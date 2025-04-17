@@ -90,8 +90,10 @@ Weapon* RocketLauncher::clone() const {
  * @param direction Gun pointing direction
  * @return Entity spawned during attack. nullptr if no Entity spawned
  */
-Entity* RocketLauncher::attack(Vector2 position, Vector2 direction) {
+void RocketLauncher::attack(Vector2 position, Vector2 direction) {
     Vector2 velocity = direction.normalized() * bulletSpeed;
 
-    return new Rocket(rocketEffect, effectRange, velocity, bulletRange, position, bulletDimensions, bulletSprite);
+    if (!bulletSpawn) {
+        bulletSpawn = new Rocket(rocketEffect, effectRange, velocity, bulletRange, position, bulletDimensions, bulletSprite);
+    }
 }
