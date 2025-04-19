@@ -22,7 +22,7 @@ Player::Player(const Player& other) : LivingEntity(other) {
 /**
  * Constructor
  * 
- * @param life Starting life of entity
+ * @param life Starting life of entity. Use Player::DefaultLife for default
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
@@ -220,7 +220,7 @@ bool Player::onUpdate(qint64 deltaTime) {
         ).normalized();
 
         // Update position
-        setPos(getPos() + direction * PLAYER_SPEED * getSpeedMultiplier() * deltaTime);
+        setPos(getPos() + direction * Player::DefaultSpeed * getSpeedMultiplier() * deltaTime);
     }
 
     return wantSpawn;

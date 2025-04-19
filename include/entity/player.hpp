@@ -36,6 +36,9 @@ private:
     Weapon* getActiveWeapon() const;
 
 public:
+    static const qreal DefaultSpeed = 0.1;
+    static const qreal DefaultLife = 100;
+
     // Constructors/destructors
     Player();
     Player(const Player& other);
