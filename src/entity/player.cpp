@@ -8,6 +8,8 @@
  * Default constructor
  */
 Player::Player() {
+    energy = 0;
+    maxEnergy = 0;
     initFlags();
 }
 
@@ -15,20 +17,21 @@ Player::Player() {
  * 
  * @param other Another Player
  */
-Player::Player(const Player& other) : LivingEntity(other) {
+Player::Player(const Player& other) : LivingEntity(other), energy(other.energy), maxEnergy(other.maxEnergy) {
     initFlags();
 }
 
 /**
  * Constructor
  * 
- * @param life Starting life of entity. Use Player::DefaultLife for default
+ * @param life Starting life of entity. Also used as starting max life. Use Player::DefaultLife for default
+ * @param energy Starting energy of entity. Also starting max energy. Use Player::DefaultEnergy for default
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  * @param team The team this entity belongs to
  */
-Player::Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : LivingEntity(life, position, dimensions, sprite, team) {
+Player::Player(const qreal life, const qint64 energy, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : LivingEntity(life, position, dimensions, sprite, team), energy(energy), maxEnergy(energy) {
     initFlags();
 }
 
@@ -39,6 +42,73 @@ Player::~Player() {
     delete weapon1;
     delete weapon2;
     delete droppedWeapon;
+}
+
+// --- GETTERS ---
+
+/**
+ * Get current energy of player
+ * 
+ * @return energy of player
+ */
+qint64 Player::getEnergy() const {
+    return energy;
+}
+
+/**
+ * Get max energy of player
+ * 
+ * @return max energy of player
+ */
+qint64 Player::getMaxEnergy() const {
+    return maxEnergy;
+}
+
+// --- SETTERS ---
+
+/**
+ * Set new energy value for player. Automatically clamped in [0; maxEnergy]
+ * 
+ * @param newEnergy New player energy
+ */
+void Player::setEnergy(const qint64 newEnergy) {
+    if (newEnergy > maxEnergy) {
+        energy = maxEnergy;     // Refill energy
+    }
+    else if (newEnergy < 0) {
+        energy = 0;
+    }
+    else {
+        energy = newEnergy;
+    }
+}
+
+/**
+ * Consume the given amount of energy
+ * 
+ * @param consumedEnergy The amount of energy to consume
+ */
+void Player::consumeEnergy(const qint64 consumedEnergy) {
+    setEnergy(energy - consumedEnergy);
+}
+
+/**
+ * Set a new maximum energy
+ * 
+ * @param newMaxEnergy New max energy value
+ */
+void Player::setMaxEnergy(const qint64 newMaxEnergy) {
+    if (newMaxEnergy < 0) {
+        maxEnergy = 0;
+    }
+    else {
+        maxEnergy = newMaxEnergy;
+    }
+    
+    // Energy shouldn't be greater than maxEnergy
+    if (energy > maxEnergy) {
+        energy = maxEnergy;
+    }
 }
 
 /**
@@ -61,6 +131,10 @@ bool Player::gatherItem(Item* item) {
             case ItemType::HPPotion:
                 // TODO
                 std::cout << "Healing!" << std::endl;
+                break;
+            case ItemType::EnergyPotion:
+                // TODO
+                std::cout << "Recover energy!" << std::endl;
                 break;
             case ItemType::Weapon:
                 // If item has a weapon and player can drop its active weapon
@@ -300,7 +374,11 @@ void Player::actionUseWeapon(Vector2 direction) {
 
     // If player is holding a weapon
     if (heldWeapon) {
-        heldWeapon->attack(getPos(), direction, team);
+        qint64 consumption = heldWeapon->getConsumption();
+        if (consumption <= getEnergy()) {
+            heldWeapon->attack(getPos(), direction, team);
+            consumeEnergy(consumption);
+        }
     }
 }
 
@@ -385,4 +463,5 @@ void Player::actionChangeWeapon() {
                 break;
         }
     }
+    update();
 }

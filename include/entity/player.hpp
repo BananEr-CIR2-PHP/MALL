@@ -28,6 +28,9 @@ private:
     Weapon* weapon2 = nullptr;
     Weapon* droppedWeapon = nullptr;
     Inventory::WeaponSlot activeWeaponSlot = Inventory::WeaponSlot_1;
+
+    qint64 maxEnergy;
+    qint64 energy;
     
     void initFlags();
     bool grabWeapon(Weapon* weapon, Inventory::WeaponSlot slot);
@@ -36,17 +39,26 @@ private:
     Weapon* getActiveWeapon() const;
 
 public:
-    static const qreal DefaultSpeed = 0.1;
-    static const qreal DefaultLife = 100;
+    static constexpr qreal DefaultSpeed = 0.1;
+    static constexpr qreal DefaultLife = 100;
+    static constexpr qint64 DefaultEnergy = 100;
 
     // Constructors/destructors
     Player();
     Player(const Player& other);
-    Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
+    Player(const qreal life, const qint64 energy, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
     ~Player();
 
     // Methods
     bool gatherItem(Item* item);
+
+    // Getters/Setters
+    qint64 getEnergy() const;
+    qint64 getMaxEnergy() const;
+
+    void setEnergy(const qint64 newEnergy);
+    void consumeEnergy(const qint64 consumedEnergy);
+    void setMaxEnergy(const qint64 newMaxEnergy);
 
     // Inherited methods
     void onDeath() override;

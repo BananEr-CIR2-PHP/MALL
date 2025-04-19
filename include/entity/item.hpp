@@ -10,6 +10,7 @@ namespace ItemType {
         None,
         Gold,
         HPPotion,
+        EnergyPotion,
         Weapon
     };
 }

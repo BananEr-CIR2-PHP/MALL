@@ -16,6 +16,7 @@ private:
 
 protected:
     qreal life;
+    qreal maxLife;
     bool isDead;
     const qint64 burningTime = 3000;
     const qint64 poisonedTime = 10000;
@@ -31,9 +32,11 @@ public:
 
     // Getters
     qreal getLife() const;
+    qreal getMaxLife() const;
 
     // Setters
     void setLife(const qreal life);
+    void setMaxLife(const qreal maxLife);
     void takeDamage(const qreal damage);
 
     // Virtual methods

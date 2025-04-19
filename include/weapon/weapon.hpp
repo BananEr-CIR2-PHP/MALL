@@ -10,13 +10,14 @@ private:
     
 protected:
     Vector2 dimensions;
+    qint64 energyConsumption;
 
     Weapon(const Weapon& other);
     void setSprite(Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     void setSprite(const QString spriteName = "");
     
 public:
-    Weapon(Vector2 dimensions = Vector2::zero, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    Weapon(const qint64 energyConsumption = 0, const Vector2 dimensions = Vector2::zero, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     virtual ~Weapon();
 
     virtual Weapon* clone() const = 0;
@@ -27,6 +28,7 @@ public:
 
     const Sprite* getSprite() const;
     Vector2 getDims() const;
+    qint64 getConsumption() const;
 };
 
 #endif   // WEAPON_HPP

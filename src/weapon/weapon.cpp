@@ -3,10 +3,12 @@
 /**
  * Default constructor
  * 
+ * @param energyConsumption Energy this weapon consumes on use
  * @param sprite Sprite of weapon
  * @param dimensions Dimensions of weapon
  */
-Weapon::Weapon(Vector2 dimensions, Sprites::SpriteImage sprite) {
+Weapon::Weapon(const qint64 energyConsumption, const Vector2 dimensions, Sprites::SpriteImage sprite) {
+    this->energyConsumption = energyConsumption;
     this->dimensions = dimensions;
     this->sprite = new Sprite(sprite);
 }
@@ -64,4 +66,13 @@ const Sprite* Weapon::getSprite() const {
  */
 Vector2 Weapon::getDims() const {
     return dimensions;
+}
+
+/**
+ * Get energy consumption of this weapon
+ * 
+ * @return Energy consumption
+ */
+qint64 Weapon::getConsumption() const {
+    return energyConsumption;
 }

@@ -54,6 +54,7 @@ Gun::Gun(const Gun& other) :
 /**
  * Constructor
  * 
+ * @param energyConsumption Energy this weapon consumes on use
  * @param bulletRange Range of the bullets the gun shoots
  * @param bulletDamage Damage of the bullets the gun shoots
  * @param bulletPierces Whether if the bullets despawn on first hit or not
@@ -63,8 +64,8 @@ Gun::Gun(const Gun& other) :
  * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-Gun::Gun(const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const QString bulletSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
-    Weapon(dimensions, sprite), bulletRange(bulletRange), bulletDamage(bulletDamage), bulletPierces(bulletPierces),
+Gun::Gun(const qint64 energyConsumption, const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const QString bulletSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+    Weapon(energyConsumption, dimensions, sprite), bulletRange(bulletRange), bulletDamage(bulletDamage), bulletPierces(bulletPierces),
     bulletSpeed(bulletSpeed), bulletDimensions(bulletDimensions), bulletSprite(bulletSprite)
 {
 
@@ -114,6 +115,7 @@ bool Gun::loadFromJSON(const QString& fileName) {
     // Load attributes
     QJsonObject rootObject = doc.object();
     // TODO: Weapon name?
+    energyConsumption = rootObject["energy_consumption"].toInteger();
     bulletRange = rootObject["bullet_range"].toDouble();
     bulletDamage = rootObject["bullet_damage"].toDouble();
     bulletPierces = rootObject["bullet_pierces"].toBool();

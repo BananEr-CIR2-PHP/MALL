@@ -7,6 +7,7 @@
  */
 LivingEntity::LivingEntity() {
     life = 1;
+    maxLife = 1;
     isDead = false;
     initEffects();
 }
@@ -16,15 +17,16 @@ LivingEntity::LivingEntity() {
  * 
  * @param other Another LivingEntity
  */
-LivingEntity::LivingEntity(const LivingEntity& other) : Entity(other), burning(other.burning), poisoned(other.poisoned), frozen(other.frozen) {
-    life = 1;
-    isDead = false;
+LivingEntity::LivingEntity(const LivingEntity& other) :
+    Entity(other), life(other.life), maxLife(other.maxLife), isDead(other.isDead), burning(other.burning), poisoned(other.poisoned), frozen(other.frozen)
+{
+
 }
 
 /**
  * Constructor
  * 
- * @param life Starting life of entity
+ * @param life Starting life of entity. Also used as starting max life.
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
@@ -32,6 +34,7 @@ LivingEntity::LivingEntity(const LivingEntity& other) : Entity(other), burning(o
  */
 LivingEntity::LivingEntity(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : Entity(position, dimensions, sprite, team) {
     this->life = life > 0 ? life : 1;   // Do not start with 0 HP
+    maxLife = this->life;
     isDead = false;
     initEffects();
 }
@@ -50,6 +53,15 @@ LivingEntity::~LivingEntity() { }
  */
 qreal LivingEntity::getLife() const {
     return life;
+}
+
+/**
+ * Get life of the living entity
+ * 
+ * @return Life of the living entity
+ */
+qreal LivingEntity::getMaxLife() const {
+    return maxLife;
 }
 
 /**
@@ -76,11 +88,25 @@ qreal LivingEntity::getSpeedMultiplier() const {
  */
 void LivingEntity::setLife(const qreal life) {
     if (life > 0) {
-        this->life = life;
+        if (life < maxLife) {
+            this->life = maxLife;   // Full heal
+        }
+        else {
+            this->life = life;
+        }
     }
     else {
-        this->life = 0;
+        this->life = 0;     // Death
         this->onDeath();
+    }
+}
+
+void LivingEntity::setMaxLife(const qreal newMaxLife) {
+    maxLife = newMaxLife>0 ? newMaxLife : 1;
+
+    // If max life becomes smaller than current life, then entity looses the difference
+    if (life > maxLife) {
+        life = maxLife;
     }
 }
 

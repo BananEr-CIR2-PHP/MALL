@@ -1,5 +1,6 @@
 {
     "name": "Desert Eagle",
+    "energy_consumption": 1,
     "bullet_range": 600,
     "bullet_damage": 1,
     "bullet_pierces": false,
