@@ -1,6 +1,18 @@
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include "../../include/weapon/gun.hpp"
 
+#define GUNINFO_PATH "../res/weapon/gun/"
+
 // --- CONSTRUCTOR/DESTRUCTOR ---
+
+/**
+ * Default constructor
+ */
+Gun::Gun() {
+    initValuesDefault();
+}
 
 /**
  * Constructor
@@ -8,63 +20,22 @@
  * @param gunType Type of gun
  */
 Gun::Gun(const WeaponType::GunType::GunType gunType) {
-    // TODO: fill with weapon details
-    // TODO: weapon details in a separate file
+    QString fileName;
     switch (gunType) {
         case WeaponType::GunType::DesertEagle:
-            bulletRange = 600;
-            bulletDamage = 1;
-            bulletPierces = false;
-            bulletSpeed = 0.2;
-            bulletDimensions = Vector2(15, 50);
-            bulletSprite = Sprites::SpriteImage::Coin;
-            setSprite(Sprites::SpriteImage::Player);
-            dimensions = Vector2(50, 50);
+            fileName = "desert_eagle.json";
             break;
-
         default:
-            bulletRange = 0;
-            bulletDamage = 0;
-            bulletPierces = false;
-            bulletSpeed = 0;
-            bulletDimensions = Vector2::zero;
-            bulletSprite = Sprites::SpriteImage::None;
-            setSprite(Sprites::SpriteImage::None);
-            dimensions = Vector2::zero;
-            break;
+            fileName = "";
     }
-}
 
-/**
- * Constructor
- * 
- * @param gunType type of gun
- */
-Gun::Gun(const WeaponType::RocketLauncherType::RocketLauncherType gunType) {
-    // TODO: fill with weapon details
-    // TODO: weapon details in a separate file
-    switch (gunType) {
-        case WeaponType::RocketLauncherType::Bazooka:
-            bulletRange = 400;
-            bulletDamage = 0;
-            bulletPierces = false;
-            bulletSpeed = 0.1;
-            bulletDimensions = Vector2(30, 30);
-            bulletSprite = Sprites::SpriteImage::Coin;
-            setSprite(Sprites::SpriteImage::Player);
-            dimensions = Vector2(70, 40);
-            break;
-
-        default:
-            bulletRange = 0;
-            bulletDamage = 0;
-            bulletPierces = false;
-            bulletSpeed = 0;
-            bulletDimensions = Vector2::zero;
-            bulletSprite = Sprites::SpriteImage::None;
-            setSprite(Sprites::SpriteImage::None);
-            dimensions = Vector2::zero;
-            break;
+    if (fileName == "") {
+        initValuesDefault();
+    }
+    else {
+        if (! loadFromJSON(fileName)) {
+            initValuesDefault();
+        }
     }
 }
 
@@ -92,7 +63,7 @@ Gun::Gun(const Gun& other) :
  * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-Gun::Gun(const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const Sprites::SpriteImage bulletSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+Gun::Gun(const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const QString bulletSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
     Weapon(dimensions, sprite), bulletRange(bulletRange), bulletDamage(bulletDamage), bulletPierces(bulletPierces),
     bulletSpeed(bulletSpeed), bulletDimensions(bulletDimensions), bulletSprite(bulletSprite)
 {
@@ -103,6 +74,57 @@ Gun::Gun(const qreal bulletRange, const qreal bulletDamage, const bool bulletPie
  * Destructor
  */
 Gun::~Gun() { }
+
+/**
+ * Initialize all attributes to default values
+ * Typically called when failed to retrieve some values
+ */
+void Gun::initValuesDefault() {
+    bulletRange = 0;
+    bulletDamage = 0;
+    bulletPierces = false;
+    bulletSpeed = 0;
+    bulletDimensions = Vector2::zero;
+    bulletSprite = "";
+    setSprite(Sprites::SpriteImage::None);
+    dimensions = Vector2::zero;
+}
+
+/**
+ * Load gun informations from JSON file
+ * 
+ * @param fileName Name of JSON file without path (should look like "foo.json")
+ * @return True if succeeded, false otherwise
+ */
+bool Gun::loadFromJSON(const QString& fileName) {
+    // Open file
+    QFile file = QFile(GUNINFO_PATH + fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Failed to open file" << (GUNINFO_PATH + fileName);
+        return false;
+    }
+
+    // Parse JSON
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    if (doc.isNull()) {
+        qWarning() << "Failed to parse JSON data.";
+        return false;
+    }
+
+    // Load attributes
+    QJsonObject rootObject = doc.object();
+    // TODO: Weapon name?
+    bulletRange = rootObject["bullet_range"].toDouble();
+    bulletDamage = rootObject["bullet_damage"].toDouble();
+    bulletPierces = rootObject["bullet_pierces"].toBool();
+    bulletSpeed = rootObject["bullet_speed"].toDouble();
+    bulletDimensions = Vector2(rootObject["bullet_dims_X"].toDouble(), rootObject["bullet_dims_Y"].toDouble());
+    bulletSprite = rootObject["bullet_sprite"].toString();
+    setSprite(rootObject["sprite"].toString());
+    dimensions = Vector2(rootObject["dims_X"].toDouble(), rootObject["dims_Y"].toDouble());
+
+    return true;
+}
 
 // --- INHERITED METHODS ---
 

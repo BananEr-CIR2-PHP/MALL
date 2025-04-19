@@ -1,24 +1,44 @@
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include "../../include/weapon/rocketLauncher.hpp"
 #include "../../include/entity/rocket.hpp"
+
+#define ROCKETLAUNCHER_INFO_PATH "../res/weapon/rocket_launcher/"
+
+// --- CONSTRUCTOR / DESTRUCTOR ---
+
+/**
+ * Default constructor
+ */
+RocketLauncher::RocketLauncher() {
+    initValuesDefault();
+}
 
 /**
  * Constructor
  * 
  * @param weaponType Type of rocket launcher
  */
-RocketLauncher::RocketLauncher(const WeaponType::RocketLauncherType::RocketLauncherType weaponType) : Gun(weaponType) {
-    // TODO: fill with weapon details
-    // TODO: weapon details in a separate file
+RocketLauncher::RocketLauncher(const WeaponType::RocketLauncherType::RocketLauncherType weaponType) {
+    QString fileName;
     switch (weaponType) {
         case WeaponType::RocketLauncherType::Bazooka:
-            rocketEffect = Effect(Effects::EffectType::Boom, 10000, 1500);
-            effectRange = 30;
+            fileName = "bazooka.json";
             break;
 
         default:
-            rocketEffect = Effect();
-            effectRange = 0;
+            fileName = "";
             break;
+    }
+
+    if (fileName == "") {
+        initValuesDefault();
+    }
+    else {
+        if (! loadFromJSON(fileName)) {
+            initValuesDefault();
+        }
     }
 }
 
@@ -47,7 +67,7 @@ RocketLauncher::RocketLauncher(const RocketLauncher& other) :
  * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketDamage, const bool rocketPierces, const qreal rocketSpeed, const Vector2 rocketDimensions, const Sprites::SpriteImage rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketDamage, const bool rocketPierces, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
     Gun(rocketRange, rocketDamage, rocketPierces, rocketSpeed, rocketDimensions, rocketSprite, dimensions, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
 {
 
@@ -65,7 +85,7 @@ RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRang
  * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const Sprites::SpriteImage rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
     Gun(rocketRange, 0, false, rocketSpeed, rocketDimensions, rocketSprite, dimensions, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
 {
 
@@ -75,6 +95,59 @@ RocketLauncher::RocketLauncher(const Effect rocketEffect, const qreal effectRang
  * Destructor
  */
 RocketLauncher::~RocketLauncher() { }
+
+/**
+ * Initialize all attributes to default values
+ * Typically called when failed to retrieve some values
+ */
+void RocketLauncher::initValuesDefault() {
+    rocketEffect = Effect();
+    effectRange = 0;
+    Gun::initValuesDefault();
+}
+
+/**
+ * Load gun informations from JSON file
+ * 
+ * @param fileName Name of JSON file without path (should look like "foo.json")
+ * @return True if succeeded, false otherwise
+ */
+bool RocketLauncher::loadFromJSON(const QString& fileName) {
+    // Open file
+    QFile file = QFile(ROCKETLAUNCHER_INFO_PATH + fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Failed to open file" << (ROCKETLAUNCHER_INFO_PATH + fileName);
+        qDebug() << "Error:" << file.errorString();
+        return false;
+    }
+
+    // Parse JSON
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    if (doc.isNull()) {
+        qWarning() << "Failed to parse JSON data.";
+        return false;
+    }
+
+    // Load attributes
+    QJsonObject rootObject = doc.object();
+    // TODO: Weapon name?
+    bulletRange = rootObject["bullet_range"].toDouble();
+    bulletDamage = rootObject["bullet_damage"].toDouble();
+    bulletPierces = rootObject["bullet_pierces"].toBool();
+    bulletSpeed = rootObject["bullet_speed"].toDouble();
+    bulletDimensions = Vector2(rootObject["bullet_dims_X"].toDouble(), rootObject["bullet_dims_Y"].toDouble());
+    bulletSprite = rootObject["bullet_sprite"].toString();
+    setSprite(rootObject["sprite"].toString());
+    dimensions = Vector2(rootObject["dims_X"].toDouble(), rootObject["dims_Y"].toDouble());
+    rocketEffect = Effect(
+        rootObject["effect_type"].toString(),
+        rootObject["effect_strength"].toDouble(),
+        rootObject["effect_duration"].toInteger()
+    );
+    effectRange = rootObject["effect_range"].toDouble();
+
+    return true;
+}
 
 /**
  * Clone this rocket launcher

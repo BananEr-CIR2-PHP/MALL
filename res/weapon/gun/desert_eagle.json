@@ -1,0 +1,13 @@
+{
+    "name": "Desert Eagle",
+    "bullet_range": 600,
+    "bullet_damage": 1,
+    "bullet_pierces": false,
+    "bullet_speed": 0.2,
+    "bullet_dims_X": 15,
+    "bullet_dims_Y": 50,
+    "bullet_sprite": "coin.png",
+    "dims_X": 50,
+    "dims_Y": 50,
+    "sprite": "player.png"
+}

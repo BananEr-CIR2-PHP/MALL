@@ -1,4 +1,7 @@
+#include <QtDebug>
 #include "../include/sprite.hpp"
+
+#define IMAGE_PATH "../res/img/"
 
 // --- Constructor/destructor ---
 
@@ -18,6 +21,24 @@ Sprite::Sprite(Sprites::SpriteImage img) {
     }
 
     setImage(img);
+}
+
+/**
+ * Constructor
+ * 
+ * @param fileName File name of sprite (should look like: "foo.png")
+ */
+Sprite::Sprite(QString fileName) {
+    spritesCount += 1;
+
+    if (spritesLoc == nullptr) {
+        generateSpritesLoc();
+    }
+    if (spritesCache == nullptr) {
+        initSpritesCache();
+    }
+
+    setImage(fileName);
 }
 
 /**
@@ -56,19 +77,30 @@ QSharedPointer<QImage> Sprite::getImage() const {
  * @param img The new image texture
  */
 void Sprite::setImage(Sprites::SpriteImage img) {
-    if (spritesCache->contains(img)) {
-        // If the image is in cache, simply take it from cache
-        image = spritesCache->value(img);
+    if (spritesLoc->contains(img)) {
+        QString fileName = spritesLoc->value(img);
+        setImage(fileName);
+    }
+    else {
+        qWarning() << "Image location not found";
+        image = spritesCache->value("");
+    }
+}
+
+/**
+ * Change the image texture to the given one
+ * 
+ * @param fileName Name of image file located in res/img (should look like "foo.png")
+ */
+void Sprite::setImage(QString fileName) {
+    // If the image is in cache, simply take it from cache
+    if (spritesCache->contains(fileName)) {
+        image = spritesCache->value(fileName);
     }
     else {
         // If the image is not in cache, create a new one and add it to cache
-        if (img == Sprites::SpriteImage::None) {
-            image = QSharedPointer<QImage>(nullptr);    // No image
-        }
-        else { 
-            image = QSharedPointer<QImage>(new QImage(spritesLoc->value(img)));
-        }
-        spritesCache->insert(img, image);
+        image = QSharedPointer<QImage>(new QImage(IMAGE_PATH + fileName));
+        spritesCache->insert(fileName, image);
     }
 }
 
@@ -79,16 +111,18 @@ void Sprite::setImage(Sprites::SpriteImage img) {
  */
 void Sprite::generateSpritesLoc() {
     spritesLoc = new QMap<Sprites::SpriteImage, QString>();
-    spritesLoc->insert(Sprites::SpriteImage::BoomZone, "../res/img/boom.png");
-    spritesLoc->insert(Sprites::SpriteImage::Coin, "../res/img/coin.png");
-    spritesLoc->insert(Sprites::SpriteImage::Player, "../res/img/player.png");
+    spritesLoc->insert(Sprites::SpriteImage::None, "");
+    spritesLoc->insert(Sprites::SpriteImage::BoomZone, "boom.png");
+    spritesLoc->insert(Sprites::SpriteImage::Coin, "coin.png");
+    spritesLoc->insert(Sprites::SpriteImage::Player, "player.png");
 }
 
 /**
  * Initialize sprite cache
  */
 void Sprite::initSpritesCache() {
-    spritesCache = new QMap<Sprites::SpriteImage, QSharedPointer<QImage>>();
+    spritesCache = new QMap<QString, QSharedPointer<QImage>>();
+    spritesCache->insert("", QSharedPointer<QImage>(nullptr));
 }
 
 /**

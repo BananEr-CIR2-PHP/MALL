@@ -13,6 +13,7 @@ protected:
 
     Weapon(const Weapon& other);
     void setSprite(Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    void setSprite(const QString spriteName = "");
     
 public:
     Weapon(Vector2 dimensions = Vector2::zero, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);

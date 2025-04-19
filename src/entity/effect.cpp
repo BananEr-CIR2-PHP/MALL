@@ -31,6 +31,37 @@ Effect::Effect(Effects::EffectType type, qreal strength, qint64 durationLeft) : 
 }
 
 /**
+ * Constructor
+ * 
+ * @param type Type of effect
+ * @param strength Strength of effect
+ * @param durationLeft Duration left for the effect (ms)
+ */
+Effect::Effect(const QString type, qreal strength, qint64 durationLeft) {
+    this->strength = strength;
+    this->durationLeft = durationLeft;
+
+    if (type == "Burning") {
+        this->type = Effects::EffectType::Burning;
+    }
+    else if (type == "Poisoned") {
+        this->type = Effects::EffectType::Poisoned;
+    }
+    else if (type == "Frozen") {
+        this->type = Effects::EffectType::Frozen;
+    }
+    else if (type == "Repel") {
+        this->type = Effects::EffectType::Repel;
+    }
+    else if (type == "Boom") {
+        this->type = Effects::EffectType::Boom;
+    }
+    else {
+        this->type = Effects::EffectType::None;
+    }
+}
+
+/**
  * Destructor
  */
 Effect::~Effect() { }

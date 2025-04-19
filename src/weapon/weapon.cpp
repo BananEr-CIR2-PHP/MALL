@@ -40,6 +40,15 @@ void Weapon::setSprite(Sprites::SpriteImage sprite) {
 }
 
 /**
+ * Set a new sprite for the weapon
+ * 
+ * @param spriteName Name of sprite file (should look like "foo.png")
+ */
+void Weapon::setSprite(const QString spriteName) {
+    this->sprite = new Sprite(spriteName);
+}
+
+/**
  * Get the sprite of this weapon
  * 
  * @return Sprite of this weapon

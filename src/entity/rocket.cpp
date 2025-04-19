@@ -31,10 +31,10 @@ Rocket::Rocket(const Rocket& other) : Missile(other), effectRange(other.effectRa
  * @param pierceEntities Whether this rocket despawns on first entity hit or not
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
- * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
+ * @param sprite Sprite image name (should look like "foo.png")
  * @param team The team this entity belongs to
  */
-Rocket::Rocket(const Effect effect, const qreal effectRange, const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team)
+Rocket::Rocket(const Effect effect, const qreal effectRange, const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, const QString sprite, Teams::Team team)
     : Missile(velocity, range, damage, pierceEntities, position, dimensions, sprite, team), effectRange(effectRange)
 {
     this->effect = new Effect(effect);
@@ -49,10 +49,10 @@ Rocket::Rocket(const Effect effect, const qreal effectRange, const Vector2 veloc
  * @param range Max distance to travel before despawn
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
- * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
+ * @param sprite Sprite image name (should look like "foo.png")
  * @param team The team this entity belongs to
  */
-Rocket::Rocket(const Effect effect, const qreal effectRange, const Vector2 velocity, const qreal range, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team)
+Rocket::Rocket(const Effect effect, const qreal effectRange, const Vector2 velocity, const qreal range, const Vector2 position, const Vector2 dimensions, const QString sprite, Teams::Team team)
     : Missile(velocity, range, 0, false, position, dimensions, sprite, team), effectRange(effectRange)
 {
     this->effect = new Effect(effect);

@@ -38,6 +38,19 @@ Entity::Entity(const Vector2 position, const Vector2 dimensions, Sprites::Sprite
 }
 
 /**
+ * Constructor
+ * 
+ * @param position Starting position of entity
+ * @param dimensions Collision box dimensions. Box is centered on position.
+ * @param sprite Sprite image name (should look like "foo.png")
+ * @param team The team this entity belongs to
+ */
+Entity::Entity(const Vector2 position, const Vector2 dimensions, const QString sprite, Teams::Team team) : dimensions(dimensions), team(team) {
+    setPos(position);
+    this->sprite = new Sprite(sprite);
+}
+
+/**
  * Destructor
  */
 Entity::~Entity() {
