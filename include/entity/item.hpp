@@ -31,6 +31,7 @@ public:
     virtual void onCollide(Entity* other);
     virtual bool onUpdate(qint64 deltaTime);
     virtual Entity* getSpawned();
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
 
     // Getters
     ItemType::ItemType getType() const;

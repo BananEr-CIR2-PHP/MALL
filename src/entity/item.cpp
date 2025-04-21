@@ -70,6 +70,26 @@ Entity* Item::getSpawned() {
     return nullptr;
 }
 
+/**
+ * Paint item on scene
+ * 
+ * @param painter Painter to draw entity on
+ */
+void Item::paint(QPainter *painter, const QStyleOptionGraphicsItem* styleOption, QWidget* widget) {
+    // If item is a weapon, paint weapon sprite instead of item sprite
+    if (getType() == ItemType::Weapon && itemWeapon) {
+        if (const Sprite* sprite = itemWeapon->getSprite()) {
+            QSharedPointer<QImage> image = sprite->getImage();
+            if (image != nullptr) {
+                painter->drawImage(boundingRect(), *image);
+            }
+        }
+    }
+    else {
+        Entity::paint(painter, styleOption, widget);
+    }
+}
+
 // --- GETTERS ---
 
 /**
@@ -113,8 +133,11 @@ Weapon* Item::takeWeapon() {
  * @param newWeapon The new weapon to contain in this item
  */
 void Item::setWeapon(Weapon* newWeapon) {
-    if (itemWeapon) {
-        delete itemWeapon;
+    if (getType() == ItemType::Weapon) {
+        if (itemWeapon) {
+            delete itemWeapon;
+        }
+        itemWeapon = newWeapon;
+        setDims(itemWeapon->getDims());
     }
-    itemWeapon = newWeapon;
 }
