@@ -53,9 +53,10 @@ public:
 
     // Other
     Vector2 rotate(qreal angle) const;
+    qreal angleWith(const Vector2 other) const;
     Vector2 projectOnto(const Vector2& other) const;
-    Vector2 minimum(Vector2 other) const;
-    Vector2 maximum(Vector2 other) const;
+    Vector2 minimum(const Vector2 other) const;
+    Vector2 maximum(const Vector2 other) const;
 };
 
 #endif   // VECTOR2_HPP

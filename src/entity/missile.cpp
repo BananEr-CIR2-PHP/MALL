@@ -126,3 +126,58 @@ bool Missile::onUpdate(qint64 deltaTime) {
 Entity* Missile::getSpawned() {
     return nullptr;
 }
+
+/**
+ * Paint missile on scene
+ * 
+ * @param painter Painter to draw entity on
+ */
+void Missile::paint(QPainter *painter, const QStyleOptionGraphicsItem* styleOption, QWidget* widget) {
+    // Draw sprite if it exists
+    if (sprite != nullptr) {
+        QSharedPointer<QImage> image = sprite->getImage();
+        if (image != nullptr) {
+            painter->save();
+
+            qreal angle = velocity.angleWith(Vector2::right);
+            painter->translate(baseBoundingRect().center());
+            painter->rotate(-angle);
+            painter->translate(-baseBoundingRect().center());
+            painter->drawImage(baseBoundingRect(), *image);
+
+            painter->restore();
+        }
+    }
+}
+
+QRectF Missile::boundingRect() const {
+    QRectF originalRect = baseBoundingRect();
+
+    // Create a new transformation to apply a rotation
+    QTransform tf;
+    tf.rotate(velocity.angleWith(Vector2::right));
+
+    // Find new corners of rect
+    QPointF topLeft = tf.map(originalRect.topLeft());
+    QPointF topRight = tf.map(originalRect.topRight());
+    QPointF botLeft = tf.map(originalRect.bottomLeft());
+    QPointF botRight = tf.map(originalRect.bottomRight());
+
+    // We need to find smaller and bigger values on each coordinate (if inverted)
+    qreal minX = qMin(qMin(topLeft.x(), topRight.x()), qMin(botLeft.x(), botRight.x()));
+    qreal minY = qMin(qMin(topLeft.y(), topRight.y()), qMin(botLeft.y(), botRight.y()));
+    qreal maxX = qMax(qMax(topLeft.x(), topRight.x()), qMax(botLeft.x(), botRight.x()));
+    qreal maxY = qMax(qMax(topLeft.y(), topRight.y()), qMax(botLeft.y(), botRight.y()));
+
+    return QRectF(minX, minY, maxX - minX, maxY - minY);
+}
+
+/**
+ * Get base bounding rect of missile (before rotation)
+ * 
+ * @return Bounding rect, without taking rotation into account
+ */
+QRectF Missile::baseBoundingRect() const {
+    Vector2 dims = getDims();
+    return QRectF(0, 0, dims.getX(), dims.getY());
+}
