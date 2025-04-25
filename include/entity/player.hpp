@@ -65,6 +65,7 @@ public:
     void onCollide(Entity* other) override;
     bool onUpdate(qint64 deltaTime) override;
     Entity* getSpawned() override;
+    QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
 
     // Player actions. Actions are reactions to input events

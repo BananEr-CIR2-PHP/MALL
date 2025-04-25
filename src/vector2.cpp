@@ -222,3 +222,29 @@ Vector2 Vector2::projectOnto(const Vector2& other) const {
     qreal scalar = dot(other) / other.sqrMagnitude();
     return other * scalar;
 }
+
+/**
+ * Get a new vector, taking minimum values on each coordinate
+ * 
+ * @param other Another vector
+ * @return The minimum coordinates between this and the other vector
+ */
+Vector2 Vector2::minimum(Vector2 other) const {
+    return Vector2(
+        x < other.x ? x : other.x,
+        y < other.y ? y : other.y
+    );
+}
+
+/**
+ * Get a new vector, taking maximum values on each coordinate
+ * 
+ * @param other Another vector
+ * @return The maximum coordinates between this and the other vector
+ */
+Vector2 Vector2::maximum(Vector2 other) const {
+    return Vector2(
+        x < other.x ? other.x : x,
+        y < other.y ? other.y : y
+    );
+}

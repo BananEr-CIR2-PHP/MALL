@@ -326,6 +326,22 @@ Entity* Player::getSpawned() {
 }
 
 /**
+ * Get boundingRect of this player (relative to player position)
+ * 
+ * @return bounding rect of this player
+ */
+QRectF Player::boundingRect() const {
+    Weapon* activeWeapon = getActiveWeapon();
+    if (activeWeapon) {
+        Vector2 rectDims = getDims().maximum(activeWeapon->getDims());
+        return QRectF(0, 0, rectDims.getX(), rectDims.getY());
+    }
+    else {
+        return Entity::boundingRect();
+    }
+}
+
+/**
  * Paint player on scene
  * 
  * @param painter Painter to draw entity on
@@ -335,16 +351,23 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem* styleOptio
     if (sprite != nullptr) {
         QSharedPointer<QImage> image = sprite->getImage();
         if (image != nullptr) {
-            painter->drawImage(boundingRect(), *image);
+            Vector2 dims = getDims();
+            painter->drawImage(QRectF(0, 0, dims.getX(), dims.getY()), *image);
         }
     }
     
+    // Draw active weapon (if any)
     Weapon* activeWeapon = getActiveWeapon();
     if (activeWeapon) {
         if (const Sprite* weaponSprite = activeWeapon->getSprite()) {
             if (QSharedPointer<QImage> image = weaponSprite->getImage()) {
                 Vector2 weaponDims = activeWeapon->getDims();
-                painter->drawImage(QRectF(0, 0, weaponDims.getX(), weaponDims.getY()), *image);
+                painter->drawImage(QRectF(
+                    0,
+                    getDims().getY()/2 - weaponDims.getY()/2,
+                    weaponDims.getX(),
+                    weaponDims.getY()),
+                    *image);
             }
         }
     }
