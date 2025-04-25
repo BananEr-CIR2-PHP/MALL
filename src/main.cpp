@@ -1,61 +1,57 @@
 #include <iostream>
-#include <QtMath>
-#include <QtWidgets>
+#include <QWidget>
 #include <QApplication>
 #include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
-#include <QWidget>
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLineEdit>
-#include <QScreen>
-#include <QGuiApplication>
-
+#include "../include/menu/mainWindow.hpp"
 #include "../include/mainScene.hpp"
 #include "../include/mainGraphicsView.hpp"
 #include "../include/entity/item.hpp"
 
-
-int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
-    QMainWindow *mainWindow = new QMainWindow;
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
+    this->setWindowTitle("MALL");
     
     //QScreen *screen = gApp->primaryScreen();
     //QSize screenSize = screen->availableSize();
 
     
-    QWidget *stMenu = new QWidget(mainWindow);
-    QVBoxLayout *menuLayout = new QVBoxLayout(stMenu);
-    QLineEdit *pseudoInput = new QLineEdit(stMenu);
-    QWidget *boxLayout = new QWidget(stMenu);
-    QPushButton *newGame = new QPushButton("Nouvelle Partie");
-    QPushButton *quitGame = new QPushButton("Quitter le jeu");
-    QPushButton *scoreBoard = new QPushButton("Tableau des scores");
-    QHBoxLayout *buttonLayout = new QHBoxLayout(boxLayout);
-
-    mainWindow->setWindowTitle("Main Window");
-    //int mWinWidth = (&screenSize)->width();
-    //int mWinHeight = (&screenSize)->height();
-
-    stMenu->setGeometry(450,300,500,300);
+    QWidget* mainMenu = new QWidget();
+    QVBoxLayout* mainLayout = new QVBoxLayout(mainMenu);
+    QWidget* boxLayout = new QWidget(mainMenu);
+    QHBoxLayout* buttonLayout = new QHBoxLayout(boxLayout);
+    
+    this->pseudoInput = new QLineEdit(mainMenu);
+    this->newGame = new QPushButton("Nouvelle Partie");
+    this->quitGame = new QPushButton("Quitter le jeu");
+    this->scoreBoard = new QPushButton("Tableau des scores");
+    
     
     pseudoInput->setPlaceholderText("Nom du Héros");
-    menuLayout->addWidget(pseudoInput);
-    
-    boxLayout->setGeometry(0,150,500,150);
+    mainLayout->addWidget(pseudoInput);
 
     buttonLayout->addWidget(newGame);
     buttonLayout->addWidget(scoreBoard);
     buttonLayout->addWidget(quitGame);
-    
-    menuLayout->addWidget(boxLayout);
+
+    boxLayout->setLayout(buttonLayout);
+
+    mainLayout->addWidget(boxLayout);
 
     // "&QApplication::quit" -> pour quitter automatiquement, jsp comment l'intégrer
+    mainMenu->setLayout(mainLayout);
+    this->setCentralWidget(mainMenu);
+};
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+    
+    MainWindow mWindow;
+    mWindow.showMaximized();
 
-    mainWindow->showMaximized();
-  
     // Show scene example
     // MainScene scene;       // container for QGraphicsItems
 
