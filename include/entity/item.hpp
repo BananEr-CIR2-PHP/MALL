@@ -16,9 +16,19 @@ namespace ItemType {
 }
 
 class Item : public Entity {
+private:
+    const qreal nameVerticalSpace = 17;
+
+    bool showName = false;
+    bool touchingPlayer = false;
+    bool isNameRectSet = false;
+    QRectF nameRect;
+    QString name = "";
+
 protected:
     ItemType::ItemType itemType = ItemType::None;
     Weapon* itemWeapon = nullptr;
+    QString getName() const;
     
 public:
     // Constructor/destructor
@@ -32,6 +42,8 @@ public:
     virtual bool onUpdate(qint64 deltaTime);
     virtual Entity* getSpawned();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
+    QRectF boundingRect() const override;
+    QPainterPath shape() const override;
 
     // Getters
     ItemType::ItemType getType() const;
@@ -40,6 +52,7 @@ public:
 
     // Setters
     void setWeapon(Weapon* newWeapon);
+    void setName(ItemType::ItemType itemType);
 };
 
 #endif   // ITEM_HPP

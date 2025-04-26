@@ -54,6 +54,7 @@ Gun::Gun(const Gun& other) :
 /**
  * Constructor
  * 
+ * @param name Name of weapon
  * @param energyConsumption Energy this weapon consumes on use
  * @param bulletRange Range of the bullets the gun shoots
  * @param bulletDamage Damage of the bullets the gun shoots
@@ -64,8 +65,8 @@ Gun::Gun(const Gun& other) :
  * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-Gun::Gun(const qint64 energyConsumption, const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const QString bulletSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
-    Weapon(energyConsumption, dimensions, sprite), bulletRange(bulletRange), bulletDamage(bulletDamage), bulletPierces(bulletPierces),
+Gun::Gun(const QString name, const qint64 energyConsumption, const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const QString bulletSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+    Weapon(name, energyConsumption, dimensions, sprite), bulletRange(bulletRange), bulletDamage(bulletDamage), bulletPierces(bulletPierces),
     bulletSpeed(bulletSpeed), bulletDimensions(bulletDimensions), bulletSprite(bulletSprite)
 {
 
@@ -81,6 +82,7 @@ Gun::~Gun() { }
  * Typically called when failed to retrieve some values
  */
 void Gun::initValuesDefault() {
+    name = "";
     bulletRange = 0;
     bulletDamage = 0;
     bulletPierces = false;
@@ -114,7 +116,7 @@ bool Gun::loadFromJSON(const QString& fileName) {
 
     // Load attributes
     QJsonObject rootObject = doc.object();
-    // TODO: Weapon name?
+    name = rootObject["name"].toString();
     energyConsumption = rootObject["energy_consumption"].toInteger();
     bulletRange = rootObject["bullet_range"].toDouble();
     bulletDamage = rootObject["bullet_damage"].toDouble();

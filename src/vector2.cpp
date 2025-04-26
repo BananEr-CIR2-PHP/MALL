@@ -27,6 +27,13 @@ Vector2::Vector2() {
 Vector2::Vector2(qreal x, qreal y) : x(x), y(y) {}
 
 /**
+ * Constructor
+ * 
+ * @param point Point to convert vector from
+ */
+Vector2::Vector2(const QPointF point) : x(point.x()), y(point.y()) {}
+
+/**
  * Copy constructor
  * 
  * @param other The vector to copy

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <QtGlobal>
+#include <QPointF>
 
 // Vector2 is immutable
 class Vector2 {
@@ -21,6 +22,7 @@ public:
     // Constructors
     Vector2();
     Vector2(qreal x, qreal y);
+    Vector2(const QPointF point);
     Vector2(const Vector2& other);
 
     // Destructor

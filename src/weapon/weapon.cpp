@@ -3,11 +3,13 @@
 /**
  * Default constructor
  * 
+ * @param name Name of weapon
  * @param energyConsumption Energy this weapon consumes on use
  * @param sprite Sprite of weapon
  * @param dimensions Dimensions of weapon
  */
-Weapon::Weapon(const qint64 energyConsumption, const Vector2 dimensions, Sprites::SpriteImage sprite) {
+Weapon::Weapon(const QString name, const qint64 energyConsumption, const Vector2 dimensions, Sprites::SpriteImage sprite) {
+    this->name = name;
     this->energyConsumption = energyConsumption;
     this->dimensions = dimensions;
     this->sprite = new Sprite(sprite);
@@ -75,4 +77,13 @@ Vector2 Weapon::getDims() const {
  */
 qint64 Weapon::getConsumption() const {
     return energyConsumption;
+}
+
+/**
+ * Get the name of weapon
+ * 
+ * @return Name of weapon
+ */
+QString Weapon::getName() const {
+    return name;
 }

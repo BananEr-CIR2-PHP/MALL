@@ -1,4 +1,5 @@
 #include "../../include/entity/item.hpp"
+#include "../../include/entity/player.hpp"
 
 // --- CONSTRUCTOR/DESTRUCTOR ---
 
@@ -29,7 +30,7 @@ Item::Item(const Item& other) : Entity(other), itemType(other.itemType) {
 Item::Item(const Vector2 position, const Vector2 dimensions, ItemType::ItemType itemType, Sprites::SpriteImage sprite) :
     Entity(position, dimensions, sprite), itemType(itemType) 
 {
-    
+    setName(itemType);
 }
 
 /**
@@ -47,8 +48,11 @@ Item::~Item() {
  * @param other The entity this object collided with
  */
 void Item::onCollide(Entity* other) {
-    // Nothing to do here.
-    // Pickup item by Player is handled by Player
+    if (Player* player = dynamic_cast<Player*>(other)) {
+        touchingPlayer = true;
+
+        // Pickup item by Player is handled by Player class
+    }
 }
 
 /**
@@ -58,6 +62,15 @@ void Item::onCollide(Entity* other) {
  * @return Whether this entity wants to spawn another entity
  */
 bool Item::onUpdate(qint64 deltaTime) {
+    // When player touches item, display item name
+    if (showName != touchingPlayer) {
+        prepareGeometryChange();
+    }
+    showName = touchingPlayer;
+    if (!touchingPlayer) {
+        isNameRectSet = false;
+    }
+    touchingPlayer = false;     // Prepare next frame: touchingPlayer will stay the same if not touching the player
     return false;
 }
 
@@ -76,18 +89,68 @@ Entity* Item::getSpawned() {
  * @param painter Painter to draw entity on
  */
 void Item::paint(QPainter *painter, const QStyleOptionGraphicsItem* styleOption, QWidget* widget) {
+    Vector2 dims = getDims();
+    if (showName) {
+        QString displayName = getName();
+        if (displayName != "") {    // If has a name
+            if (!isNameRectSet) {
+                // If name rect not in cache, set it using text size
+                prepareGeometryChange();
+                QFontMetrics fontMetrics = QFontMetrics(painter->font());
+                int textWidth = fontMetrics.horizontalAdvance(displayName);
+                int textHeight = fontMetrics.height();
+                nameRect = QRectF(-textWidth/2 + dims.getX()/2, -textHeight/2 - nameVerticalSpace, textWidth, textHeight);
+                isNameRectSet = true;
+            }
+
+            painter->drawText(nameRect, Qt::AlignCenter, displayName);
+        }   
+    }
+
     // If item is a weapon, paint weapon sprite instead of item sprite
     if (getType() == ItemType::Weapon && itemWeapon) {
         if (const Sprite* sprite = itemWeapon->getSprite()) {
             QSharedPointer<QImage> image = sprite->getImage();
             if (image != nullptr) {
-                painter->drawImage(boundingRect(), *image);
+                painter->drawImage(QRectF(0, 0, dims.getX(), dims.getY()), *image);
             }
         }
     }
     else {
         Entity::paint(painter, styleOption, widget);
     }
+}
+
+/**
+ * Get boundingRect of this item (relative to item position)
+ * 
+ * @return bounding rect of this entity
+ */
+QRectF Item::boundingRect() const {
+    Vector2 dims = getDims();
+    if (showName && isNameRectSet) {
+        // Name is displayed above item
+        // We get most top and most left corners, then most bottom and most right corners from text and item original rects
+        Vector2 topLeft = Vector2(nameRect.topLeft()).minimum(Vector2::zero);
+        Vector2 botRight = Vector2(nameRect.bottomRight()).maximum(dims);
+        
+        return QRectF(topLeft.getX(), topLeft.getY(), botRight.getX() - topLeft.getX(), botRight.getY() - topLeft.getY());
+    }
+    else {
+        return QRectF(0, 0, dims.getX(), dims.getY());
+    }
+}
+
+/**
+ * Redefine shape of item, as item collision does not include name display
+ * 
+ * @return shape of the item
+ */
+QPainterPath Item::shape() const {
+    QPainterPath path;
+    Vector2 dims = getDims();
+    path.addRect(QRectF(0, 0, dims.getX(), dims.getY()));
+    return path;
 }
 
 // --- GETTERS ---
@@ -124,6 +187,20 @@ Weapon* Item::takeWeapon() {
     return givenWeapon;
 }
 
+/**
+ * Get the name of the item
+ * 
+ * @return name of the item
+ */
+QString Item::getName() const {
+    if (getType() == ItemType::ItemType::Weapon && itemWeapon) {
+        return itemWeapon->getName();
+    }
+    else {
+        return name;
+    }
+}
+
 // --- SETTERS ---
 
 /**
@@ -141,5 +218,24 @@ void Item::setWeapon(Weapon* newWeapon) {
         }
         itemWeapon = newWeapon;
         setDims(itemWeapon->getDims());
+    }
+}
+
+/**
+ * Set the name of the weapon based on item type
+ * 
+ * @param itemType Type of item
+ */
+void Item::setName(ItemType::ItemType itemType) {
+    switch (itemType) {
+        case ItemType::HPPotion:
+            name = "HP Potion";
+            break;
+        case ItemType::EnergyPotion:
+            name = "Energy Potion";
+            break;
+        default:
+            name = "";
+            break;
     }
 }
