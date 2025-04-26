@@ -26,7 +26,7 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     it = new Item(Vector2(50, 50), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
     it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
     addEntity(it);
-    Player* pl = new Player(20, 20, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
+    Player* pl = new Player(20, 2000, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
     setControlledPlayer(pl);
     addEntity(pl);
 

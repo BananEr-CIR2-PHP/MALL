@@ -118,6 +118,7 @@ bool Item::hasWeapon() const {
  * @return The weapon contained in this item.
  */
 Weapon* Item::takeWeapon() {
+    prepareGeometryChange();
     Weapon* givenWeapon = itemWeapon;
     itemWeapon = nullptr;
     return givenWeapon;
@@ -134,6 +135,7 @@ Weapon* Item::takeWeapon() {
  */
 void Item::setWeapon(Weapon* newWeapon) {
     if (getType() == ItemType::Weapon) {
+        prepareGeometryChange();
         if (itemWeapon) {
             delete itemWeapon;
         }

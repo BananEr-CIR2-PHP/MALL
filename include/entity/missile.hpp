@@ -12,6 +12,7 @@ protected:
     bool pierceEntities;
 
     Missile(const Missile& other);
+    QTransform getRotationTF(QPointF rectCenter) const;
 
 public:
     // Constructor/destructor
@@ -32,6 +33,7 @@ public:
     virtual Entity* getSpawned();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
     QRectF boundingRect() const override;
+    QPainterPath shape() const override;
 
     QRectF baseBoundingRect() const;
 };

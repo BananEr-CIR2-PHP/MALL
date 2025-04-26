@@ -163,6 +163,7 @@ bool Player::gatherItem(Item* item) {
 bool Player::grabWeapon(Weapon* weapon, Inventory::WeaponSlot slot) {
     // If successfully dropped the active weapon, grab the weapon
     if (!hasWeapon(slot)) {
+        prepareGeometryChange();
         switch (slot) {
             case Inventory::WeaponSlot_1:
                 weapon1 = weapon;
@@ -191,7 +192,8 @@ bool Player::dropWeapon(Inventory::WeaponSlot slot) {
         return false;
     }
     else {
-        // If a weapon is held in slot, held weapon becomes dropped wweapon
+        // If a weapon is held in slot, held weapon becomes dropped weapon
+        prepareGeometryChange();
         switch (slot) {
             case Inventory::WeaponSlot_1:
                 droppedWeapon = weapon1;
@@ -373,6 +375,19 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem* styleOptio
     }
 }
 
+/**
+ * Redefine shape of player
+ * Player colliding zone does not include weapon
+ * 
+ * @return shape of the player
+ */
+QPainterPath Player::shape() const {
+    QPainterPath path;
+    Vector2 dims = getDims();
+    path.addRect(0, 0, dims.getX(), dims.getY());
+    return path;
+}
+
 // --- INPUT EVENTS ---
 
 /**
@@ -469,7 +484,7 @@ void Player::actionSetGrabPress(bool isGrabbing) {
  */
 void Player::actionChangeWeapon() {
     // Using a switch here because it's easier to add new slots this way.
-    // TODO: need to test whether if we need to call player rect reload on weapon change, or not
+    prepareGeometryChange();
     if (!isDead) {
         switch (activeWeaponSlot) {
             case Inventory::WeaponSlot_1:

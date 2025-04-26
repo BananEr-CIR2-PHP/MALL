@@ -116,6 +116,7 @@ void Entity::setPos(const Vector2 pos) {
  */
 void Entity::setDims(const Vector2 dims) {
     if (dims.getX() >= 0 && dims.getY() >= 0) {
+        prepareGeometryChange();
         dimensions = dims;
     }
     else {

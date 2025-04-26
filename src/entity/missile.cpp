@@ -77,6 +77,7 @@ Vector2 Missile::getSpeed() const {
  * @param speed Velocity of the missile
  */
 void Missile::setSpeed(const Vector2 speed) {
+    prepareGeometryChange();
     velocity = speed;
 }
 
@@ -139,11 +140,15 @@ void Missile::paint(QPainter *painter, const QStyleOptionGraphicsItem* styleOpti
         if (image != nullptr) {
             painter->save();
 
-            qreal angle = velocity.angleWith(Vector2::right);
-            painter->translate(baseBoundingRect().center());
-            painter->rotate(-angle);
-            painter->translate(-baseBoundingRect().center());
-            painter->drawImage(baseBoundingRect(), *image);
+            // Tried to refactor code here, using getRotationTF() and painter->setTransform()
+            // But it was buggy and was taking too long. Feel free to change if you know how to do.
+            qreal angle = -velocity.angleWith(Vector2::right);
+            QRectF originalRect = baseBoundingRect();
+            painter->translate(originalRect.center());
+            painter->rotate(angle);
+            painter->translate(-originalRect.center());
+
+            painter->drawImage(originalRect, *image);
 
             painter->restore();
         }
@@ -152,10 +157,10 @@ void Missile::paint(QPainter *painter, const QStyleOptionGraphicsItem* styleOpti
 
 QRectF Missile::boundingRect() const {
     QRectF originalRect = baseBoundingRect();
+    QPointF rectCenter = originalRect.center();
 
     // Create a new transformation to apply a rotation
-    QTransform tf;
-    tf.rotate(velocity.angleWith(Vector2::right));
+    QTransform tf = getRotationTF(rectCenter);
 
     // Find new corners of rect
     QPointF topLeft = tf.map(originalRect.topLeft());
@@ -180,4 +185,36 @@ QRectF Missile::boundingRect() const {
 QRectF Missile::baseBoundingRect() const {
     Vector2 dims = getDims();
     return QRectF(0, 0, dims.getX(), dims.getY());
+}
+
+/**
+ * Redefine shape of missile (rotated ellipse)
+ * 
+ * @return shape of the missile
+ */
+QPainterPath Missile::shape() const {
+    QPainterPath path;
+
+    QRectF originalRect = baseBoundingRect();
+    QTransform tf = getRotationTF(originalRect.center());
+
+    path.addEllipse(originalRect);
+    path = tf.map(path);
+
+    return path;
+}
+
+/**
+ * Get rotation transform of this missile
+ * 
+ * @param rectCenter Center of rotation (usually center of bounding rect)
+ * @return Rotation transform. Use transform.map() to apply.
+ */
+QTransform Missile::getRotationTF(QPointF rectCenter) const {
+    // Rotation around center
+    QTransform tf;
+    tf.translate(rectCenter.x(), rectCenter.y());
+    tf.rotate(-velocity.angleWith(Vector2::right));
+    tf.translate(-rectCenter.x(), -rectCenter.y());
+    return tf;
 }

@@ -67,6 +67,7 @@ public:
     Entity* getSpawned() override;
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
+    QPainterPath shape() const override;
 
     // Player actions. Actions are reactions to input events
     void actionUseWeapon(Vector2 direction);
