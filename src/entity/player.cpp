@@ -320,7 +320,23 @@ bool Player::onUpdate(qint64 deltaTime) {
 Entity* Player::getSpawned() {
     // If a weapon was dropped
     if (droppedWeapon) {
-        Item* drop = new Item(getPos(), droppedWeapon->getDims(), ItemType::Weapon, Sprites::SpriteImage::Player);
+        // Get weapon item spawn position: top left corner of weapon
+        Vector2 itemPos;
+        if (getLookingLeft()) {
+            itemPos = Vector2(
+                getPos().getX() + getDims().getX() - droppedWeapon->getDims().getX(),
+                getPos().getY() + getDims().getY()/2 - droppedWeapon->getDims().getY()/2
+            );
+        }
+        else {
+            itemPos = Vector2(
+                getPos().getX(),
+                getPos().getY() + getDims().getY()/2 - droppedWeapon->getDims().getY()/2 
+            );
+        }
+
+        // Drop the weapon
+        Item* drop = new Item(itemPos, droppedWeapon->getDims(), ItemType::Weapon, Sprites::SpriteImage::None);
         drop->setWeapon(droppedWeapon);
         droppedWeapon = nullptr;
         return drop;
