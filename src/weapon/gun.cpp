@@ -142,7 +142,7 @@ Weapon* Gun::clone() const {
 /**
  * Use gun attack at given position, towards given direction
  * 
- * @param position Gun position
+ * @param position Gun muzzle position
  * @param direction Gun pointing direction
  * @return Entity spawned during attack. nullptr if no Entity spawned
  */
@@ -151,7 +151,14 @@ void Gun::attack(Vector2 position, Vector2 direction, Teams::Team team) {
 
     // If no bullet is waiting for spawn
     if (!bulletSpawn) {
-        bulletSpawn = new Missile(velocity, bulletRange, bulletDamage, bulletPierces, position, bulletDimensions, bulletSprite, team);
+        Vector2 bulletPosition;
+        if (direction.getX() >= 0) {
+            bulletPosition = Vector2(position.getX(), position.getY() - bulletDimensions.getY()/2);
+        }
+        else {
+            bulletPosition = Vector2(position.getX() - bulletDimensions.getX(), position.getY() - bulletDimensions.getY()/2);
+        }
+        bulletSpawn = new Missile(velocity, bulletRange, bulletDamage, bulletPierces, bulletPosition, bulletDimensions, bulletSprite, team);
     }
 }
 

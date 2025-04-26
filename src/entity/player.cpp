@@ -433,7 +433,26 @@ void Player::actionUseWeapon(Vector2 direction) {
     if (heldWeapon) {
         qint64 consumption = heldWeapon->getConsumption();
         if (consumption <= getEnergy()) {
-            heldWeapon->attack(getPos(), direction, team);
+            // Get attacking position: player should attack at the tip of the weapon
+            Vector2 playerPos = getPos();
+            Vector2 playerDims = getDims();
+            Vector2 weaponDims = getActiveWeapon()->getDims();
+            Vector2 attackPos;
+            if (getLookingLeft()) {
+                attackPos = Vector2(
+                    playerPos.getX() + playerDims.getX() - weaponDims.getX(),
+                    playerPos.getY() + playerDims.getY()/2
+                );
+            }
+            else {
+                attackPos = Vector2(
+                    playerPos.getX() + weaponDims.getX(),
+                    playerPos.getY() + playerDims.getY()/2
+                );
+            }
+
+            // Attack at the correct position and direction
+            heldWeapon->attack(attackPos, direction, team);
             consumeEnergy(consumption);
         }
     }
