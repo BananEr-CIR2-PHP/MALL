@@ -284,16 +284,26 @@ void Player::onCollide(Entity* other) {
  */
 bool Player::onUpdate(qint64 deltaTime) {
     bool wantSpawn = LivingEntity::onUpdate(deltaTime) || droppedWeapon;
-    if (Weapon* activeWeapon = getActiveWeapon()) {
-        wantSpawn = wantSpawn || activeWeapon->wantSpawn();
-    }
 
     if (!isDead) {
+        // Spawn shot bullets
+        if (Weapon* activeWeapon = getActiveWeapon()) {
+            wantSpawn = wantSpawn || activeWeapon->wantSpawn();
+        }
+
         // Build direction based on key presses
         Vector2 direction = Vector2(
             (rightKeyPressed ? 1 : 0) - (leftKeyPressed ? 1 : 0),
             (downKeyPressed ? 1 : 0) - (upKeyPressed ? 1 : 0)
         ).normalized();
+
+        // Update looking direction
+        if (direction.getX() < 0) {
+            setLookingLeft(true);
+        }
+        else if (direction.getX() > 0) {
+            setLookingLeft(false);
+        }
 
         // Update position
         setPos(getPos() + direction * Player::DefaultSpeed * getSpeedMultiplier() * deltaTime);
@@ -349,6 +359,15 @@ QRectF Player::boundingRect() const {
  * @param painter Painter to draw entity on
  */
 void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem* styleOption, QWidget* widget) {
+    // If looking left, mirror player render along y axis
+    if (getLookingLeft()) {
+        Vector2 dims = getDims();
+        QPointF center = QPointF(dims.getX()/2, dims.getY()/2);
+        painter->translate(center);
+        painter->scale(-1, 1);  // Flip image on y axis
+        painter->translate(-center);
+    }
+
     // Draw player sprite if it exists
     if (sprite != nullptr) {
         QSharedPointer<QImage> image = sprite->getImage();

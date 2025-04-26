@@ -12,6 +12,8 @@ private:
     Effect poisoned;
     Effect frozen;
 
+    bool isLookingLeft = false;
+
     void initEffects();
 
 protected:
@@ -23,6 +25,8 @@ protected:
     
     LivingEntity(const LivingEntity& other);
     qreal getSpeedMultiplier() const;
+    bool getLookingLeft() const;
+    void setLookingLeft(const bool lookingLeft);
 
 public:
     // Constructors/destructors

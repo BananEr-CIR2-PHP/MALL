@@ -79,6 +79,15 @@ qreal LivingEntity::getSpeedMultiplier() const {
     }
 }
 
+/**
+ * Know whether entity is looking at left or not.
+ * 
+ * @return Whether entity is looking at left or not.
+ */
+bool LivingEntity::getLookingLeft() const {
+    return isLookingLeft;
+}
+
 // --- SETTERS ---
 
 /**
@@ -123,6 +132,19 @@ void LivingEntity::takeDamage(const qreal damage) {
     }
     else {
         life -= damage;
+    }
+}
+
+/**
+ * Set entity looking side status
+ * 
+ * @param lookingLeft True if looking at left, false otherwise
+ */
+void LivingEntity::setLookingLeft(const bool lookingLeft) {
+    // Only update geometry is new looking direction is different from previous one
+    if (isLookingLeft != lookingLeft) {
+        prepareGeometryChange();
+        isLookingLeft = lookingLeft;
     }
 }
 
