@@ -27,6 +27,13 @@ Vector2::Vector2() {
 Vector2::Vector2(qreal x, qreal y) : x(x), y(y) {}
 
 /**
+ * Constructor
+ * 
+ * @param point Point to convert vector from
+ */
+Vector2::Vector2(const QPointF point) : x(point.x()), y(point.y()) {}
+
+/**
  * Copy constructor
  * 
  * @param other The vector to copy
@@ -221,4 +228,41 @@ Vector2 Vector2::rotate(qreal angle) const {
 Vector2 Vector2::projectOnto(const Vector2& other) const {
     qreal scalar = dot(other) / other.sqrMagnitude();
     return other * scalar;
+}
+
+/**
+ * Get a new vector, taking minimum values on each coordinate
+ * 
+ * @param other Another vector
+ * @return The minimum coordinates between this and the other vector
+ */
+Vector2 Vector2::minimum(const Vector2 other) const {
+    return Vector2(
+        x < other.x ? x : other.x,
+        y < other.y ? y : other.y
+    );
+}
+
+/**
+ * Get a new vector, taking maximum values on each coordinate
+ * 
+ * @param other Another vector
+ * @return The maximum coordinates between this and the other vector
+ */
+Vector2 Vector2::maximum(const Vector2 other) const {
+    return Vector2(
+        x < other.x ? other.x : x,
+        y < other.y ? other.y : y
+    );
+}
+
+/**
+ * Calculate the angle of this vector with another in degrees
+ * 
+ * @param other the other vector
+ * @return the angle between the two vectors (degrees)
+ */
+qreal Vector2::angleWith(const Vector2 other) const {
+    qreal sign = this->cross(other) > 0 ? 1 : -1;
+    return sign * std::acos(this->dot(other) / (this->magnitude() / other.magnitude())) * 180 / M_PI;
 }

@@ -14,13 +14,19 @@ private:
     QList<Entity*>* entities;
     QTimer* gameTimer;
     qint64 deltaTime;   // Time between two frames
+    Player* mainPlayer = nullptr;
 
 protected:
     void addEntity(Entity* entity);
+    void setControlledPlayer(Player* player);
     void checkCollisions();
     void updateEntities();
     void cleanupScene();
     void gameLoop();
+
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void keyPressEvent(QKeyEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
 
 public:
     // Constructors/Destructor

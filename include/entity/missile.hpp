@@ -12,11 +12,13 @@ protected:
     bool pierceEntities;
 
     Missile(const Missile& other);
+    QTransform getRotationTF(QPointF rectCenter) const;
 
 public:
     // Constructor/destructor
     Missile();
-    Missile(const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    Missile(const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
+    Missile(const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, const QString sprite = "", Teams::Team team = Teams::None);
     ~Missile();
 
     // Getters
@@ -29,6 +31,11 @@ public:
     virtual void onCollide(Entity* other);
     virtual bool onUpdate(qint64 deltaTime);
     virtual Entity* getSpawned();
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
+    QRectF boundingRect() const override;
+    QPainterPath shape() const override;
+
+    QRectF baseBoundingRect() const;
 };
 
 #endif   // MISSILE_HPP

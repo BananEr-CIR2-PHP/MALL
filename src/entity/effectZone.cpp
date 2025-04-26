@@ -1,5 +1,6 @@
 #include "../../include/entity/effectZone.hpp"
 #include "../../include/entity/livingEntity.hpp"
+#include "../../include/entity/missile.hpp"
 
 // --- CONSTRUCTOR/DESTRUCTOR ---
 
@@ -74,7 +75,9 @@ void EffectZone::onCollide(Entity* other) {
             break;
 
         case Effects::EffectType::Repel:
-            repelEntity(other);
+            if (!dynamic_cast<Missile*>(other)) {
+                repelEntity(other);
+            }
             break;
 
         case Effects::EffectType::Burning:

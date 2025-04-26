@@ -2,43 +2,81 @@
 #define PLAYER_HPP
 
 #include <QKeyEvent>
+#include <QGraphicsSceneMouseEvent>
 #include "livingEntity.hpp"
 #include "item.hpp"
+#include "../weapon/weapon.hpp"
 
 #define PLAYER_SPEED 0.05
 
+namespace Inventory {
+    enum WeaponSlot {
+        WeaponSlot_1,
+        WeaponSlot_2
+    };
+}
+
 class Player : public LivingEntity {
 private:
-    bool leftKeyPressed = false;
-    bool rightKeyPressed = false;
-    bool upKeyPressed = false;
-    bool downKeyPressed = false;
+    qreal leftKeyPressed = 0;
+    qreal rightKeyPressed = 0;
+    qreal upKeyPressed = 0;
+    qreal downKeyPressed = 0;
+    bool grabKeyPressed = false;
+
+    Weapon* weapon1 = nullptr;
+    Weapon* weapon2 = nullptr;
+    Weapon* droppedWeapon = nullptr;
+    Inventory::WeaponSlot activeWeaponSlot = Inventory::WeaponSlot_1;
+
+    qint64 maxEnergy;
+    qint64 energy;
     
     void initFlags();
+    bool grabWeapon(Weapon* weapon, Inventory::WeaponSlot slot);
+    bool dropWeapon(Inventory::WeaponSlot slot);
+    bool hasWeapon(Inventory::WeaponSlot slot) const;
+    Weapon* getActiveWeapon() const;
 
 public:
+    static constexpr qreal DefaultSpeed = 0.1;
+    static constexpr qreal DefaultLife = 100;
+    static constexpr qint64 DefaultEnergy = 100;
+
     // Constructors/destructors
     Player();
     Player(const Player& other);
-    Player(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    Player(const qreal life, const qint64 energy, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
     ~Player();
 
-    void gatherItem(Item* item);
+    // Methods
+    bool gatherItem(Item* item);
+
+    // Getters/Setters
+    qint64 getEnergy() const;
+    qint64 getMaxEnergy() const;
+
+    void setEnergy(const qint64 newEnergy);
+    void consumeEnergy(const qint64 consumedEnergy);
+    void setMaxEnergy(const qint64 newMaxEnergy);
 
     // Inherited methods
-    virtual void onDeath();
-    virtual void onCollide(Entity* other);
-    virtual bool onUpdate(qint64 deltaTime);
-    virtual Entity* getSpawned();
+    void onDeath() override;
+    void onCollide(Entity* other) override;
+    bool onUpdate(qint64 deltaTime) override;
+    Entity* getSpawned() override;
+    QRectF boundingRect() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
+    QPainterPath shape() const override;
 
-    // Input events
-    void keyPressEvent(QKeyEvent* event) override;
-    void keyReleaseEvent(QKeyEvent* event) override;
-    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
-
-    void focusOutEvent(QFocusEvent *event);
+    // Player actions. Actions are reactions to input events
+    void actionUseWeapon(Vector2 direction);
+    void actionSetLeftMovement(qreal mvt);
+    void actionSetRightMovement(qreal mvt);
+    void actionSetUpMovement(qreal mvt);
+    void actionSetDownMovement(qreal mvt);
+    void actionSetGrabPress(bool isGrabbing);
+    void actionChangeWeapon();
 };
 
 #endif   // PLAYER_HPP

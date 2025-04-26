@@ -2,6 +2,7 @@
 #include "../include/entity/player.hpp"
 #include "../include/entity/mob.hpp"
 #include "../include/entity/rocket.hpp"
+#include "../include/weapon/rocketLauncher.hpp"
 #include "../include/mainScene.hpp"
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
@@ -16,14 +17,18 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     entities = new QList<Entity*>();
 
     // Scene setup example
-    Item* it = new Item(Vector2(50, 600), Vector2(50, 50), Sprites::SpriteImage::Coin);
+    Item* it = new Item(Vector2(50, 600), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
+    it->setWeapon(new RocketLauncher(WeaponType::RocketLauncherType::Bazooka));
     addEntity(it);
-    Player* pl = new Player(20, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player);
+    it = new Item(Vector2(50, 300), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
+    it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
+    addEntity(it);
+    it = new Item(Vector2(50, 50), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
+    it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
+    addEntity(it);
+    Player* pl = new Player(20, 2000, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
+    setControlledPlayer(pl);
     addEntity(pl);
-    // Mob* mob = new Mob(20, 20, Vector2(300, 300), Vector2(60, 60), Sprites::SpriteImage::Player);
-    // addEntity(mob);
-    Rocket* ro = new Rocket(Effect(Effects::EffectType::Boom, 10000, 3000), 50, Vector2(0, 0.1), 800, Vector2(300, 0), Vector2(50, 50), Sprites::SpriteImage::Coin);
-    addEntity(ro);
 
     // Activate game loop
     deltaTime = (qint64) (1000/fps);
@@ -110,4 +115,89 @@ void MainScene::gameLoop() {
     checkCollisions();
     updateEntities();
     cleanupScene();
+}
+
+/**
+ * Define which player entity is controlled by user
+ */
+void MainScene::setControlledPlayer(Player* player) {
+    mainPlayer = player;
+}
+
+/**
+ * Handle mouse press event
+ */
+void MainScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    if (mainPlayer) {
+        switch (event->button()) {
+            case Qt::LeftButton:
+                // Player action: use weapon in direction of mouse7
+                QPointF mousePos = event->scenePos();
+                mainPlayer->actionUseWeapon(Vector2(mousePos.x(), mousePos.y()) - mainPlayer->getPos());
+                break;
+        }
+    }
+
+    QGraphicsScene::mousePressEvent(event);
+}
+
+/**
+ * Handle key press event
+ */
+void MainScene::keyPressEvent(QKeyEvent* event) {
+    switch (event->key()) {
+        case Qt::Key_Left:
+        case Qt::Key_Q:
+            mainPlayer->actionSetLeftMovement(1);
+            break;
+        case Qt::Key_Right:
+        case Qt::Key_D:
+            mainPlayer->actionSetRightMovement(1);
+            break;
+        case Qt::Key_Up:
+        case Qt::Key_Z:
+            mainPlayer->actionSetUpMovement(1);
+            break;
+        case Qt::Key_Down:
+        case Qt::Key_S:
+            mainPlayer->actionSetDownMovement(1);
+            break;
+        case Qt::Key_E:
+            mainPlayer->actionSetGrabPress(true);
+            break;
+        case Qt::Key_A:
+            mainPlayer->actionChangeWeapon();
+            break;
+    }
+
+    QGraphicsScene::keyPressEvent(event);
+}
+
+/**
+ * Handle key release event
+ */
+void MainScene::keyReleaseEvent(QKeyEvent* event) {
+    switch (event->key()) {
+        case Qt::Key_Left:
+        case Qt::Key_Q:
+            mainPlayer->actionSetLeftMovement(0);
+            break;
+        case Qt::Key_Right:
+        case Qt::Key_D:
+            mainPlayer->actionSetRightMovement(0);
+            break;
+        case Qt::Key_Up:
+        case Qt::Key_Z:
+            mainPlayer->actionSetUpMovement(0);
+            break;
+        case Qt::Key_Down:
+        case Qt::Key_S:
+            mainPlayer->actionSetDownMovement(0);
+            break;
+        case Qt::Key_E:
+            mainPlayer->actionSetGrabPress(false);
+            break;
+    }
+
+    QGraphicsScene::keyReleaseEvent(event);
 }

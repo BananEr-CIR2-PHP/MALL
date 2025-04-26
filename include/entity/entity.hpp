@@ -8,6 +8,7 @@
 
 #include "../vector2.hpp"
 #include "../sprite.hpp"
+#include "teams.hpp"
 
 class Entity : public QGraphicsItem {
 private:
@@ -17,19 +18,22 @@ private:
 protected:
     const Sprite* sprite = nullptr;     // sprite object cannot be modified but pointer can
     bool isDeleted = false;     // Set to true when entity is deleted. Ensures entity exists until not needed anymore.
+    Teams::Team team = Teams::None;
 
     Entity(const Entity& other);
 
 public:
     // Constructor/destructor
     Entity();
-    Entity(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite=Sprites::SpriteImage::None);
+    Entity(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite=Sprites::SpriteImage::None, Teams::Team team = Teams::None);
+    Entity(const Vector2 position, const Vector2 dimensions, const QString sprite = "", Teams::Team team = Teams::None);
     virtual ~Entity();
 
     // Getters
     Vector2 getPos() const;
     Vector2 getDims() const;
     bool getDeleted() const;
+    Teams::Team getTeam() const;
 
     // Setters
     void setPos(const Vector2 pos);
