@@ -7,8 +7,6 @@
 #include "item.hpp"
 #include "../weapon/weapon.hpp"
 
-#define PLAYER_SPEED 0.05
-
 namespace Inventory {
     enum WeaponSlot {
         WeaponSlot_1,
@@ -46,7 +44,7 @@ public:
     // Constructors/destructors
     Player();
     Player(const Player& other);
-    Player(const qreal life, const qint64 energy, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
+    Player(const qreal life, const qint64 energy, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
     ~Player();
 
     // Methods

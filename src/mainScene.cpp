@@ -5,6 +5,8 @@
 #include "../include/weapon/rocketLauncher.hpp"
 #include "../include/mainScene.hpp"
 
+#define PLAYER_SPEED 0.1
+
 // --- CONSTRUCTORS/DESTRUCTORS ---
 
 /**
@@ -26,9 +28,11 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     it = new Item(Vector2(50, 50), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
     it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
     addEntity(it);
-    Player* pl = new Player(20, 2000, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
+    Player* pl = new Player(20, 2000, PLAYER_SPEED, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
     setControlledPlayer(pl);
     addEntity(pl);
+    Mob* mob = new Mob(20, 1, 0.05, Vector2(900, 900), Vector2(60, 60), Sprites::SpriteImage::Player, Teams::Ennemy, pl);
+    addEntity(mob);
 
     // Activate game loop
     deltaTime = (qint64) (1000/fps);

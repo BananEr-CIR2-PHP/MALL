@@ -26,12 +26,13 @@ Player::Player(const Player& other) : LivingEntity(other), energy(other.energy),
  * 
  * @param life Starting life of entity. Also used as starting max life. Use Player::DefaultLife for default
  * @param energy Starting energy of entity. Also starting max energy. Use Player::DefaultEnergy for default
+ * @param speed Speed of player
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  * @param team The team this entity belongs to
  */
-Player::Player(const qreal life, const qint64 energy, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : LivingEntity(life, position, dimensions, sprite, team), energy(energy), maxEnergy(energy) {
+Player::Player(const qreal life, const qint64 energy, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : LivingEntity(life, speed, position, dimensions, sprite, team), energy(energy), maxEnergy(energy) {
     initFlags();
 }
 
@@ -306,7 +307,7 @@ bool Player::onUpdate(qint64 deltaTime) {
         }
 
         // Update position
-        setPos(getPos() + direction * Player::DefaultSpeed * getSpeedMultiplier() * deltaTime);
+        setPos(getPos() + direction * getSpeed() * getSpeedMultiplier() * deltaTime);
     }
 
     return wantSpawn;
