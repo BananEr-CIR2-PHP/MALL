@@ -5,12 +5,14 @@
  * 
  * @param name Name of weapon
  * @param energyConsumption Energy this weapon consumes on use
+ * @param delay Delay between two uses of this weapon (in milliseconds)
  * @param sprite Sprite of weapon
  * @param dimensions Dimensions of weapon
  */
-Weapon::Weapon(const QString name, const qint64 energyConsumption, const Vector2 dimensions, Sprites::SpriteImage sprite) {
+Weapon::Weapon(const QString name, const qint64 energyConsumption, const qint64 delay, const Vector2 dimensions, Sprites::SpriteImage sprite) {
     this->name = name;
     this->energyConsumption = energyConsumption;
+    this->delay = (delay > 0) ? delay : 1;
     this->dimensions = dimensions;
     this->sprite = new Sprite(sprite);
 }
@@ -20,8 +22,7 @@ Weapon::Weapon(const QString name, const qint64 energyConsumption, const Vector2
  * 
  * @param other Another weapon
  */
-Weapon::Weapon(const Weapon& other) {
-    this->dimensions = other.dimensions;
+Weapon::Weapon(const Weapon& other) : dimensions(other.dimensions), energyConsumption(other.energyConsumption), delay(other.delay), name(other.name) {
     this->sprite = new Sprite(*other.sprite);
 }
 
@@ -86,4 +87,8 @@ qint64 Weapon::getConsumption() const {
  */
 QString Weapon::getName() const {
     return name;
+}
+
+qint64 Weapon::getDelay() const {
+    return delay;
 }

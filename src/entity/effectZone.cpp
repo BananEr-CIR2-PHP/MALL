@@ -75,7 +75,8 @@ void EffectZone::onCollide(Entity* other) {
             break;
 
         case Effects::EffectType::Repel:
-            if (!dynamic_cast<Missile*>(other)) {
+            // Do not repel missiles or other effect zones
+            if (! (dynamic_cast<Missile*>(other) || dynamic_cast<EffectZone*>(other))) {
                 repelEntity(other);
             }
             break;

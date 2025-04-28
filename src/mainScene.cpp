@@ -14,7 +14,7 @@
  */
 MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     // Scene options
-    setSceneRect(0, 0, 1000, 1000);       // Scene size
+    setSceneRect(0, 0, 900, 900);       // Scene size
     setItemIndexMethod(QGraphicsScene::NoIndex);      // Collision detection method : linear
     entities = new QList<Entity*>();
 
@@ -135,14 +135,42 @@ void MainScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     if (mainPlayer) {
         switch (event->button()) {
             case Qt::LeftButton:
-                // Player action: use weapon in direction of mouse7
+                // Player action: player is now using weapon
                 QPointF mousePos = event->scenePos();
-                mainPlayer->actionUseWeapon(Vector2(mousePos.x(), mousePos.y()) - mainPlayer->getPos());
+                // mainPlayer->actionUseWeapon(Vector2(mousePos.x(), mousePos.y()) - mainPlayer->getPos());
+                mainPlayer->actionSetUsingWeapon(true);
+                mainPlayer->actionSetTargetDirection(Vector2(mousePos) - mainPlayer->getPos());
                 break;
         }
     }
 
     QGraphicsScene::mousePressEvent(event);
+}
+
+/**
+ * Handle mouse release event
+ */
+void MainScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+    if (mainPlayer) {
+        switch (event->button()) {
+            case Qt::LeftButton:
+                // Player action: player is no longer using weapon
+                mainPlayer->actionSetUsingWeapon(false);
+                break;
+        }
+    }
+
+    QGraphicsScene::mouseReleaseEvent(event);
+}
+
+/**
+ * Handle mouse move event
+ */
+void MainScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
+    if (mainPlayer) {
+        QPointF mousePos = event->scenePos();
+        mainPlayer->actionSetTargetDirection(Vector2(mousePos) - mainPlayer->getPos());
+    }
 }
 
 /**

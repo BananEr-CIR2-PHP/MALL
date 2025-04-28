@@ -21,16 +21,18 @@ private:
     qreal upKeyPressed = 0;
     qreal downKeyPressed = 0;
     bool grabKeyPressed = false;
+    bool useWeaponKeyPressed = false;
+    Vector2 targetDir = Vector2::right;
 
     Weapon* weapon1 = nullptr;
     Weapon* weapon2 = nullptr;
     Weapon* droppedWeapon = nullptr;
     Inventory::WeaponSlot activeWeaponSlot = Inventory::WeaponSlot_1;
+    qint64 weaponDelay = 0;
 
     qint64 maxEnergy;
     qint64 energy;
-    
-    void initFlags();
+
     bool grabWeapon(Weapon* weapon, Inventory::WeaponSlot slot);
     bool dropWeapon(Inventory::WeaponSlot slot);
     bool hasWeapon(Inventory::WeaponSlot slot) const;
@@ -74,6 +76,8 @@ public:
     void actionSetUpMovement(qreal mvt);
     void actionSetDownMovement(qreal mvt);
     void actionSetGrabPress(bool isGrabbing);
+    void actionSetUsingWeapon(const bool isUsingWeapon);
+    void actionSetTargetDirection(const Vector2 direction);
     void actionChangeWeapon();
 };
 

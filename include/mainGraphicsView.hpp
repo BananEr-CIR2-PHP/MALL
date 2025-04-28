@@ -9,6 +9,7 @@ class MainGraphicsView : public QGraphicsView {
 public:
     MainGraphicsView(MainScene* scene, QWidget* parent = nullptr);
     ~MainGraphicsView();
+    void mouseMoveEvent(QMouseEvent* event) override;
 };
 
 #endif   // MAINGRAPHICSVIEW_HPP
