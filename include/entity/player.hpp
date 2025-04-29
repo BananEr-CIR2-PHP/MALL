@@ -14,6 +14,13 @@ namespace Inventory {
     };
 }
 
+namespace Inventory {
+    enum WeaponSlot {
+        WeaponSlot_1,
+        WeaponSlot_2
+    };
+}
+
 class Player : public LivingEntity {
 private:
     qreal leftKeyPressed = 0;
@@ -28,6 +35,7 @@ private:
     Weapon* weapon2 = nullptr;
     Weapon* droppedWeapon = nullptr;
     Inventory::WeaponSlot activeWeaponSlot = Inventory::WeaponSlot_1;
+
     qint64 weaponDelay = 0;
 
     qint64 maxEnergy;

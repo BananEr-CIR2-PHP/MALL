@@ -159,6 +159,7 @@ void LivingEntity::setLookingLeft(const bool lookingLeft) {
     }
 }
 
+
 /**
  * Set the speed of the entity
  * 

@@ -284,7 +284,6 @@ bool Player::onUpdate(qint64 deltaTime) {
             // Eventually use weapon
             actionUseWeapon(targetDir);
         }
-
         // Spawn shot bullets
         if (Weapon* activeWeapon = getActiveWeapon()) {
             wantSpawn = wantSpawn || activeWeapon->wantSpawn();
@@ -438,7 +437,7 @@ void Player::actionUseWeapon(Vector2 direction) {
         case Inventory::WeaponSlot_2:
             heldWeapon = weapon2;
             break;
-        
+
         default:
             heldWeapon = nullptr;
             break;
