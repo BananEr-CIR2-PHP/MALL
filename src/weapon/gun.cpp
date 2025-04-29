@@ -56,6 +56,7 @@ Gun::Gun(const Gun& other) :
  * 
  * @param name Name of weapon
  * @param energyConsumption Energy this weapon consumes on use
+ * @param delay Delay between two uses of this weapon (in milliseconds)
  * @param bulletRange Range of the bullets the gun shoots
  * @param bulletDamage Damage of the bullets the gun shoots
  * @param bulletPierces Whether if the bullets despawn on first hit or not
@@ -65,8 +66,8 @@ Gun::Gun(const Gun& other) :
  * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-Gun::Gun(const QString name, const qint64 energyConsumption, const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const QString bulletSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
-    Weapon(name, energyConsumption, dimensions, sprite), bulletRange(bulletRange), bulletDamage(bulletDamage), bulletPierces(bulletPierces),
+Gun::Gun(const QString name, const qint64 energyConsumption, const qint64 delay, const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const QString bulletSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+    Weapon(name, energyConsumption, delay, dimensions, sprite), bulletRange(bulletRange), bulletDamage(bulletDamage), bulletPierces(bulletPierces),
     bulletSpeed(bulletSpeed), bulletDimensions(bulletDimensions), bulletSprite(bulletSprite)
 {
 
@@ -91,6 +92,8 @@ void Gun::initValuesDefault() {
     bulletSprite = "";
     setSprite(Sprites::SpriteImage::None);
     dimensions = Vector2::zero;
+    energyConsumption = 0;
+    delay = 1;
 }
 
 /**
@@ -118,6 +121,7 @@ bool Gun::loadFromJSON(const QString& fileName) {
     QJsonObject rootObject = doc.object();
     name = rootObject["name"].toString();
     energyConsumption = rootObject["energy_consumption"].toInteger();
+    delay = rootObject["delay"].toInteger();
     bulletRange = rootObject["bullet_range"].toDouble();
     bulletDamage = rootObject["bullet_damage"].toDouble();
     bulletPierces = rootObject["bullet_pierces"].toBool();

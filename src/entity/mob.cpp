@@ -7,26 +7,29 @@
  */
 Mob::Mob() {
     damage = 0;
+    target = nullptr;
 }
 
 /** Copy constructor
  * 
  * @param other Another Mob
  */
-Mob::Mob(const Mob& other) : LivingEntity(other), damage(other.damage) { }
+Mob::Mob(const Mob& other) : LivingEntity(other), damage(other.damage), target(other.target) { }
 
 /**
  * Constructor
  * 
  * @param life Starting life of entity
  * @param damage Melee damage this mob deals
+ * @param speed Speed of mob
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  * @param team The team this entity belongs to
+ * @param playerTarget The target of this mob
  */
-Mob::Mob(const qreal life, const qreal damage, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) :
-    LivingEntity(life, position, dimensions, sprite, team), damage(damage)
+Mob::Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team, Player* playerTarget) :
+    LivingEntity(life, speed, position, dimensions, sprite, team), damage(damage), target(playerTarget)
 {
 
 }
@@ -50,7 +53,12 @@ void Mob::onDeath() {
  * 
  * @param other The entity this object collided with
  */
-void Mob::onCollide(Entity* other) { }
+void Mob::onCollide(Entity* other) {
+    // If colliding with a player, change target
+    if (Player* player = dynamic_cast<Player*>(other)) {
+        target = player;
+    }
+}
 
 /**
  * Called once per frame
@@ -59,6 +67,11 @@ void Mob::onCollide(Entity* other) { }
  * @return Whether this entity wants to spawn another entity or not
  */
 bool Mob::onUpdate(qint64 deltaTime) {
+    if (target) {
+        Vector2 movement = (target->getPos() - getPos()).normalized();
+        movement = movement * getSpeedMultiplier() * getSpeed() * deltaTime;
+        setPos(getPos() + movement);
+    }
     return LivingEntity::onUpdate(deltaTime);
 }
 

@@ -5,6 +5,8 @@
 #include "../include/weapon/rocketLauncher.hpp"
 #include "../include/mainScene.hpp"
 
+#define PLAYER_SPEED 0.1
+
 // --- CONSTRUCTORS/DESTRUCTORS ---
 
 /**
@@ -12,7 +14,7 @@
  */
 MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     // Scene options
-    setSceneRect(0, 0, 1000, 1000);       // Scene size
+    setSceneRect(0, 0, 900, 900);       // Scene size
     setItemIndexMethod(QGraphicsScene::NoIndex);      // Collision detection method : linear
     entities = new QList<Entity*>();
 
@@ -26,9 +28,11 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     it = new Item(Vector2(50, 50), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
     it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
     addEntity(it);
-    Player* pl = new Player(20, 2000, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
+    Player* pl = new Player(20, 2000, PLAYER_SPEED, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
     setControlledPlayer(pl);
     addEntity(pl);
+    Mob* mob = new Mob(20, 1, 0.05, Vector2(900, 900), Vector2(60, 60), Sprites::SpriteImage::Player, Teams::Ennemy, pl);
+    addEntity(mob);
 
     // Activate game loop
     deltaTime = (qint64) (1000/fps);
@@ -131,14 +135,42 @@ void MainScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     if (mainPlayer) {
         switch (event->button()) {
             case Qt::LeftButton:
-                // Player action: use weapon in direction of mouse7
+                // Player action: player is now using weapon
                 QPointF mousePos = event->scenePos();
-                mainPlayer->actionUseWeapon(Vector2(mousePos.x(), mousePos.y()) - mainPlayer->getPos());
+                // mainPlayer->actionUseWeapon(Vector2(mousePos.x(), mousePos.y()) - mainPlayer->getPos());
+                mainPlayer->actionSetUsingWeapon(true);
+                mainPlayer->actionSetTargetDirection(Vector2(mousePos) - mainPlayer->getPos());
                 break;
         }
     }
 
     QGraphicsScene::mousePressEvent(event);
+}
+
+/**
+ * Handle mouse release event
+ */
+void MainScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+    if (mainPlayer) {
+        switch (event->button()) {
+            case Qt::LeftButton:
+                // Player action: player is no longer using weapon
+                mainPlayer->actionSetUsingWeapon(false);
+                break;
+        }
+    }
+
+    QGraphicsScene::mouseReleaseEvent(event);
+}
+
+/**
+ * Handle mouse move event
+ */
+void MainScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
+    if (mainPlayer) {
+        QPointF mousePos = event->scenePos();
+        mainPlayer->actionSetTargetDirection(Vector2(mousePos) - mainPlayer->getPos());
+    }
 }
 
 /**

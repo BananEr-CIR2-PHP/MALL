@@ -12,6 +12,7 @@ private:
     Effect poisoned;
     Effect frozen;
 
+    qreal speed;
     bool isLookingLeft = false;
 
     void initEffects();
@@ -31,17 +32,19 @@ protected:
 public:
     // Constructors/destructors
     LivingEntity();
-    LivingEntity(qreal life, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
+    LivingEntity(qreal life, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
     ~LivingEntity();
 
     // Getters
     qreal getLife() const;
     qreal getMaxLife() const;
+    qreal getSpeed() const;
 
     // Setters
     void setLife(const qreal life);
     void setMaxLife(const qreal maxLife);
     void takeDamage(const qreal damage);
+    void setSpeed(const qreal speed);
 
     // Virtual methods
     virtual void onDeath() = 0;

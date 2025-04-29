@@ -58,6 +58,7 @@ RocketLauncher::RocketLauncher(const RocketLauncher& other) :
  * 
  * @param name Name of weapon
  * @param energyConsumption Energy this weapon consumes on use
+ * @param delay Delay between two uses of this weapon (in milliseconds)
  * @param rocketEffect Effect spawned on rocket hit
  * @param effectRange Range of effect spawned on rocket hit
  * @param rocketRange Range of rocket (max travel distance)
@@ -69,8 +70,8 @@ RocketLauncher::RocketLauncher(const RocketLauncher& other) :
  * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-RocketLauncher::RocketLauncher(const QString name, const qint64 energyConsumption, const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketDamage, const bool rocketPierces, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
-    Gun(name, energyConsumption, rocketRange, rocketDamage, rocketPierces, rocketSpeed, rocketDimensions, rocketSprite, dimensions, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
+RocketLauncher::RocketLauncher(const QString name, const qint64 energyConsumption, const qint64 delay, const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketDamage, const bool rocketPierces, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+    Gun(name, energyConsumption, delay, rocketRange, rocketDamage, rocketPierces, rocketSpeed, rocketDimensions, rocketSprite, dimensions, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
 {
 
 }
@@ -80,6 +81,7 @@ RocketLauncher::RocketLauncher(const QString name, const qint64 energyConsumptio
  * 
  * @param name Name of weapon
  * @param energyConsumption Energy this weapon consumes on use
+ * @param delay Delay between two uses of this weapon (in milliseconds)
  * @param rocketEffect Effect spawned on rocket hit
  * @param effectRange Range of effect spawned on rocket hit
  * @param rocketRange Range of rockets (max travel distance)
@@ -89,8 +91,8 @@ RocketLauncher::RocketLauncher(const QString name, const qint64 energyConsumptio
  * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-RocketLauncher::RocketLauncher(const QString name, const qint64 energyConsumption, const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
-    Gun(name, energyConsumption, rocketRange, 0, false, rocketSpeed, rocketDimensions, rocketSprite, dimensions, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
+RocketLauncher::RocketLauncher(const QString name, const qint64 energyConsumption, const qint64 delay, const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+    Gun(name, energyConsumption, delay, rocketRange, 0, false, rocketSpeed, rocketDimensions, rocketSprite, dimensions, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
 {
 
 }
@@ -136,6 +138,7 @@ bool RocketLauncher::loadFromJSON(const QString& fileName) {
     QJsonObject rootObject = doc.object();
     name = rootObject["name"].toString();
     energyConsumption = rootObject["energy_consumption"].toInteger();
+    delay = rootObject["delay"].toInteger();
     bulletRange = rootObject["bullet_range"].toDouble();
     bulletDamage = rootObject["bullet_damage"].toDouble();
     bulletPierces = rootObject["bullet_pierces"].toBool();

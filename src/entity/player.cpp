@@ -10,29 +10,27 @@
 Player::Player() {
     energy = 0;
     maxEnergy = 0;
-    initFlags();
 }
 
 /** Copy constructor
  * 
  * @param other Another Player
  */
-Player::Player(const Player& other) : LivingEntity(other), energy(other.energy), maxEnergy(other.maxEnergy) {
-    initFlags();
-}
+Player::Player(const Player& other) : LivingEntity(other), energy(other.energy), maxEnergy(other.maxEnergy) { }
 
 /**
  * Constructor
  * 
  * @param life Starting life of entity. Also used as starting max life. Use Player::DefaultLife for default
  * @param energy Starting energy of entity. Also starting max energy. Use Player::DefaultEnergy for default
+ * @param speed Speed of player
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  * @param team The team this entity belongs to
  */
-Player::Player(const qreal life, const qint64 energy, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : LivingEntity(life, position, dimensions, sprite, team), energy(energy), maxEnergy(energy) {
-    initFlags();
+Player::Player(const qreal life, const qint64 energy, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : LivingEntity(life, speed, position, dimensions, sprite, team), energy(energy), maxEnergy(energy) {
+
 }
 
 /**
@@ -243,14 +241,6 @@ Weapon* Player::getActiveWeapon() const {
     }
 }
 
-/**
- * Initialize player flags for inputs listening 
- */
-void Player::initFlags() {
-    setFlag(QGraphicsItem::ItemIsFocusable);
-    setFocus();
-}
-
 // --- INHERITED METHODS ---
 
 /**
@@ -286,6 +276,14 @@ bool Player::onUpdate(qint64 deltaTime) {
     bool wantSpawn = LivingEntity::onUpdate(deltaTime) || droppedWeapon;
 
     if (!isDead) {
+        // Decrease weapon cooldown
+        if (weaponDelay > 0) {
+            weaponDelay -= deltaTime;
+        }
+        else if (useWeaponKeyPressed) {
+            // Eventually use weapon
+            actionUseWeapon(targetDir);
+        }
         // Spawn shot bullets
         if (Weapon* activeWeapon = getActiveWeapon()) {
             wantSpawn = wantSpawn || activeWeapon->wantSpawn();
@@ -306,7 +304,7 @@ bool Player::onUpdate(qint64 deltaTime) {
         }
 
         // Update position
-        setPos(getPos() + direction * Player::DefaultSpeed * getSpeedMultiplier() * deltaTime);
+        setPos(getPos() + direction * getSpeed() * getSpeedMultiplier() * deltaTime);
     }
 
     return wantSpawn;
@@ -439,7 +437,7 @@ void Player::actionUseWeapon(Vector2 direction) {
         case Inventory::WeaponSlot_2:
             heldWeapon = weapon2;
             break;
-        
+
         default:
             heldWeapon = nullptr;
             break;
@@ -470,6 +468,7 @@ void Player::actionUseWeapon(Vector2 direction) {
             // Attack at the correct position and direction
             heldWeapon->attack(attackPos, direction, team);
             consumeEnergy(consumption);
+            weaponDelay = heldWeapon->getDelay();
         }
     }
 }
@@ -556,4 +555,24 @@ void Player::actionChangeWeapon() {
         }
     }
     update();
+}
+
+/**
+ * Player action:
+ * Set use weapon key press state
+ * 
+ * @param isUsingWeapon Weapon usage state
+ */
+void Player::actionSetUsingWeapon(const bool isUsingWeapon) {
+    useWeaponKeyPressed = isUsingWeapon;
+}
+
+/**
+ * Player action:
+ * Set direction to fire to.
+ * 
+ * @param direction Target direction. Does not need to be normalized.
+ */
+void Player::actionSetTargetDirection(const Vector2 direction) {
+    targetDir = direction.normalized();
 }
