@@ -9,17 +9,22 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLineEdit>
+#include <QTimer>
 #include <QScreen>
+#include "../mainScene.hpp"
+#include "../mainGraphicsView.hpp"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
     MainWindow(QWidget* parent = nullptr);
     virtual ~MainWindow(){};
+    void newGameClicked(MainScene *scene);
 private:
     QLineEdit* pseudoInput;
     QPushButton* newGame;
     QPushButton* quitGame;
     QPushButton* scoreBoard;
 };
+
 #endif

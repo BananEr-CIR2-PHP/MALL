@@ -1,21 +1,13 @@
 #include <iostream>
-#include <QWidget>
-#include <QApplication>
-#include <QMainWindow>
-#include <QMenu>
-#include <QMenuBar>
-#include <QPushButton>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QLineEdit>
-#include <QAbstractButton>
-#include <QMouseEvent>
-#include <QTimer>
-#include <QAbstractButton>
+#include "../include/mainGraphicsView.hpp"
 #include "../include/menu/mainWindow.hpp"
 #include "../include/mainScene.hpp"
-#include "../include/mainGraphicsView.hpp"
-#include "../include/entity/item.hpp"
+#include <QVBoxLayout>
+#include <QTimer>
+#include <QApplication>
+#include <QGraphicsView>
+
+
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
     this->setWindowTitle("MALL");
@@ -51,22 +43,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
         newGameClicked(&scene);
     });
 };
-
-int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
-    
-    MainWindow mWindow;
-    mWindow.showMaximized();
-
-    // Show scene example
-    // MainScene scene;       // container for QGraphicsItems
-
-    // MainGraphicsView view(&scene);         // Scrollable area
-    // view.setRenderHint(QPainter::Antialiasing);     // Use antialiasing when rendering
-  
+void MainWindow::newGameClicked(MainScene *scene){
+    MainGraphicsView view(scene);
+    view.setRenderHint(QPainter::Antialiasing);
     // QTimer timer;
     // QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
-    // timer.start(1000 / 33);     // 30 fps
-
-    return app.exec();
-};
+    // timer->start(1000 / 33);
+}
