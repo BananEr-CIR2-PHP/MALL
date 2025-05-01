@@ -165,9 +165,8 @@ void MainScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
             case Qt::LeftButton:
                 // Player action: player is now using weapon
                 QPointF mousePos = event->scenePos();
-                // mainPlayer->actionUseWeapon(Vector2(mousePos.x(), mousePos.y()) - mainPlayer->getPos());
                 mainPlayer->actionSetUsingWeapon(true);
-                mainPlayer->actionSetTargetDirection(Vector2(mousePos) - mainPlayer->getPos());
+                mainPlayer->actionSetTargetDirection(Vector2(mousePos) - mainPlayer->getCenterPos());
                 break;
         }
     }
@@ -197,7 +196,7 @@ void MainScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
 void MainScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
     if (mainPlayer) {
         QPointF mousePos = event->scenePos();
-        mainPlayer->actionSetTargetDirection(Vector2(mousePos) - mainPlayer->getPos());
+        mainPlayer->actionSetTargetDirection(Vector2(mousePos) - mainPlayer->getCenterPos());
     }
 }
 

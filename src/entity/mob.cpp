@@ -87,7 +87,7 @@ void Mob::onCollide(Entity* other) {
  */
 bool Mob::onUpdate(qint64 deltaTime) {
     if (target) {
-        Vector2 movement = (target->getPos() - getPos()).normalized();
+        Vector2 movement = (target->getCenterPos() - getCenterPos()).normalized();
         movement = movement * getSpeedMultiplier() * getSpeed() * deltaTime;
         setPos(getPos() + movement);
     }

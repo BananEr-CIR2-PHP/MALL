@@ -61,12 +61,21 @@ Entity::~Entity() {
 // --- GETTERS ---
 
 /**
- * Get position of entity
+ * Get position of entity (position of top left corner)
  * 
  * @return Position of the entity
  */
 Vector2 Entity::getPos() const {
     return position;
+}
+
+/**
+ * Get position of the center of the entity
+ * 
+ * @return Position of center of the entity
+ */
+Vector2 Entity::getCenterPos() const {
+    return position + dimensions/2;
 }
 
 /**

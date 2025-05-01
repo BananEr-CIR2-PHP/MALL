@@ -23,12 +23,12 @@ EffectZone::EffectZone(const EffectZone& other) : Entity(other), range(other.ran
  * Constructor
  * 
  * @param effect Effect of the zone
- * @param position Starting position of entity
+ * @param position Starting central position of effect zone
  * @param range Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
 EffectZone::EffectZone(Effect effect, const Vector2 position, const qreal range, Sprites::SpriteImage sprite) :
-    Entity(position, Vector2(2*range, 2*range), sprite), range(range), effect(effect)
+    Entity(position-Vector2(range, range), Vector2(2*range, 2*range), sprite), range(range), effect(effect)
 {
 
 }
@@ -37,11 +37,11 @@ EffectZone::EffectZone(Effect effect, const Vector2 position, const qreal range,
  * Constructor
  * 
  * @param effect Effect of the zone
- * @param position Starting position of entity
+ * @param position Starting central position of effect zone
  * @param range Collision box dimensions. Box is centered on position.
  */
 EffectZone::EffectZone(Effect effect, const Vector2 position, const qreal range) :
-    Entity(position, Vector2(2*range, 2*range), getEffectSprite(effect.getType())), range(range), effect(effect)
+    Entity(position-Vector2(range, range), Vector2(2*range, 2*range), getEffectSprite(effect.getType())), range(range), effect(effect)
 {
 
 }
@@ -155,7 +155,7 @@ Sprites::SpriteImage EffectZone::getEffectSprite(Effects::EffectType effectType)
  * @param entity The entity to repel
  */
 void EffectZone::repelEntity(Entity* entity) {
-    Vector2 vectorDistance = entity->getPos() - getPos();
+    Vector2 vectorDistance = entity->getCenterPos() - getCenterPos();
     qreal realDistance = vectorDistance.magnitude();
     qreal force = effect.getStrength() / (realDistance*realDistance);       // Formula: strength / distance²
 

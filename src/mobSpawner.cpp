@@ -123,7 +123,7 @@ Mob* MobSpawner::getSpawned(qint64 sceneTime, Player* target) {
         if (target) {
             qreal angle = QRandomGenerator64::global()->bounded(360.0);
             Vector2 direction = Vector2::right.rotate(angle);
-            newMob->setPos(target->getPos() + direction*spawnRange);
+            newMob->setPos(target->getPos() + direction*spawnRange + target->getDims()/2 - newMob->getDims()/2);
             newMob->setTarget(target);
         }
         return newMob;
