@@ -1,5 +1,6 @@
 #include <QRandomGenerator>
 #include "../include/mobSpawner.hpp"
+#include "../include/entity/rangedMob.hpp"
 
 #define SPAWNERINFO_PATH "../res/spawner/"
 
@@ -34,7 +35,9 @@ MobSpawner::~MobSpawner() {
  * Initialize the cache: mobs QMap
  */
 void MobSpawner::createMobsCache() {
-    mobs = Mob::loadAllMobs();
+    mobs = new QMap<QString, Mob*>();
+    Mob::loadAllMobs(mobs);
+    RangedMob::loadAllMobs(mobs);
 }
 
 /**
@@ -119,7 +122,7 @@ Mob* MobSpawner::getSpawned(qint64 sceneTime, Player* target) {
         }
 
         // Create mob
-        Mob* newMob = new Mob(*(mobs->value(mobName)));
+        Mob* newMob = mobs->value(mobName)->copy();
         if (target) {
             qreal angle = QRandomGenerator64::global()->bounded(360.0);
             Vector2 direction = Vector2::right.rotate(angle);

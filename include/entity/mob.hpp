@@ -19,11 +19,13 @@ public:
     Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None, Player* playerTarget = nullptr);
     ~Mob();
 
+    virtual Mob* copy() const;
+
     // Inherited methods
-    virtual void onDeath();
-    virtual void onCollide(Entity* other);
-    virtual bool onUpdate(qint64 deltaTime);
-    virtual Entity* getSpawned();
+    void onDeath() override;
+    void onCollide(Entity* other) override;
+    bool onUpdate(qint64 deltaTime) override;
+    Entity* getSpawned() override;
 
     qreal getDamage() const;
     void setTarget(Player* newTarget);
@@ -31,7 +33,9 @@ public:
     // Json contruction
     bool loadFromJson(const QJsonObject& mobObject);
     void initDefaultValues();
-    static QMap<QString, Mob*>* loadAllMobs();
+    static void loadAllMobs(QMap<QString, Mob*>* mobs);
+
+    void moveTowardTarget(qint64 deltaTime);
 };
 
 #endif   // MOB_HPP

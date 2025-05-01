@@ -7,6 +7,7 @@ qt_add_executable(Mall
     entity/missile.cpp
     entity/livingEntity.cpp
     entity/mob.cpp
+    entity/rangedMob.cpp
     entity/player.cpp
     entity/rocket.cpp
     entity/effectZone.cpp

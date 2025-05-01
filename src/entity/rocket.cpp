@@ -65,6 +65,15 @@ Rocket::~Rocket() {
     delete effect;
 }
 
+/**
+ * Copy rocket on a new pointer
+ * 
+ * @return This rocket, copied in a new pointer
+ */
+Missile* Rocket::copy() const {
+    return new Rocket(*this);
+}
+
 // --- Methods ---
 
 /**

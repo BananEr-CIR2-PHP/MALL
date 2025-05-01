@@ -266,3 +266,13 @@ qreal Vector2::angleWith(const Vector2 other) const {
     qreal sign = this->cross(other) > 0 ? 1 : -1;
     return sign * std::acos(this->dot(other) / (this->magnitude() / other.magnitude())) * 180 / M_PI;
 }
+
+/**
+ * Calculate the distance with another vector
+ * 
+ * @param other Another vector
+ * @return The distance between the two vectors
+ */
+qreal Vector2::distanceWith(const Vector2 other) const {
+    return (*this - other).magnitude();
+}

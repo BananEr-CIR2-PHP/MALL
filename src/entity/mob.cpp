@@ -58,6 +58,15 @@ Mob::Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 
  */
 Mob::~Mob() { }
 
+/**
+ * Copy mob on a new pointer
+ * 
+ * @return This mob, copied in a new pointer
+ */
+Mob* Mob::copy() const {
+    return new Mob(*this);
+}
+
 // --- INHERITED METHODS ---
 
 /**
@@ -86,11 +95,7 @@ void Mob::onCollide(Entity* other) {
  * @return Whether this entity wants to spawn another entity or not
  */
 bool Mob::onUpdate(qint64 deltaTime) {
-    if (target) {
-        Vector2 movement = (target->getCenterPos() - getCenterPos()).normalized();
-        movement = movement * getSpeedMultiplier() * getSpeed() * deltaTime;
-        setPos(getPos() + movement);
-    }
+    moveTowardTarget(deltaTime);
     return LivingEntity::onUpdate(deltaTime);
 }
 
@@ -151,23 +156,21 @@ void Mob::initDefaultValues() {
 /**
  * Static method. Load all mobs from the mobs json file
  * 
- * @return A map containing mobs ready to be copied
+ * @param mobs Adds all mobs, ready to be copied, to this map
  */
-QMap<QString, Mob*>* Mob::loadAllMobs() {
-    QMap<QString, Mob*>* mobs = new QMap<QString, Mob*>();
-
+void Mob::loadAllMobs(QMap<QString, Mob*>* mobs) {
     // Open file
     QFile file = QFile(MOBSINFO_FILE);      // Code reuse from gun.cpp
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "Failed to open file" << (MOBSINFO_FILE);
-        return mobs;    // Abort loading
+        return;    // Abort loading
     }
 
     // Parse JSON
     QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
     if (doc.isNull()) {
         qWarning() << "Failed to parse JSON data.";
-        return mobs;    // Abort loading
+        return;    // Abort loading
     }
 
     // Load all mobs
@@ -177,6 +180,17 @@ QMap<QString, Mob*>* Mob::loadAllMobs() {
         QString key = mobObject["name"].toString();
         mobs->insert(key, new Mob(mobsArray[i].toObject()));
     }
+}
 
-    return mobs;
+/**
+ * Move the mob towards the target, if any
+ * 
+ * @param deltaTime Time elapsed since last frame, in milliseconds
+ */
+void Mob::moveTowardTarget(qint64 deltaTime) {
+    if (target) {
+        Vector2 movement = (target->getCenterPos() - getCenterPos()).normalized();
+        movement = movement * getSpeedMultiplier() * getSpeed() * deltaTime;
+        setPos(getPos() + movement);
+    }
 }

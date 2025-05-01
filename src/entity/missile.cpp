@@ -58,6 +58,15 @@ Missile::Missile(const Vector2 velocity, const qreal range, const qreal damage, 
  */
 Missile::~Missile() { }
 
+/**
+ * Copy missile on a new pointer
+ * 
+ * @return This missile, copied in a new pointer
+ */
+Missile* Missile::copy() const {
+    return new Missile(*this);
+}
+
 // --- GETTERS ---
 
 /**

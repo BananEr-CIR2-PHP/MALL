@@ -18,6 +18,8 @@ public:
     Rocket(const Effect effect, const qreal effectRange, const Vector2 velocity, const qreal range, const Vector2 position, const Vector2 dimensions, const QString sprite = "", Teams::Team team = Teams::None);
     ~Rocket();
 
+    Missile* copy() const override;
+
     // Methods
     void explode();
 

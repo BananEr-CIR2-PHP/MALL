@@ -6,7 +6,7 @@
         "spawn": [
             {
                 "mob": "trollface",
-                "amount": 5
+                "amount": 3
             }
         ]
     },
@@ -14,8 +14,17 @@
         "trigger": 10000,
         "spawn": [
             {
-                "mob": "trollface",
-                "amount": 10
+                "mob": "mini_player",
+                "amount": 4
+            }
+        ]
+    },
+    {
+        "trigger": 15000,
+        "spawn": [
+            {
+                "mob": "mini_trollface",
+                "amount": 2
             }
         ]
     }

@@ -59,6 +59,7 @@ public:
     Vector2 projectOnto(const Vector2& other) const;
     Vector2 minimum(const Vector2 other) const;
     Vector2 maximum(const Vector2 other) const;
+    qreal distanceWith(const Vector2 other) const;
 };
 
 #endif   // VECTOR2_HPP
