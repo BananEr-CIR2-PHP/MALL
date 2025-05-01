@@ -1,0 +1,23 @@
+{
+"spawn_radius": 1000,
+"spawn": [
+    {
+        "trigger": 3000,
+        "spawn": [
+            {
+                "mob": "trollface",
+                "amount": 5
+            }
+        ]
+    },
+    {
+        "trigger": 10000,
+        "spawn": [
+            {
+                "mob": "trollface",
+                "amount": 10
+            }
+        ]
+    }
+]
+}

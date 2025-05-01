@@ -1,6 +1,8 @@
 #ifndef MOB_HPP
 #define MOB_HPP
 
+#include <QJsonObject>
+
 #include "livingEntity.hpp"
 #include "player.hpp"
 
@@ -13,6 +15,7 @@ public:
     // Constructors/destructors
     Mob();
     Mob(const Mob& other);
+    Mob(const QJsonObject& mobObject, Player* target = nullptr);
     Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None, Player* playerTarget = nullptr);
     ~Mob();
 
@@ -23,6 +26,12 @@ public:
     virtual Entity* getSpawned();
 
     qreal getDamage() const;
+    void setTarget(Player* newTarget);
+
+    // Json contruction
+    bool loadFromJson(const QJsonObject& mobObject);
+    void initDefaultValues();
+    static QMap<QString, Mob*>* loadAllMobs();
 };
 
 #endif   // MOB_HPP

@@ -135,6 +135,16 @@ void Entity::setDeleted(const bool del) {
     isDeleted = del;
 }
 
+/**
+ * Set a new sprite for this entity
+ * 
+ * @param filename Filename of the new sprite (should look like "foo.png")
+ */
+void Entity::setSprite(const QString& filename) {
+    delete sprite;
+    sprite = new Sprite(filename);
+}
+
 // --- GRAPHICS METHODS ---
 
 /**

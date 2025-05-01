@@ -1,0 +1,13 @@
+{
+"mobs": [
+    {
+        "name": "trollface",
+        "life": 20,
+        "damage": 1,
+        "speed": 0.08,
+        "dims_X": 60,
+        "dims_Y": 60,
+        "sprite": "trollface.png"
+    }
+]
+}

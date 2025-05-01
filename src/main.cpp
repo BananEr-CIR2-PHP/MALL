@@ -26,9 +26,9 @@ int main(int argc, char *argv[])
     // view.resize(1000, 1000);
     // view.show();
 
-    QTimer timer;
-    QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
-    timer.start(1000 / 33);     // 30 fps
+    // QTimer timer;
+    // QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
+    // timer.start(1000 / 33);     // 30 fps
 
     return app.exec();
 }

@@ -17,6 +17,7 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     setSceneRect(0, 0, 900, 900);       // Scene size
     setItemIndexMethod(QGraphicsScene::NoIndex);      // Collision detection method : linear
     entities = new QList<Entity*>();
+    setSpawner("level1.json");
 
     // Scene setup example
     Item* it = new Item(Vector2(50, 600), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
@@ -35,6 +36,7 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     addEntity(mob);
 
     // Activate game loop
+    sceneTime = 0;
     deltaTime = (qint64) (1000/fps);
     gameTimer = new QTimer(this);
     connect(gameTimer, &QTimer::timeout, this, &MainScene::gameLoop);
@@ -52,6 +54,7 @@ MainScene::~MainScene() {
     delete entities;
     disconnect(gameTimer, nullptr, nullptr, nullptr);       // Delete timer signal
     delete gameTimer;
+    delete mobSpawner;
 }
 
 // -- METHODS ---
@@ -113,12 +116,37 @@ void MainScene::cleanupScene() {
 }
 
 /**
+ * Spawn all the mobs that should spawn at this frame
+ */
+void MainScene::spawnMobWave() {
+    if (mobSpawner) {
+        Mob* newMob = mobSpawner->getSpawned(sceneTime, mainPlayer);
+        while (newMob != nullptr) {
+            addEntity(newMob);
+            newMob = mobSpawner->getSpawned(sceneTime, mainPlayer);
+        }
+    }
+}
+
+/**
  * Main game loop. Triggered every frame.
  */
 void MainScene::gameLoop() {
+    sceneTime += deltaTime;
     checkCollisions();
     updateEntities();
     cleanupScene();
+    spawnMobWave();
+}
+
+/**
+ * Set a new spawner for the scene
+ * 
+ * @param spawnerFilename File name of new spawner (should look like "foo.json")
+ */
+void MainScene::setSpawner(const QString& spawnerFilename) {
+    delete mobSpawner;
+    mobSpawner = new MobSpawner(spawnerFilename);
 }
 
 /**

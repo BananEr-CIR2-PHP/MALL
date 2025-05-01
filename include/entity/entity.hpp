@@ -39,6 +39,7 @@ public:
     void setPos(const Vector2 pos);
     void setDims(const Vector2 dims);
     void setDeleted(const bool del);
+    void setSprite(const QString& filename);
 
     // --- GRAPHICS METHODS ---
     virtual QRectF boundingRect() const;

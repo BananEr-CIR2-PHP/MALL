@@ -1,4 +1,10 @@
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QFile>
 #include "../../include/entity/mob.hpp"
+
+#define MOBSINFO_FILE "../res/mob/mobs.json"
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
 
@@ -6,8 +12,21 @@
  * Default constructor
  */
 Mob::Mob() {
-    damage = 0;
-    target = nullptr;
+    initDefaultValues();
+}
+
+/**
+ * Constructor
+ * Construct mob from a Json object
+ * 
+ * @param mobObject Json object to construct the mob from
+ */
+Mob::Mob(const QJsonObject& mobObject, Player* target) {
+    if (! loadFromJson(mobObject)) {
+        initDefaultValues();
+    }
+
+    this->target = target;
 }
 
 /** Copy constructor
@@ -91,4 +110,73 @@ Entity* Mob::getSpawned() {
  */
 qreal Mob::getDamage() const {
     return damage;
+}
+
+/**
+ * Set a new target for this mob.
+ * Mobs always exclusively attack towards their target
+ * 
+ * @param newTarget The new target for this mob
+ */
+void Mob::setTarget(Player* newTarget) {
+    target = newTarget;
+}
+
+// --- Json construction ---
+
+/**
+ * Load a mob from the given Json object
+ * 
+ * @param mobObject A Json object representing a mob
+ * @return True if succeeded, false otherwise
+ */
+bool Mob::loadFromJson(const QJsonObject& mobObject) {
+    setLife(mobObject["life"].toDouble());
+    damage = mobObject["damage"].toDouble();
+    setSpeed(mobObject["speed"].toDouble());
+    setDims(Vector2(mobObject["dims_X"].toDouble(), mobObject["dims_Y"].toDouble()));
+    setSprite(mobObject["sprite"].toString());
+
+    return true;
+}
+
+/**
+ * Initialize default values for this mob
+ */
+void Mob::initDefaultValues() {
+    damage = 0;
+    target = nullptr;
+}
+
+/**
+ * Static method. Load all mobs from the mobs json file
+ * 
+ * @return A map containing mobs ready to be copied
+ */
+QMap<QString, Mob*>* Mob::loadAllMobs() {
+    QMap<QString, Mob*>* mobs = new QMap<QString, Mob*>();
+
+    // Open file
+    QFile file = QFile(MOBSINFO_FILE);      // Code reuse from gun.cpp
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Failed to open file" << (MOBSINFO_FILE);
+        return mobs;    // Abort loading
+    }
+
+    // Parse JSON
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    if (doc.isNull()) {
+        qWarning() << "Failed to parse JSON data.";
+        return mobs;    // Abort loading
+    }
+
+    // Load all mobs
+    QJsonArray mobsArray = doc.object()["mobs"].toArray();
+    for (qsizetype i=0; i<mobsArray.size(); i++) {
+        QJsonObject mobObject = mobsArray[i].toObject();
+        QString key = mobObject["name"].toString();
+        mobs->insert(key, new Mob(mobsArray[i].toObject()));
+    }
+
+    return mobs;
 }
