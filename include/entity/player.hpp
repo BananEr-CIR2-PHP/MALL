@@ -14,13 +14,6 @@ namespace Inventory {
     };
 }
 
-namespace Inventory {
-    enum WeaponSlot {
-        WeaponSlot_1,
-        WeaponSlot_2
-    };
-}
-
 class Player : public LivingEntity {
 private:
     qreal leftKeyPressed = 0;
