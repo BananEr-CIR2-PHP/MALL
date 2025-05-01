@@ -121,22 +121,10 @@ Entity* Rocket::getSpawned() {
     if (getDeleted() && effect != nullptr) {
         EffectZone* effectZone;
 
-        // After explosion damage, repel entities
-        if (effect->getType() == Effects::EffectType::Boom) {
-            qreal repelDuration = effect->getDurationLeft();
-            qreal effectStrength = effect->getStrength();
-
-            effect->setDuration(1);     // Lasts one frame
-            effectZone = new EffectZone(*effect, getCenterPos(), effectRange);
-            
-            delete effect;
-            effect = new Effect(Effects::EffectType::Repel, effectStrength, repelDuration);
-        }
-        else {
-            effectZone = new EffectZone(*effect, getCenterPos(), effectRange);
-            delete effect;
-            effect = nullptr;
-        }
+        // Spawn an effect
+        effectZone = new EffectZone(*effect, getCenterPos(), effectRange);
+        delete effect;
+        effect = nullptr;
 
         return effectZone;
     }

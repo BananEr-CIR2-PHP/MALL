@@ -5,7 +5,7 @@
     "bullet_range": 400,
     "bullet_damage": 0,
     "bullet_pierces": false,
-    "bullet_speed": 0.1,
+    "bullet_speed": 0.3,
     "bullet_dims_X": 30,
     "bullet_dims_Y": 30,
     "bullet_sprite": "coin.png",
@@ -13,7 +13,7 @@
     "dims_Y": 40,
     "sprite": "player.png",
     "effect_type": "Boom",
-    "effect_strength": 10000,
+    "effect_strength": 20,
     "effect_duration": 1500,
-    "effect_range": 30
+    "effect_range": 60
 }

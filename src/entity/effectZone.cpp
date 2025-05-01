@@ -1,6 +1,13 @@
+#include <QtGlobal>
 #include "../../include/entity/effectZone.hpp"
 #include "../../include/entity/livingEntity.hpp"
 #include "../../include/entity/missile.hpp"
+
+#define MIN_FORCE_STRENGTH 0.1
+#define MAX_FORCE_STRENGTH 10.0
+#define FORCE_FACTOR 5000
+
+// TODO: fix known issue: Bottom right corner of effect zone seem to be broken
 
 // --- CONSTRUCTOR/DESTRUCTOR ---
 
@@ -81,10 +88,16 @@ void EffectZone::onCollide(Entity* other) {
             }
             break;
 
+        case Effects::EffectType::Boom:
+            // Do not repel missiles or other effect zones
+            if (! (dynamic_cast<Missile*>(other) || dynamic_cast<EffectZone*>(other))) {
+                repelEntity(other);
+            }
+            // Do not break here, we also want to give the boom effect
+
         case Effects::EffectType::Burning:
         case Effects::EffectType::Poisoned:
         case Effects::EffectType::Frozen:
-        case Effects::EffectType::Boom:
             if (LivingEntity* ent = dynamic_cast<LivingEntity*>(other)) {
                 // Effect duration is handled by the living entity. If frozen, keep effect zone duration left
                 ent->giveEffect(effect);
@@ -100,22 +113,11 @@ void EffectZone::onCollide(Entity* other) {
  * @return Whether this entity wants to spawn another entity or not
  */
 bool EffectZone::onUpdate(qint64 deltaTime) {
-    // Boom effect only lasts one frame
-    if (effect.getType() == Effects::EffectType::Boom) {
-        if (effect.hasDied()) {
-            setDeleted(true);
-        }
-        else {
-            effect.setDuration(0);
-        }
-    }
-    else {
-        // Other effects: Decrease effect duration left and vanish if no time left
-        effect.decreaseDuration(deltaTime);
+    // Decrease effect duration left and vanish if no time left
+    effect.decreaseDuration(deltaTime);
 
-        if (effect.hasDied()) {
-            setDeleted(true);
-        }
+    if (effect.hasDied()) {
+        setDeleted(true);
     }
 
     return false;
@@ -138,7 +140,7 @@ Entity* EffectZone::getSpawned() {
 Sprites::SpriteImage EffectZone::getEffectSprite(Effects::EffectType effectType) {
     Sprites::SpriteImage img;
     switch (effectType) {
-        case Effects::EffectType::Repel:
+        case Effects::EffectType::Boom:
             img = Sprites::SpriteImage::BoomZone;
             break;
 
@@ -156,8 +158,10 @@ Sprites::SpriteImage EffectZone::getEffectSprite(Effects::EffectType effectType)
  */
 void EffectZone::repelEntity(Entity* entity) {
     Vector2 vectorDistance = entity->getCenterPos() - getCenterPos();
-    qreal realDistance = vectorDistance.magnitude();
-    qreal force = effect.getStrength() / (realDistance*realDistance);       // Formula: strength / distance²
+    qreal squaredDistance = vectorDistance.sqrMagnitude();
+
+    qreal force = FORCE_FACTOR * effect.getStrength() / squaredDistance;       // Formula: strength / distance²
+    force = qMin(qMax(force, MIN_FORCE_STRENGTH), MAX_FORCE_STRENGTH);      // Clamp force
 
     entity->setPos(entity->getPos() + vectorDistance.normalized()*force);
 }
