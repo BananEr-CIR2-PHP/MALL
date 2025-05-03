@@ -99,6 +99,15 @@ qreal LivingEntity::getSpeed() const {
     return speed;
 }
 
+/**
+ * Know whether this entity is dead or not
+ * 
+ * @return Whether this entity is in a dead state or not
+ */
+bool LivingEntity::getIsDead() const {
+    return isDead;
+}
+
 // --- SETTERS ---
 
 /**

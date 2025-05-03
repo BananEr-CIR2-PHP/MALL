@@ -1,9 +1,9 @@
 #include "../include/entity/item.hpp"
 #include "../include/entity/player.hpp"
 #include "../include/entity/mob.hpp"
-#include "../include/entity/rocket.hpp"
-#include "../include/weapon/rocketLauncher.hpp"
+#include "../include/weapon/gun.hpp"
 #include "../include/mainScene.hpp"
+#include "../include/lootTables.hpp"
 
 #define PLAYER_SPEED 0.1
 
@@ -19,19 +19,13 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     entities = new QList<Entity*>();
     setSpawner("level1.json");
 
+    // Generate caches
     Item::generateCache();
-
-    // Scene setup example
-    Item* it = new Item(Vector2(50, 600), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
-    it->setWeapon(new RocketLauncher(WeaponType::RocketLauncherType::Bazooka));
-    addEntity(it);
-    it = Item::create("Weapon", Vector2(50, 50));
-    it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
-    addEntity(it);
-    it = Item::create("Small HP potion", Vector2(500, 500));
-    addEntity(it);
+    LootTables::generateTables();
     
+    // Initialize player
     Player* pl = new Player(20, 2000, 0, PLAYER_SPEED, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
+    pl->grabWeapon(new Gun(WeaponType::GunType::DesertEagle), Inventory::WeaponSlot_1);
     setControlledPlayer(pl);
     addEntity(pl);
 
@@ -56,6 +50,7 @@ MainScene::~MainScene() {
     delete gameTimer;
     delete mobSpawner;
     Item::deleteCache();      // Delete the cache (should occur automatically, but we delete it just in case)
+    LootTables::deleteTables();
 }
 
 // -- METHODS ---
@@ -138,6 +133,10 @@ void MainScene::gameLoop() {
     updateEntities();
     cleanupScene();
     spawnMobWave();
+
+    if (mainPlayer && mainPlayer->getIsDead()) {
+        // TODO: react to player death
+    }
 }
 
 /**

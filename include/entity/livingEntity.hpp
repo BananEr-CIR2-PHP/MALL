@@ -39,6 +39,7 @@ public:
     qreal getLife() const;
     qreal getMaxLife() const;
     qreal getSpeed() const;
+    bool getIsDead() const;
 
     // Setters
     void setLife(const qreal life);

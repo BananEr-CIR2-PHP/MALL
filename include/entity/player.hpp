@@ -36,7 +36,6 @@ private:
 
     qint64 gold;
 
-    bool grabWeapon(Weapon* weapon, Inventory::WeaponSlot slot);
     bool dropWeapon(Inventory::WeaponSlot slot);
     bool hasWeapon(Inventory::WeaponSlot slot) const;
     Weapon* getActiveWeapon() const;
@@ -54,6 +53,7 @@ public:
 
     // Methods
     bool gatherItem(Item* item);
+    bool grabWeapon(Weapon* weapon, Inventory::WeaponSlot slot);
 
     // Getters/Setters
     qint64 getEnergy() const;
