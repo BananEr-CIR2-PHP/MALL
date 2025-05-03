@@ -31,7 +31,7 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     it = Item::create("Small HP potion", Vector2(500, 500));
     addEntity(it);
     
-    Player* pl = new Player(20, 2000, PLAYER_SPEED, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
+    Player* pl = new Player(20, 2000, 0, PLAYER_SPEED, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
     setControlledPlayer(pl);
     addEntity(pl);
 

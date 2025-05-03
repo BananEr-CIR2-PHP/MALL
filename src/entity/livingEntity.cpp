@@ -106,18 +106,16 @@ qreal LivingEntity::getSpeed() const {
  * 
  * @param life New life of the entity
  */
-void LivingEntity::setLife(const qreal life) {
-    if (life > 0) {
-        if (life < maxLife) {
-            this->life = maxLife;   // Full heal
-        }
-        else {
-            this->life = life;
-        }
+void LivingEntity::setLife(const qreal newLife) {
+    if (newLife > maxLife) {
+        life = maxLife;
+    }
+    else if (newLife <= 0) {
+        life = 0;
+        this->onDeath();
     }
     else {
-        this->life = 0;     // Death
-        this->onDeath();
+        life = newLife;
     }
 }
 

@@ -34,6 +34,8 @@ private:
     qint64 maxEnergy;
     qint64 energy;
 
+    qint64 gold;
+
     bool grabWeapon(Weapon* weapon, Inventory::WeaponSlot slot);
     bool dropWeapon(Inventory::WeaponSlot slot);
     bool hasWeapon(Inventory::WeaponSlot slot) const;
@@ -47,7 +49,7 @@ public:
     // Constructors/destructors
     Player();
     Player(const Player& other);
-    Player(const qreal life, const qint64 energy, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
+    Player(const qreal life, const qint64 energy, const qint64 gold, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
     ~Player();
 
     // Methods
@@ -56,10 +58,12 @@ public:
     // Getters/Setters
     qint64 getEnergy() const;
     qint64 getMaxEnergy() const;
+    qint64 getGold() const;
 
     void setEnergy(const qint64 newEnergy);
     void consumeEnergy(const qint64 consumedEnergy);
     void setMaxEnergy(const qint64 newMaxEnergy);
+    void addGold(const qint64 amount);
 
     // Inherited methods
     void onDeath() override;

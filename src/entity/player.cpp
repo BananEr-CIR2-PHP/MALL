@@ -10,26 +10,30 @@
 Player::Player() {
     energy = 0;
     maxEnergy = 0;
+    gold = 0;
 }
 
 /** Copy constructor
  * 
  * @param other Another Player
  */
-Player::Player(const Player& other) : LivingEntity(other), energy(other.energy), maxEnergy(other.maxEnergy) { }
+Player::Player(const Player& other) : LivingEntity(other), energy(other.energy), maxEnergy(other.maxEnergy), gold(other.gold) { }
 
 /**
  * Constructor
  * 
  * @param life Starting life of entity. Also used as starting max life. Use Player::DefaultLife for default
  * @param energy Starting energy of entity. Also starting max energy. Use Player::DefaultEnergy for default
+ * @param gold Starting gold of player.
  * @param speed Speed of player
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  * @param team The team this entity belongs to
  */
-Player::Player(const qreal life, const qint64 energy, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : LivingEntity(life, speed, position, dimensions, sprite, team), energy(energy), maxEnergy(energy) {
+Player::Player(const qreal life, const qint64 energy, const qint64 gold, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) :
+    LivingEntity(life, speed, position, dimensions, sprite, team), energy(energy), maxEnergy(energy), gold(gold)
+{
 
 }
 
@@ -60,6 +64,15 @@ qint64 Player::getEnergy() const {
  */
 qint64 Player::getMaxEnergy() const {
     return maxEnergy;
+}
+
+/**
+ * Get the player amount of gold
+ * 
+ * @return Player gold amount
+ */
+qint64 Player::getGold() const {
+    return gold;
 }
 
 // --- SETTERS ---
@@ -110,6 +123,15 @@ void Player::setMaxEnergy(const qint64 newMaxEnergy) {
 }
 
 /**
+ * Add the given amount of gold to player's inventory
+ * 
+ * @param newGold The amount of gold to add
+ */
+void Player::addGold(const qint64 amount) {
+    gold += amount;
+}
+
+/**
  * Gather the given item
  * May fail if non-human circumstances are met (e.g.: gather more than 1 item per frame)
  * 
@@ -117,36 +139,46 @@ void Player::setMaxEnergy(const qint64 newMaxEnergy) {
  * @return True if succeeded, false otherwise. May fail if non-human circumstances are met (more than 1 grab per frame)
  */
 bool Player::gatherItem(Item* item) {
+    bool succeeded = false;
     if (!isDead) {
         // Player wants to gather only 1 item per key input
         grabKeyPressed = false;
 
         switch (item->getType()) {
             case ItemType::Gold:
-                // TODO
-                std::cout << "Gather GOLD!" << std::endl;
+                addGold(item->getStrength());
+                succeeded = true;
                 break;
             case ItemType::HPPotion:
-                // TODO
-                std::cout << "Healing!" << std::endl;
+                setLife(getLife() + item->getStrength());
+                succeeded = true;
                 break;
             case ItemType::EnergyPotion:
-                // TODO
-                std::cout << "Recover energy!" << std::endl;
+                setEnergy(getEnergy() + item->getStrength());
+                succeeded = true;
                 break;
             case ItemType::Weapon:
                 // If item has a weapon and player can drop its active weapon
                 if (item->hasWeapon() && dropWeapon(activeWeaponSlot)) {
                     grabWeapon(item->takeWeapon(), activeWeaponSlot);
-                    item->setDeleted(true);
-                    return true;
+                    succeeded = true;
                 }
                 else {
-                    return false;
+                    succeeded = false;
                 }
+                break;
+            default:
+                succeeded = false;
+                break;
         }
     }
-    return false;
+    else {
+        succeeded = false;
+    }
+    if (succeeded) {
+        item->setDeleted(true);
+    }
+    return succeeded;
 }
 
 /**
