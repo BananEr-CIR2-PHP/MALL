@@ -20,7 +20,8 @@
             "dims_X": 50,
             "dims_Y": 15,
             "sprite": "coin.png"
-        }
+        },
+        "loot_table": "common_mob.json"
     },
     {
         "name": "mini_trollface",
@@ -46,7 +47,8 @@
             "dims_X": 30,
             "dims_Y": 30,
             "sprite": "coin.png"
-        }
+        },
+        "loot_table": "rare_mob.json"
     }
 ]
 }

@@ -33,7 +33,7 @@ public:
     Vector2 getPos() const;
     Vector2 getCenterPos() const;
     Vector2 getDims() const;
-    bool getDeleted() const;
+    virtual bool getDeleted() const;
     Teams::Team getTeam() const;
 
     // Setters

@@ -112,10 +112,17 @@ Item* Item::create(const QString& itemName, const Vector2 position) {
     if (itemsCache == nullptr) {
         generateCache();
     }
-    Item* product = itemsCache->value(itemName);
-    product = product->copy();
-    product->setPos(position);
-    return product;
+    Item* product;
+    if (itemsCache->contains(itemName)) {
+        product = itemsCache->value(itemName)->copy();
+        product->setPos(position);
+        return product;
+    }
+    else {
+        qWarning() << "Item " << itemName << " is unknown";
+        product = new Item();   // Default item
+        return product;
+    }
 }
 
 void Item::loadDefaultValues() {
@@ -301,6 +308,15 @@ QString Item::getName() const {
  */
 qint64 Item::getStrength() const {
     return itemStrength;
+}
+
+/**
+ * Know if this item is empty or not.
+ * 
+ * @return Whether this item is empty or not
+ */
+bool Item::isEmpty() const {
+    return itemType == ItemType::None;
 }
 
 // --- SETTERS ---

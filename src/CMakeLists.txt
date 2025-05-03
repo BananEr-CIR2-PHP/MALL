@@ -16,6 +16,7 @@ qt_add_executable(Mall
     weapon/gun.cpp
     weapon/rocketLauncher.cpp
     mobSpawner.cpp
+    lootTables.cpp
     mainScene.cpp
     ../include/mainScene.hpp    # Useful for Automoc
     mainGraphicsView.cpp

@@ -1,0 +1,36 @@
+{
+"items": [
+    {
+        "item": "Nothing",
+        "weight": 50
+    },
+    {
+        "item": "Small HP potion",
+        "weight": 5
+    },
+    {
+        "item": "Medium HP potion",
+        "weight": 8
+    },
+    {
+        "item": "Small energy potion",
+        "weight": 5
+    },
+    {
+        "item": "Medium energy potion",
+        "weight": 8
+    },
+    {
+        "item": "Bronze coin",
+        "weight": 5
+    },
+    {
+        "item": "Silver coin",
+        "weight": 8
+    },
+    {
+        "item": "Weapon",
+        "weight": 10
+    }
+]
+}

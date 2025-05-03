@@ -74,6 +74,7 @@ bool RangedMob::loadFromJson(const QJsonObject& mobObject) {
     setSpeed(mobObject["speed"].toDouble());
     setDims(Vector2(mobObject["dims_X"].toDouble(), mobObject["dims_Y"].toDouble()));
     setSprite(mobObject["sprite"].toString());
+    setLootTable(mobObject["loot_table"].toString());
 
     fireCooldown = mobObject["fire_cooldown"].toInteger();
     minShootingDistance = mobObject["min_shoot_distance"].toDouble();
@@ -195,7 +196,7 @@ bool RangedMob::onUpdate(qint64 deltaTime)  {
         }
     }
 
-    return bulletSpawn || LivingEntity::onUpdate(deltaTime);
+    return LivingEntity::onUpdate(deltaTime) || bulletSpawn || loot;
 }
 
 /**
@@ -205,7 +206,12 @@ bool RangedMob::onUpdate(qint64 deltaTime)  {
  * @return Pointer to the new entity. nullptr if no other entity to spawn.
  */
 Entity* RangedMob::getSpawned() {
-    Missile* newMissile = bulletSpawn;
-    bulletSpawn = nullptr;
-    return newMissile;
+    if (bulletSpawn) {
+        Missile* newMissile = bulletSpawn;
+        bulletSpawn = nullptr;
+        return newMissile;
+    }
+    else {
+        return Mob::getSpawned();
+    }    
 }

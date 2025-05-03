@@ -33,7 +33,7 @@ Mob::Mob(const QJsonObject& mobObject, Player* target) {
  * 
  * @param other Another Mob
  */
-Mob::Mob(const Mob& other) : LivingEntity(other), damage(other.damage), target(other.target) { }
+Mob::Mob(const Mob& other) : LivingEntity(other), damage(other.damage), target(other.target), lootTable(other.lootTable) { }
 
 /**
  * Constructor
@@ -45,10 +45,11 @@ Mob::Mob(const Mob& other) : LivingEntity(other), damage(other.damage), target(o
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  * @param team The team this entity belongs to
+ * @param lootTable Loot table to pick loots from
  * @param playerTarget The target of this mob
  */
-Mob::Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team, Player* playerTarget) :
-    LivingEntity(life, speed, position, dimensions, sprite, team), damage(damage), target(playerTarget)
+Mob::Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team, const QString& lootTable, Player* playerTarget) :
+    LivingEntity(life, speed, position, dimensions, sprite, team), damage(damage), lootTable(lootTable), target(playerTarget)
 {
 
 }
@@ -56,7 +57,9 @@ Mob::Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 
 /**
  * Destructor
  */
-Mob::~Mob() { }
+Mob::~Mob() {
+    delete loot;
+}
 
 /**
  * Copy mob on a new pointer
@@ -73,7 +76,16 @@ Mob* Mob::copy() const {
  * Called on death of this entity
  */
 void Mob::onDeath() {
-    setDeleted(true);
+    // Can't die multiple times
+    if (! isDeleted) {
+        setDeleted(true);
+        delete loot;
+        loot = getRandomLoot();
+        if (loot->isEmpty()) {
+            delete loot;
+            loot = nullptr;
+        }
+    }
 }
 
 /**
@@ -96,7 +108,7 @@ void Mob::onCollide(Entity* other) {
  */
 bool Mob::onUpdate(qint64 deltaTime) {
     moveTowardTarget(deltaTime);
-    return LivingEntity::onUpdate(deltaTime);
+    return LivingEntity::onUpdate(deltaTime) || loot;
 }
 
 /**
@@ -105,7 +117,14 @@ bool Mob::onUpdate(qint64 deltaTime) {
  * @return Pointer to the new entity. nullptr if no other entity to spawn.
  */
 Entity* Mob::getSpawned() {
-    return nullptr;
+    if (loot) {
+        Item* newItem = loot;
+        loot = nullptr;
+        return newItem;
+    }
+    else {
+        return nullptr;
+    }
 }
 
 /**
@@ -118,6 +137,30 @@ qreal Mob::getDamage() const {
 }
 
 /**
+ * Get a random loot picked from the loot table
+ * 
+ * @return The looted item. Receiver becomes responsible of it.
+ */
+Item* Mob::getRandomLoot() const {
+    return Item::create(
+        LootTables::getRandomLoot(lootTable),
+        getPos()
+    );
+}
+
+/**
+ * Get deletion state of this entity
+ * True if it should be deleted within the game loop, false otherwise.
+ * Note: deletion state only applies to game logic. Entity may need to be deleted even though deletion state is false.
+ * 
+ * @return Whether this entity should be deleted or not
+ */
+bool Mob::getDeleted() const {
+    // Delay deletion: mob death timing may cause the item to fail looting
+    return LivingEntity::getDeleted() && !loot;
+}
+
+/**
  * Set a new target for this mob.
  * Mobs always exclusively attack towards their target
  * 
@@ -125,6 +168,15 @@ qreal Mob::getDamage() const {
  */
 void Mob::setTarget(Player* newTarget) {
     target = newTarget;
+}
+
+/**
+ * Set a new loot table for this mob
+ * 
+ * @param lootTable the new loot table
+ */
+void Mob::setLootTable(const QString& lootTable) {
+    this->lootTable = lootTable;
 }
 
 // --- Json construction ---
@@ -141,6 +193,7 @@ bool Mob::loadFromJson(const QJsonObject& mobObject) {
     setSpeed(mobObject["speed"].toDouble());
     setDims(Vector2(mobObject["dims_X"].toDouble(), mobObject["dims_Y"].toDouble()));
     setSprite(mobObject["sprite"].toString());
+    setLootTable(mobObject["loot_table"].toString());
 
     return true;
 }
@@ -151,6 +204,7 @@ bool Mob::loadFromJson(const QJsonObject& mobObject) {
 void Mob::initDefaultValues() {
     damage = 0;
     target = nullptr;
+    lootTable = "";
 }
 
 /**

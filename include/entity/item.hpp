@@ -63,6 +63,7 @@ public:
     bool hasWeapon() const;
     Weapon* takeWeapon();
     qint64 getStrength() const;
+    bool isEmpty() const;
 
     // Setters
     void setWeapon(Weapon* newWeapon);

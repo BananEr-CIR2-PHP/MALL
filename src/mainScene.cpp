@@ -34,8 +34,6 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     Player* pl = new Player(20, 2000, PLAYER_SPEED, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
     setControlledPlayer(pl);
     addEntity(pl);
-    Mob* mob = new Mob(20, 1, 0.05, Vector2(900, 900), Vector2(60, 60), Sprites::SpriteImage::Player, Teams::Ennemy, pl);
-    addEntity(mob);
 
     // Activate game loop
     sceneTime = 0;

@@ -1,6 +1,14 @@
 {
 "items": [
     {
+        "name": "Nothing",
+        "type": "None",
+        "strength": 0,
+        "sprite": "",
+        "dims_X": 0,
+        "dims_Y": 0
+    },
+    {
         "name": "Small HP potion",
         "type": "HP Potion",
         "strength": 5,
