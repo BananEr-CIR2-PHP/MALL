@@ -29,6 +29,8 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     setControlledPlayer(pl);
     addEntity(pl);
 
+    gameScore = 0;
+
     // Activate game loop
     sceneTime = 0;
     deltaTime = (qint64) (1000/fps);
@@ -104,7 +106,11 @@ void MainScene::cleanupScene() {
     for (qint64 i=0; i<entities->size(); i++) {
         Entity* entity = entities->at(i);
         if (entity->getDeleted()) {     // if entity has been removed
-            entities->removeAt(i);       // remove it
+            // If entity is a mob, add its score to global score
+            if (Mob* mob = dynamic_cast<Mob*>(entity)) {
+                gameScore += mob->getScoreValue();
+            }
+            entities->removeAt(i);       // remove the entity
             delete entity;
             i--;                        // Readjust i to avoid out of list bounds
         }
@@ -135,7 +141,7 @@ void MainScene::gameLoop() {
     spawnMobWave();
 
     if (mainPlayer && mainPlayer->getIsDead()) {
-        // TODO: react to player death
+        // TODO: react to player death. Use gameScore to get the total score of the game
     }
 }
 

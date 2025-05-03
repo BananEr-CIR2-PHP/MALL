@@ -33,7 +33,7 @@ Mob::Mob(const QJsonObject& mobObject, Player* target) {
  * 
  * @param other Another Mob
  */
-Mob::Mob(const Mob& other) : LivingEntity(other), damage(other.damage), target(other.target), lootTable(other.lootTable) { }
+Mob::Mob(const Mob& other) : LivingEntity(other), damage(other.damage), target(other.target), lootTable(other.lootTable), scoreValue(other.scoreValue) { }
 
 /**
  * Constructor
@@ -45,11 +45,12 @@ Mob::Mob(const Mob& other) : LivingEntity(other), damage(other.damage), target(o
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  * @param team The team this entity belongs to
+ * @param score The score value of this mob
  * @param lootTable Loot table to pick loots from
  * @param playerTarget The target of this mob
  */
-Mob::Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team, const QString& lootTable, Player* playerTarget) :
-    LivingEntity(life, speed, position, dimensions, sprite, team), damage(damage), lootTable(lootTable), target(playerTarget)
+Mob::Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team, const qint64 score, const QString& lootTable, Player* playerTarget) :
+    LivingEntity(life, speed, position, dimensions, sprite, team), damage(damage), scoreValue(score), lootTable(lootTable), target(playerTarget)
 {
 
 }
@@ -161,6 +162,15 @@ bool Mob::getDeleted() const {
 }
 
 /**
+ * Get score value of this mob
+ * 
+ * @return The score value of this mob
+ */
+qint64 Mob::getScoreValue() const {
+    return scoreValue;
+}
+
+/**
  * Set a new target for this mob.
  * Mobs always exclusively attack towards their target
  * 
@@ -179,6 +189,15 @@ void Mob::setLootTable(const QString& lootTable) {
     this->lootTable = lootTable;
 }
 
+/**
+ * Set the score value of this mob
+ * 
+ * @param value The new score value
+ */
+void Mob::setScoreValue(const qint64 value) {
+    scoreValue = value;
+}
+
 // --- Json construction ---
 
 /**
@@ -193,6 +212,7 @@ bool Mob::loadFromJson(const QJsonObject& mobObject) {
     setSpeed(mobObject["speed"].toDouble());
     setDims(Vector2(mobObject["dims_X"].toDouble(), mobObject["dims_Y"].toDouble()));
     setSprite(mobObject["sprite"].toString());
+    setScoreValue(mobObject["score"].toInteger());
     setLootTable(mobObject["loot_table"].toString());
 
     return true;
@@ -205,6 +225,7 @@ void Mob::initDefaultValues() {
     damage = 0;
     target = nullptr;
     lootTable = "";
+    scoreValue = 0;
 }
 
 /**

@@ -8,6 +8,7 @@
         "dims_X": 60,
         "dims_Y": 60,
         "sprite": "trollface.png",
+        "score": 1,
         "loot_table": "common_mob.json"
     }
 ]

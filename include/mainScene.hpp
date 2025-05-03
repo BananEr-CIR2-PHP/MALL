@@ -19,6 +19,8 @@ private:
     Player* mainPlayer = nullptr;
     MobSpawner* mobSpawner = nullptr;
 
+    qint64 gameScore = 0;   // Total score of the game
+
 protected:
     void addEntity(Entity* entity);
     void setControlledPlayer(Player* player);

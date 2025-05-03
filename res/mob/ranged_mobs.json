@@ -21,6 +21,7 @@
             "dims_Y": 15,
             "sprite": "coin.png"
         },
+        "score": 2,
         "loot_table": "common_mob.json"
     },
     {
@@ -48,6 +49,7 @@
             "dims_Y": 30,
             "sprite": "coin.png"
         },
+        "score": 5,
         "loot_table": "rare_mob.json"
     }
 ]

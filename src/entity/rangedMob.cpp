@@ -74,6 +74,7 @@ bool RangedMob::loadFromJson(const QJsonObject& mobObject) {
     setSpeed(mobObject["speed"].toDouble());
     setDims(Vector2(mobObject["dims_X"].toDouble(), mobObject["dims_Y"].toDouble()));
     setSprite(mobObject["sprite"].toString());
+    setScoreValue(mobObject["score"].toInteger());
     setLootTable(mobObject["loot_table"].toString());
 
     fireCooldown = mobObject["fire_cooldown"].toInteger();
