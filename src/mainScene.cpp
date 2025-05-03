@@ -19,16 +19,18 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     entities = new QList<Entity*>();
     setSpawner("level1.json");
 
+    Item::generateCache();
+
     // Scene setup example
     Item* it = new Item(Vector2(50, 600), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
     it->setWeapon(new RocketLauncher(WeaponType::RocketLauncherType::Bazooka));
     addEntity(it);
-    it = new Item(Vector2(50, 300), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
+    it = Item::create("Weapon", Vector2(50, 50));
     it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
     addEntity(it);
-    it = new Item(Vector2(50, 50), Vector2(50, 50), ItemType::Weapon, Sprites::SpriteImage::Coin);
-    it->setWeapon(new Gun(WeaponType::GunType::DesertEagle));
+    it = Item::create("Small HP potion", Vector2(500, 500));
     addEntity(it);
+    
     Player* pl = new Player(20, 2000, PLAYER_SPEED, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
     setControlledPlayer(pl);
     addEntity(pl);
@@ -55,6 +57,7 @@ MainScene::~MainScene() {
     disconnect(gameTimer, nullptr, nullptr, nullptr);       // Delete timer signal
     delete gameTimer;
     delete mobSpawner;
+    Item::deleteCache();      // Delete the cache (should occur automatically, but we delete it just in case)
 }
 
 // -- METHODS ---

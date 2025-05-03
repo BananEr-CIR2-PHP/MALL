@@ -1,13 +1,19 @@
 #include "../../include/entity/item.hpp"
 #include "../../include/entity/player.hpp"
 
+#define ITEMSINFO_FILE "../res/items.json"
+
 // --- CONSTRUCTOR/DESTRUCTOR ---
 
 /**
  * Default constructor
+ * @param belongsToCache Whether this item belongs to cache or not
  */
-Item::Item() {
-    itemType = ItemType::None;
+Item::Item(bool belongsToCache) : isInCache(belongsToCache) {
+    if (!belongsToCache) {
+        itemsCount += 1;
+    }
+    loadDefaultValues();
 }
 
 /**
@@ -15,8 +21,24 @@ Item::Item() {
  * 
  * @param other The entity to copy
  */
-Item::Item(const Item& other) : Entity(other), itemType(other.itemType) {
-    itemWeapon = other.itemWeapon->clone();
+Item::Item(const Item& other) : Entity(other), itemType(other.itemType), itemStrength(other.itemStrength), name(other.name) {
+    if (other.itemWeapon) {
+        itemWeapon = other.itemWeapon->clone();
+    }
+    else {
+        itemWeapon = nullptr;
+    }
+    isInCache = false;      // A copied item never belongs to cache
+    itemsCount += 1;
+}
+
+/**
+ * Copy self
+ * 
+ * @return self, copied
+ */
+Item* Item::copy() const {
+    return new Item(*this);
 }
 
 /**
@@ -26,11 +48,16 @@ Item::Item(const Item& other) : Entity(other), itemType(other.itemType) {
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param itemType Type of item 
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
+ * @param name Name of the item. Will be displayed when player collides with the item
+ * @param strength Strength of the item. Effect depends on the item type
+ * @param belongsToCache Whether this item belongs to cache or not
  */
-Item::Item(const Vector2 position, const Vector2 dimensions, ItemType::ItemType itemType, Sprites::SpriteImage sprite) :
-    Entity(position, dimensions, sprite), itemType(itemType) 
+Item::Item(const Vector2 position, const Vector2 dimensions, ItemType::ItemType itemType, Sprites::SpriteImage sprite, const QString& name, const qint64 strength, bool belongsToCache) :
+    Entity(position, dimensions, sprite), itemType(itemType), itemStrength(strength), name(name), isInCache(belongsToCache)
 {
-    setName(itemType);
+    if (!belongsToCache) {
+        itemsCount += 1;
+    }
 }
 
 /**
@@ -38,6 +65,63 @@ Item::Item(const Vector2 position, const Vector2 dimensions, ItemType::ItemType 
  */
 Item::~Item() {
     delete itemWeapon;
+    if (!isInCache) {
+        itemsCount -= 1;
+        if (itemsCount == 0) {
+            deleteCache();
+        }
+    }
+}
+
+/**
+ * Constructor. Build item based on a json object
+ * @param jsonItem Json item that should contain following informations:
+ * Only "type" if object is a weapon. You will need to call setWeapon() later. In other cases:
+ * "name": Name of item
+ * "type": Type of item
+ * "strength": strength ofitem. Effect depends on the type of item
+ * "sprite": Sprite image name of the item (should look like "foo.png")
+ * "dims_Y" and "dims_Y": dimensions of the item
+ * @param belongsToCache Whether this item belongs to cache or not
+ */
+Item::Item(const QJsonObject& jsonItem, bool belongsToCache) : isInCache(belongsToCache) {
+    if (!belongsToCache) {
+        itemsCount += 1;
+    }
+    setType(jsonItem["type"].toString());
+    if (itemType == ItemType::Weapon) {
+        name = "";
+        itemStrength = 0;
+    }
+    else {
+        name = jsonItem["name"].toString();
+        itemStrength = jsonItem["strength"].toInteger();
+        setSprite(jsonItem["sprite"].toString());
+        setDims(Vector2(jsonItem["dims_X"].toDouble(), jsonItem["dims_Y"].toDouble()));
+    }
+}
+
+/**
+ * Pattern factory. Loads informations from the cache.
+ * Calling this for the first time or after deleting the cache can be slow.
+ * See generateCache() to prebuild the cache
+ * 
+ * @param itemName Name of the item.
+ */
+Item* Item::create(const QString& itemName, const Vector2 position) {
+    if (itemsCache == nullptr) {
+        generateCache();
+    }
+    Item* product = itemsCache->value(itemName);
+    product = product->copy();
+    product->setPos(position);
+    return product;
+}
+
+void Item::loadDefaultValues() {
+    itemType = ItemType::None;
+    itemStrength = 0;
+    name = "";
 }
 
 // --- INHERITED METHODS ---
@@ -90,6 +174,8 @@ Entity* Item::getSpawned() {
  */
 void Item::paint(QPainter *painter, const QStyleOptionGraphicsItem* styleOption, QWidget* widget) {
     Vector2 dims = getDims();
+
+    // Paint name if any and if item should show its name
     if (showName) {
         QString displayName = getName();
         if (displayName != "") {    // If has a name
@@ -117,7 +203,12 @@ void Item::paint(QPainter *painter, const QStyleOptionGraphicsItem* styleOption,
         }
     }
     else {
-        Entity::paint(painter, styleOption, widget);
+        if (sprite != nullptr) {
+            QSharedPointer<QImage> image = sprite->getImage();
+            if (image != nullptr) {
+                painter->drawImage(Entity::boundingRect(), *image);
+            }
+        }
     }
 }
 
@@ -201,6 +292,17 @@ QString Item::getName() const {
     }
 }
 
+/**
+ * Get the strength of the item. Effect depends on the type of item.
+ * e.g. can be the strength of a potion or the amount of gold
+ * This contains any value that needs to be associated with the item
+ * 
+ * @return Strength of the item
+ */
+qint64 Item::getStrength() const {
+    return itemStrength;
+}
+
 // --- SETTERS ---
 
 /**
@@ -222,20 +324,61 @@ void Item::setWeapon(Weapon* newWeapon) {
 }
 
 /**
- * Set the name of the weapon based on item type
+ * Convert a string into an item type
  * 
- * @param itemType Type of item
+ * @param typeName Type of item as a string
  */
-void Item::setName(ItemType::ItemType itemType) {
-    switch (itemType) {
-        case ItemType::HPPotion:
-            name = "HP Potion";
-            break;
-        case ItemType::EnergyPotion:
-            name = "Energy Potion";
-            break;
-        default:
-            name = "";
-            break;
+void Item::setType(const QString& typeName) {
+    if (typeName == "HP Potion") {
+        itemType = ItemType::HPPotion;
     }
+    else if (typeName == "Energy Potion") {
+        itemType = ItemType::EnergyPotion;
+    }
+    else if (typeName == "Gold") {
+        itemType = ItemType::Gold;
+    }
+    else if (typeName == "Weapon") {
+        itemType = ItemType::Weapon;
+    }
+    else {
+        itemType = ItemType::None;
+    }
+}
+
+/**
+ * Generate item cache
+ */
+void Item::generateCache() {
+    itemsCache = new QMap<QString, Item*>();
+    // Open file
+    QFile file = QFile(ITEMSINFO_FILE);    // Copied from gun.cpp
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Failed to open file" << (ITEMSINFO_FILE);
+        return;
+    }
+
+    // Parse JSON
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    if (doc.isNull()) {
+        qWarning() << "Failed to parse JSON data.";
+        return;
+    }
+    // Load items
+    QJsonArray jsonItems = doc.object()["items"].toArray();
+    for (qsizetype i=0; i<jsonItems.size(); i++) {
+        QJsonObject jsonObj = jsonItems[i].toObject();
+        itemsCache->insert(jsonObj["name"].toString(), new Item(jsonObj, true));
+    }
+}
+
+/**
+ * Delete item cache
+ */
+void Item::deleteCache() {
+    if (itemsCache) {
+        qDeleteAll(*itemsCache);    // This function deletes all values, but not keys. Useful in this case.
+    }
+    delete itemsCache;
+    itemsCache = nullptr;
 }
