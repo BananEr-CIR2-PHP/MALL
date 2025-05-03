@@ -67,7 +67,7 @@ EffectZone::~EffectZone() { }
  */
 QPainterPath EffectZone::shape() const {
     QPainterPath path;
-    path.addEllipse(0, 0, range, range);
+    path.addEllipse(0, 0, 2*range, 2*range);
     return path;
 }
 
