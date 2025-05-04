@@ -1,4 +1,4 @@
-qt_add_executable(Mall
+qt_add_executable(Mall 
     main.cpp
     vector2.cpp
     sprite.cpp
