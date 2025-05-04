@@ -1,4 +1,5 @@
 {
+    "type": "Gun",
     "name": "Desert Eagle",
     "energy_consumption": 1,
     "delay": 250,

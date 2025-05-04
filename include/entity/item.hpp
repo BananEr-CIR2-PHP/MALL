@@ -8,6 +8,7 @@
 #include <QPainter>
 #include "entity.hpp"
 #include "../weapon/weapon.hpp"
+#include "../weapon/weaponType.hpp"
 
 namespace ItemType {
     enum ItemType {
@@ -31,6 +32,7 @@ private:
     bool isNameRectSet = false;
     QRectF nameRect;
     QString name = "";
+    QString weaponTable = "";   // Used by weapons in cache
 
     void loadDefaultValues();
 

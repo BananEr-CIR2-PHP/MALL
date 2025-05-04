@@ -43,6 +43,18 @@ RocketLauncher::RocketLauncher(const WeaponType::RocketLauncherType::RocketLaunc
 }
 
 /**
+ * Constructor
+ * 
+ * @param jsonObject Json object containing all rocket launcher infos
+ */
+RocketLauncher::RocketLauncher(const QJsonObject& jsonObject) {
+    if (! loadFromJSON(jsonObject)) {
+        qWarning() << "Failed to load Json rocket launcher object";
+        initValuesDefault();
+    }
+}
+
+/**
  * Copy constructor
  * 
  * @param other another Rocket launcher
@@ -134,25 +146,34 @@ bool RocketLauncher::loadFromJSON(const QString& fileName) {
         return false;
     }
 
+    return loadFromJSON(doc.object());
+}
+
+/**
+ * Load rocket launcher informations from JSON object
+ * 
+ * @param jsonObject JSON object to load info from
+ * @return True if succeeded, false otherwise
+ */
+bool RocketLauncher::loadFromJSON(const QJsonObject& jsonObject) {
     // Load attributes
-    QJsonObject rootObject = doc.object();
-    name = rootObject["name"].toString();
-    energyConsumption = rootObject["energy_consumption"].toInteger();
-    delay = rootObject["delay"].toInteger();
-    bulletRange = rootObject["bullet_range"].toDouble();
-    bulletDamage = rootObject["bullet_damage"].toDouble();
-    bulletPierces = rootObject["bullet_pierces"].toBool();
-    bulletSpeed = rootObject["bullet_speed"].toDouble();
-    bulletDimensions = Vector2(rootObject["bullet_dims_X"].toDouble(), rootObject["bullet_dims_Y"].toDouble());
-    bulletSprite = rootObject["bullet_sprite"].toString();
-    setSprite(rootObject["sprite"].toString());
-    dimensions = Vector2(rootObject["dims_X"].toDouble(), rootObject["dims_Y"].toDouble());
+    name = jsonObject["name"].toString();
+    energyConsumption = jsonObject["energy_consumption"].toInteger();
+    delay = jsonObject["delay"].toInteger();
+    bulletRange = jsonObject["bullet_range"].toDouble();
+    bulletDamage = jsonObject["bullet_damage"].toDouble();
+    bulletPierces = jsonObject["bullet_pierces"].toBool();
+    bulletSpeed = jsonObject["bullet_speed"].toDouble();
+    bulletDimensions = Vector2(jsonObject["bullet_dims_X"].toDouble(), jsonObject["bullet_dims_Y"].toDouble());
+    bulletSprite = jsonObject["bullet_sprite"].toString();
+    setSprite(jsonObject["sprite"].toString());
+    dimensions = Vector2(jsonObject["dims_X"].toDouble(), jsonObject["dims_Y"].toDouble());
     rocketEffect = Effect(
-        rootObject["effect_type"].toString(),
-        rootObject["effect_strength"].toDouble(),
-        rootObject["effect_duration"].toInteger()
+        jsonObject["effect_type"].toString(),
+        jsonObject["effect_strength"].toDouble(),
+        jsonObject["effect_duration"].toInteger()
     );
-    effectRange = rootObject["effect_range"].toDouble();
+    effectRange = jsonObject["effect_range"].toDouble();
 
     return true;
 }

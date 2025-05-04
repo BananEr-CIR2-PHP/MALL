@@ -40,6 +40,18 @@ Gun::Gun(const WeaponType::GunType::GunType gunType) {
 }
 
 /**
+ * Constructor
+ * 
+ * @param jsonGun Json object containing all gun infos
+ */
+Gun::Gun(const QJsonObject& jsonGun) {
+    if (! loadFromJSON(jsonGun)) {
+        qWarning() << "Failed to load gun json infos";
+        initValuesDefault();
+    }
+}
+
+/**
  * Copy contructor
  * 
  * @param other Another gun
@@ -118,18 +130,27 @@ bool Gun::loadFromJSON(const QString& fileName) {
     }
 
     // Load attributes
-    QJsonObject rootObject = doc.object();
-    name = rootObject["name"].toString();
-    energyConsumption = rootObject["energy_consumption"].toInteger();
-    delay = rootObject["delay"].toInteger();
-    bulletRange = rootObject["bullet_range"].toDouble();
-    bulletDamage = rootObject["bullet_damage"].toDouble();
-    bulletPierces = rootObject["bullet_pierces"].toBool();
-    bulletSpeed = rootObject["bullet_speed"].toDouble();
-    bulletDimensions = Vector2(rootObject["bullet_dims_X"].toDouble(), rootObject["bullet_dims_Y"].toDouble());
-    bulletSprite = rootObject["bullet_sprite"].toString();
-    setSprite(rootObject["sprite"].toString());
-    dimensions = Vector2(rootObject["dims_X"].toDouble(), rootObject["dims_Y"].toDouble());
+    return loadFromJSON(doc.object());
+}
+
+/**
+ * Load gun informations from JSON object
+ * 
+ * @param jsonGun JSON object to load info from
+ * @return True if succeeded, false otherwise
+ */
+bool Gun::loadFromJSON(const QJsonObject& jsonGun) {
+    name = jsonGun["name"].toString();
+    energyConsumption = jsonGun["energy_consumption"].toInteger();
+    delay = jsonGun["delay"].toInteger();
+    bulletRange = jsonGun["bullet_range"].toDouble();
+    bulletDamage = jsonGun["bullet_damage"].toDouble();
+    bulletPierces = jsonGun["bullet_pierces"].toBool();
+    bulletSpeed = jsonGun["bullet_speed"].toDouble();
+    bulletDimensions = Vector2(jsonGun["bullet_dims_X"].toDouble(), jsonGun["bullet_dims_Y"].toDouble());
+    bulletSprite = jsonGun["bullet_sprite"].toString();
+    setSprite(jsonGun["sprite"].toString());
+    dimensions = Vector2(jsonGun["dims_X"].toDouble(), jsonGun["dims_Y"].toDouble());
 
     return true;
 }

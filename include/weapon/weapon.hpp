@@ -3,6 +3,7 @@
 
 #include "../sprite.hpp"
 #include "../entity/entity.hpp"
+#include "weaponType.hpp"
 
 class Weapon {
 private:
@@ -20,6 +21,7 @@ protected:
     
 public:
     Weapon(const QString name = "", const qint64 energyConsumption = 0, const qint64 delay = 10, const Vector2 dimensions = Vector2::zero, Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
+    static Weapon* create(const QString& filename);
     virtual ~Weapon();
 
     virtual Weapon* clone() const = 0;
@@ -33,6 +35,7 @@ public:
     qint64 getConsumption() const;
     qint64 getDelay() const;
     QString getName() const;
+    bool isEmpty() const;
 };
 
 #endif   // WEAPON_HPP

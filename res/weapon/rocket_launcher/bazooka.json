@@ -1,4 +1,5 @@
 {
+    "type": "RocketLauncher",
     "name": "Bazooka",
     "energy_consumption": 3,
     "delay": 1200,

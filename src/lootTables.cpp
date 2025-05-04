@@ -25,6 +25,7 @@ void LootTables::generateTables() {
     addTable("common_mob.json");
     addTable("rare_mob.json");
     addTable("legendary_mob.json");
+    addTable("common_weapon.json");
 }
 
 /**

@@ -8,6 +8,7 @@
 class Gun : public Weapon {
 private:
     bool loadFromJSON(const QString& fileName);
+    bool loadFromJSON(const QJsonObject& jsonGun);
 
 protected:
     qreal bulletRange;
@@ -24,6 +25,7 @@ protected:
 
 public:
     Gun();
+    Gun(const QJsonObject& jsonGun);
     Gun(const WeaponType::GunType::GunType gunType);
     Gun(const QString name, const qint64 energyConsumption, const qint64 delay, const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const QString bulletSprite = "", Vector2 dimensions = Vector2::zero, const Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     ~Gun();

@@ -7,6 +7,7 @@
 class RocketLauncher : public Gun {
 private:
     bool loadFromJSON(const QString& fileName);
+    bool loadFromJSON(const QJsonObject& jsonRocketLauncher);
     
 protected:
     Effect rocketEffect;
@@ -17,6 +18,7 @@ protected:
     
 public:
     RocketLauncher();
+    RocketLauncher(const QJsonObject& jsonRocketLauncher);
     RocketLauncher(const WeaponType::RocketLauncherType::RocketLauncherType weaponType);
     RocketLauncher(const QString name, const qint64 energyConsumption, const qint64 delay, const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketDamage, const bool rocketPierces, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString rocketSprite = "", Vector2 dimensions = Vector2::zero, const Sprites::SpriteImage sprite = Sprites::SpriteImage::None);
     RocketLauncher(const QString name, const qint64 energyConsumption, const qint64 delay, const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString rocketSprite = "", Vector2 dimensions = Vector2::zero, const Sprites::SpriteImage sprite = Sprites::SpriteImage::None);

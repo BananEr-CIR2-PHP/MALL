@@ -2,6 +2,12 @@
 #define WEAPONTYPE_HPP
 
 namespace WeaponType {
+    enum WeaponType {
+        None,
+        Gun,
+        RocketLauncher
+    };
+
     namespace GunType {
         enum GunType {
             None,

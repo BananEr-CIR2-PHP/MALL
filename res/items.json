@@ -89,8 +89,9 @@
         "dims_Y": 50
     },
     {
-        "name": "Weapon",
-        "type": "Weapon"
+        "name": "Common weapon",
+        "type": "Weapon",
+        "loc": "common_weapon.json"
     }
 ]
 }

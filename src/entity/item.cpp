@@ -1,5 +1,8 @@
 #include "../../include/entity/item.hpp"
 #include "../../include/entity/player.hpp"
+#include "../../include/lootTables.hpp"
+
+#include <QDebug>
 
 #define ITEMSINFO_FILE "../res/items.json"
 
@@ -114,8 +117,19 @@ Item* Item::create(const QString& itemName, const Vector2 position) {
     }
     Item* product;
     if (itemsCache->contains(itemName)) {
-        product = itemsCache->value(itemName)->copy();
+        Item* cachedItem = itemsCache->value(itemName);
+        product = cachedItem->copy();
         product->setPos(position);
+
+        // If the product is a weapon
+        if (product->getType() == ItemType::Weapon) {
+            Weapon* weapon = Weapon::create(LootTables::getRandomLoot(cachedItem->weaponTable));
+            if (!weapon || weapon->isEmpty()) {
+                qWarning() << "Weapon at" << cachedItem->weaponTable << "is empty";
+            } else {
+                product->setWeapon(weapon);
+            }
+        }
         return product;
     }
     else {
@@ -384,7 +398,9 @@ void Item::generateCache() {
     QJsonArray jsonItems = doc.object()["items"].toArray();
     for (qsizetype i=0; i<jsonItems.size(); i++) {
         QJsonObject jsonObj = jsonItems[i].toObject();
-        itemsCache->insert(jsonObj["name"].toString(), new Item(jsonObj, true));
+        Item* cachedItem = new Item(jsonObj, true);
+        cachedItem->weaponTable = jsonObj["loc"].toString();
+        itemsCache->insert(jsonObj["name"].toString(), cachedItem);
     }
 }
 

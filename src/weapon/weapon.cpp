@@ -1,4 +1,11 @@
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include "../../include/weapon/weapon.hpp"
+#include "../../include/weapon/gun.hpp"
+#include "../../include/weapon/rocketLauncher.hpp"
+
+#define WEAPONINFO_PATH "../res/weapon/"
 
 /**
  * Default constructor
@@ -31,6 +38,41 @@ Weapon::Weapon(const Weapon& other) : dimensions(other.dimensions), energyConsum
  */
 Weapon::~Weapon() {
     delete sprite;
+}
+
+/**
+ * Pattern factory.
+ * 
+ * @param filename Weapon json file name
+ * @return A new weapon. nullptr if failed.
+ */
+Weapon* Weapon::create(const QString& filename) {
+    // Open file
+    QFile file = QFile(WEAPONINFO_PATH + filename);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Failed to open file" << (WEAPONINFO_PATH + filename);
+        return nullptr;
+    }
+
+    // Parse JSON
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    if (doc.isNull()) {
+        qWarning() << "Failed to parse JSON data.";
+        return nullptr;
+    }
+
+    QJsonObject obj = doc.object();
+    QString type = obj["type"].toString();
+    // Create weapon depending on type
+    if (type == "Gun") {
+        return new Gun(obj);
+    }
+    else if (type == "RocketLauncher") {
+        return new RocketLauncher(obj);
+    }
+    else {
+        return nullptr;
+    }
 }
 
 // --- METHODS ---
@@ -89,6 +131,21 @@ QString Weapon::getName() const {
     return name;
 }
 
+/**
+ * Get the delay of this weapon / amount of time between 2 attacks
+ * 
+ * @return Delay of weapon
+ */
 qint64 Weapon::getDelay() const {
     return delay;
+}
+
+/**
+ * Know whether this weapon object is empty or not.
+ * Useful to know if weapon has successfully loaded or not
+ * 
+ * @return Whether this weapon is empty or not
+ */
+bool Weapon::isEmpty() const {
+    return name == "";
 }
