@@ -22,7 +22,7 @@ public:
     ~EffectZone();
 
     // Inherited methods
-    QPainterPath shape() const;
+    QPainterPath shape() const override;
     virtual void onCollide(Entity* other);
     virtual bool onUpdate(qint64 deltaTime);
     virtual Entity* getSpawned();

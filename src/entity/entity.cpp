@@ -9,6 +9,7 @@ Entity::Entity() {
     setPos(Vector2::zero);
     dimensions = Vector2::zero;
     sprite = new Sprite(Sprites::SpriteImage::None);
+    team = Teams::None;
 }
 
 /**
@@ -20,6 +21,7 @@ Entity::Entity(const Entity& other) {
     setPos(other.position);
     dimensions = other.dimensions;
     sprite = new Sprite(*other.sprite);
+    team = other.team;
 }
 
 /**
@@ -28,8 +30,22 @@ Entity::Entity(const Entity& other) {
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite Sprite image type
+ * @param team The team this entity belongs to
  */
-Entity::Entity(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite) : dimensions(dimensions) {
+Entity::Entity(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : dimensions(dimensions), team(team) {
+    setPos(position);
+    this->sprite = new Sprite(sprite);
+}
+
+/**
+ * Constructor
+ * 
+ * @param position Starting position of entity
+ * @param dimensions Collision box dimensions. Box is centered on position.
+ * @param sprite Sprite image name (should look like "foo.png")
+ * @param team The team this entity belongs to
+ */
+Entity::Entity(const Vector2 position, const Vector2 dimensions, const QString sprite, Teams::Team team) : dimensions(dimensions), team(team) {
     setPos(position);
     this->sprite = new Sprite(sprite);
 }
@@ -45,12 +61,21 @@ Entity::~Entity() {
 // --- GETTERS ---
 
 /**
- * Get position of entity
+ * Get position of entity (position of top left corner)
  * 
  * @return Position of the entity
  */
 Vector2 Entity::getPos() const {
     return position;
+}
+
+/**
+ * Get position of the center of the entity
+ * 
+ * @return Position of center of the entity
+ */
+Vector2 Entity::getCenterPos() const {
+    return position + dimensions/2;
 }
 
 /**
@@ -74,6 +99,13 @@ bool Entity::getDeleted() const {
     return isDeleted;
 }
 
+/**
+ * Get the team of this entity
+ */
+Teams::Team Entity::getTeam() const {
+    return team;
+}
+
 // --- SETTERS ---
 
 /**
@@ -93,6 +125,7 @@ void Entity::setPos(const Vector2 pos) {
  */
 void Entity::setDims(const Vector2 dims) {
     if (dims.getX() >= 0 && dims.getY() >= 0) {
+        prepareGeometryChange();
         dimensions = dims;
     }
     else {
@@ -109,6 +142,16 @@ void Entity::setDims(const Vector2 dims) {
  */
 void Entity::setDeleted(const bool del) {
     isDeleted = del;
+}
+
+/**
+ * Set a new sprite for this entity
+ * 
+ * @param filename Filename of the new sprite (should look like "foo.png")
+ */
+void Entity::setSprite(const QString& filename) {
+    delete sprite;
+    sprite = new Sprite(filename);
 }
 
 // --- GRAPHICS METHODS ---

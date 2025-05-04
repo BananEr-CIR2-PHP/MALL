@@ -1,0 +1,24 @@
+{
+"items": [
+    {
+        "item": "Large HP potion",
+        "weight": 20
+    },
+    {
+        "item": "Large energy potion",
+        "weight": 20
+    },
+    {
+        "item": "Gold coin",
+        "weight": 20
+    },
+    {
+        "item": "Rainbow coin",
+        "weight": 5
+    },
+    {
+        "item": "Common weapon",
+        "weight": 35
+    }
+]
+}

@@ -1,0 +1,28 @@
+{
+"items": [
+    {
+        "item": "Nothing",
+        "weight": 70
+    },
+    {
+        "item": "Small HP potion",
+        "weight": 8
+    },
+    {
+        "item": "Small energy potion",
+        "weight": 8
+    },
+    {
+        "item": "Bronze coin",
+        "weight": 8
+    },
+    {
+        "item": "Silver coin",
+        "weight": 2
+    },
+    {
+        "item": "Common weapon",
+        "weight": 3
+    }
+]
+}

@@ -7,10 +7,16 @@ qt_add_executable(Mall
     entity/missile.cpp
     entity/livingEntity.cpp
     entity/mob.cpp
+    entity/rangedMob.cpp
     entity/player.cpp
     entity/rocket.cpp
     entity/effectZone.cpp
     entity/effect.cpp
+    weapon/weapon.cpp
+    weapon/gun.cpp
+    weapon/rocketLauncher.cpp
+    mobSpawner.cpp
+    lootTables.cpp
     mainScene.cpp
     ../include/mainScene.hpp    # Useful for Automoc
     mainGraphicsView.cpp

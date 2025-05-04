@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
 
     // MainGraphicsView view(&scene);         // Scrollable area
     // view.setRenderHint(QPainter::Antialiasing);     // Use antialiasing when rendering
-  
+
     // QTimer timer;
     // QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
     // timer.start(1000 / 33);     // 30 fps
