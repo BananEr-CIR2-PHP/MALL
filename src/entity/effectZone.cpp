@@ -7,8 +7,6 @@
 #define MAX_FORCE_STRENGTH 10.0
 #define FORCE_FACTOR 5000
 
-// TODO: fix known issue: Bottom right corner of effect zone seem to be broken
-
 // --- CONSTRUCTOR/DESTRUCTOR ---
 
 /**

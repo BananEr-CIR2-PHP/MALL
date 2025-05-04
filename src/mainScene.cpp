@@ -5,6 +5,11 @@
 #include "../include/mainScene.hpp"
 #include "../include/lootTables.hpp"
 
+#define PLAYER_MAX_LIFE 200
+#define PLAYER_MAX_ENERGY 500
+#define PLAYER_BASE_GOLD 0
+#define PLAYER_BASE_POS Vector2(0, 0)
+#define PLAYER_DIMS Vector2(100, 100)
 #define PLAYER_SPEED 0.1
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
@@ -24,7 +29,16 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     LootTables::generateTables();
     
     // Initialize player
-    Player* pl = new Player(20, 2000, 0, PLAYER_SPEED, Vector2(300, 300), Vector2(100, 100), Sprites::SpriteImage::Player, Teams::Player);
+    Player* pl = new Player(
+        PLAYER_MAX_LIFE,
+        PLAYER_MAX_ENERGY,
+        PLAYER_BASE_GOLD,
+        PLAYER_SPEED,
+        PLAYER_BASE_POS,
+        PLAYER_DIMS,
+        Sprites::SpriteImage::Player,
+        Teams::Player
+    );
     pl->grabWeapon(new Gun(WeaponType::GunType::DesertEagle), Inventory::WeaponSlot_1);
     setControlledPlayer(pl);
     addEntity(pl);

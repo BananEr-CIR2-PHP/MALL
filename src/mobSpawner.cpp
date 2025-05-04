@@ -109,6 +109,7 @@ bool MobSpawner::createSpawnList(const QJsonArray& array) {
  * @return The next mob to spawn
  */
 Mob* MobSpawner::getSpawned(qint64 sceneTime, Player* target) {
+    // TODO: react when reached end of waves
     if (i_nextSpawn < spawnList->size() && spawnList->at(i_nextSpawn).trigger < sceneTime) {
         
         MobTrigger mobTrig = spawnList->at(i_nextSpawn);
