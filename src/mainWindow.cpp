@@ -4,9 +4,13 @@
 #include "../include/mainScene.hpp"
 #include <QVBoxLayout>
 #include <QTimer>
+#include <QObject>
+#include <QAction>
 #include <QApplication>
 #include <QGraphicsView>
-
+#include <QGraphicsScene>
+#include <QDebug>
+#include "../include/entity/item.hpp"
 
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
@@ -33,20 +37,25 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
     boxLayout->setLayout(buttonLayout);
 
     mainLayout->addWidget(boxLayout);
+    QAction *showViewAction = new QAction("Show Graphics View", this);
+    newGame->addAction(showViewAction);
 
     mainMenu->setLayout(mainLayout);
     this->setCentralWidget(mainMenu);
-    this->connect(this->quitGame, &QPushButton::clicked, [=](){QCoreApplication::quit();}); //Dernier paramètre trouvé avec IA
+    this->connect(this->quitGame, &QPushButton::clicked, [this](){QCoreApplication::quit();}); //Dernier paramètre trouvé avec IA
     // this->connect(this->scoreBoard, &QPushButton::clicked, [=](){});
-    this->connect(this->newGame, &QPushButton::clicked, [=](){
-        MainScene scene;
-        newGameClicked(&scene);
+    
+    this->connect(this->newGame, &QPushButton::clicked, [this](){
+        scene = new MainScene(this, 60);
+        newGameClicked(scene);
     });
 };
+
 void MainWindow::newGameClicked(MainScene *scene){
-    MainGraphicsView view(scene);
-    view.setRenderHint(QPainter::Antialiasing);
-    // QTimer timer;
-    // QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
-    // timer->start(1000 / 33);
+    view = new MainGraphicsView(scene);
+    view->setRenderHint(QPainter::Antialiasing);
+    QTimer timer;
+    QObject::connect(&timer, &QTimer::timeout, [scene](){scene->advance();});
+    timer.start(1000 / 33);
+    setCentralWidget(view);
 }

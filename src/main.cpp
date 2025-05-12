@@ -17,40 +17,6 @@
 #include "../include/mainGraphicsView.hpp"
 #include "../include/entity/item.hpp"
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
-    this->setWindowTitle("MALL");
-    
-    QWidget* mainMenu = new QWidget();
-    QVBoxLayout* mainLayout = new QVBoxLayout(mainMenu);
-    QWidget* boxLayout = new QWidget(mainMenu);
-    QHBoxLayout* buttonLayout = new QHBoxLayout(boxLayout);
-    
-    this->pseudoInput = new QLineEdit(mainMenu);
-    this->newGame = new QPushButton("Nouvelle Partie");
-    this->quitGame = new QPushButton("Quitter le jeu");
-    this->scoreBoard = new QPushButton("Tableau des scores");
-    
-    
-    pseudoInput->setPlaceholderText("Nom du Héros");
-    mainLayout->addWidget(pseudoInput);
-
-    buttonLayout->addWidget(newGame);
-    buttonLayout->addWidget(scoreBoard);
-    buttonLayout->addWidget(quitGame);
-
-    boxLayout->setLayout(buttonLayout);
-
-    mainLayout->addWidget(boxLayout);
-
-    mainMenu->setLayout(mainLayout);
-    this->setCentralWidget(mainMenu);
-    this->connect(this->quitGame, &QPushButton::clicked, [=](){QCoreApplication::quit();}); //Dernier paramètre trouvé avec IA
-    // this->connect(this->scoreBoard, &QPushButton::clicked, [=](){});
-    this->connect(this->newGame, &QPushButton::clicked, [=](){
-        MainScene scene;
-        newGameClicked(&scene);
-    });
-};
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);

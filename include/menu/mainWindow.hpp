@@ -21,10 +21,12 @@ public:
     virtual ~MainWindow(){};
     void newGameClicked(MainScene *scene);
 private:
-    QLineEdit* pseudoInput;
-    QPushButton* newGame;
-    QPushButton* quitGame;
-    QPushButton* scoreBoard;
+    QLineEdit* pseudoInput = nullptr;
+    QPushButton* newGame = nullptr;
+    QPushButton* quitGame = nullptr;
+    QPushButton* scoreBoard = nullptr;
+    MainScene* scene = nullptr;
+    MainGraphicsView* view = nullptr;
 };
 
 #endif

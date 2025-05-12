@@ -3,6 +3,7 @@
 #include "../include/entity/mob.hpp"
 #include "../include/entity/rocket.hpp"
 #include "../include/mainScene.hpp"
+#include <QDebug>
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
 
