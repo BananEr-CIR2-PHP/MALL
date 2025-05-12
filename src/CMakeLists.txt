@@ -19,5 +19,8 @@ qt_add_executable(Mall
     lootTables.cpp
     mainScene.cpp
     ../include/mainScene.hpp    # Useful for Automoc
+    ../include/mainGraphicsView.hpp
     mainGraphicsView.cpp
+    ../include/menu/mainWindow.hpp
+    mainWindow.cpp
 )
