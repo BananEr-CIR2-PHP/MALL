@@ -20,6 +20,7 @@ public:
     MainWindow(QWidget* parent = nullptr);
     virtual ~MainWindow(){};
     void newGameClicked(MainScene *scene);
+    void centerOnSelectedPlayer(MainGraphicsView* view, MainScene* scene);
 private:
     QLineEdit* pseudoInput = nullptr;
     QPushButton* newGame = nullptr;

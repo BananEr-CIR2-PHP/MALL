@@ -12,9 +12,14 @@ MainGraphicsView::MainGraphicsView(MainScene* scene, QWidget* parent) : QGraphic
     setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     setDragMode(QGraphicsView::ScrollHandDrag);
     setMouseTracking(true);
-
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    
+    this->connect(scene, &MainScene::playerMoved, this, &MainGraphicsView::centerOnPlayer);
     setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Mall"));
     resize(1000, 1000);
+    this->centerOn(QPointF(500,500));
+    
     show();
 }
 
@@ -28,9 +33,17 @@ void MainGraphicsView::mouseMoveEvent(QMouseEvent* event) {
     QGraphicsSceneMouseEvent sceneEvent(QEvent::GraphicsSceneMouseMove);
     sceneEvent.setScenePos(mapToScene(event->pos()));
     QApplication::sendEvent(scene(), &sceneEvent);
+    
 }
-
+void MainGraphicsView::centerOnPlayer(Player* player){
+    QRectF rect = player->sceneBoundingRect();
+    this->centerOn(rect.center());
+}
 /**
  * Destructor
  */
 MainGraphicsView::~MainGraphicsView() { }
+
+void MainGraphicsView::wheelEvent(QWheelEvent *event) {
+    event->ignore();  // Ignore the wheel event to prevent zooming or scrolling
+}

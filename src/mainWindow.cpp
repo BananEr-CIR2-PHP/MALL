@@ -7,6 +7,8 @@
 #include <QObject>
 #include <QAction>
 #include <QApplication>
+#include <QGraphicsItem>
+#include <QDebug>
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QDebug>
@@ -47,6 +49,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent){
     
     this->connect(this->newGame, &QPushButton::clicked, [this](){
         scene = new MainScene(this, 60);
+        scene->setBackgroundTile("../res/img/background2.png");
         newGameClicked(scene);
     });
 };
@@ -58,4 +61,9 @@ void MainWindow::newGameClicked(MainScene *scene){
     QObject::connect(&timer, &QTimer::timeout, [scene](){scene->advance();});
     timer.start(1000 / 33);
     setCentralWidget(view);
+    this->centerOnSelectedPlayer(view,scene);
+}
+
+void MainWindow::centerOnSelectedPlayer(MainGraphicsView* view, MainScene* scene) {
+    view->centerOnPlayer(scene->getMainPlayer());
 }
