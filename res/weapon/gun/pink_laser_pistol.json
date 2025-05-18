@@ -1,0 +1,16 @@
+{
+    "type": "Gun",
+    "name": "Pink pistol",
+    "energy_consumption": 5,
+    "delay": 125,
+    "bullet_range": 900,
+    "bullet_damage": 20,
+    "bullet_pierces": true,
+    "bullet_speed": 1,
+    "bullet_dims_X": 49,
+    "bullet_dims_Y": 13,
+    "bullet_sprite": "pink_laser.png",
+    "dims_X": 51,
+    "dims_Y": 30,
+    "sprite": "pink_laser_pistol.png"
+}

@@ -32,7 +32,7 @@ EffectZone::EffectZone(const EffectZone& other) : Entity(other), range(other.ran
  * @param range Collision box dimensions. Box is centered on position.
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  */
-EffectZone::EffectZone(Effect effect, const Vector2 position, const qreal range, Sprites::SpriteImage sprite) :
+EffectZone::EffectZone(Effect effect, const Vector2 position, const qreal range, const QString& sprite) :
     Entity(position-Vector2(range, range), Vector2(2*range, 2*range), sprite), range(range), effect(effect)
 {
 
@@ -135,15 +135,27 @@ Entity* EffectZone::getSpawned() {
 /**
  * Get sprite of effect zone from the effect type
  */
-Sprites::SpriteImage EffectZone::getEffectSprite(Effects::EffectType effectType) {
-    Sprites::SpriteImage img;
+QString EffectZone::getEffectSprite(Effects::EffectType effectType) {
+    QString img;
     switch (effectType) {
         case Effects::EffectType::Boom:
-            img = Sprites::SpriteImage::BoomZone;
+            img = "boom.png";
+            break;
+
+        case Effects::EffectType::Burning:
+            img = "fire_zone.png";
+            break;
+
+        case Effects::EffectType::Frozen:
+            img = "";   // TODO
+            break;
+
+        case Effects::EffectType::Poisoned:
+            img = "";   // TODO
             break;
 
         default:
-            img = Sprites::SpriteImage::None;
+            img = "";
             break;
     }
     return img;

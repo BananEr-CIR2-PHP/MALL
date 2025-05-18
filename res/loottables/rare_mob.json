@@ -30,7 +30,11 @@
     },
     {
         "item": "Common weapon",
-        "weight": 10
+        "weight": 9
+    },
+    {
+        "item": "Legendary weapon",
+        "weight": 1
     }
 ]
 }

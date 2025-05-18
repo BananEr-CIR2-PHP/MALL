@@ -10,17 +10,14 @@
  * 
  * @param img Image of the sprite
  */
-Sprite::Sprite(Sprites::SpriteImage img) {
+Sprite::Sprite() {
     spritesCount += 1;
 
-    if (spritesLoc == nullptr) {
-        generateSpritesLoc();
-    }
     if (spritesCache == nullptr) {
         initSpritesCache();
     }
 
-    setImage(img);
+    setImage("");
 }
 
 /**
@@ -28,12 +25,9 @@ Sprite::Sprite(Sprites::SpriteImage img) {
  * 
  * @param fileName File name of sprite (should look like: "foo.png")
  */
-Sprite::Sprite(QString fileName) {
+Sprite::Sprite(const QString& fileName) {
     spritesCount += 1;
 
-    if (spritesLoc == nullptr) {
-        generateSpritesLoc();
-    }
     if (spritesCache == nullptr) {
         initSpritesCache();
     }
@@ -72,27 +66,11 @@ QSharedPointer<QImage> Sprite::getImage() const {
 }
 
 /**
- * Set the image texture to the given one
- * 
- * @param img The new image texture
- */
-void Sprite::setImage(Sprites::SpriteImage img) {
-    if (spritesLoc->contains(img)) {
-        QString fileName = spritesLoc->value(img);
-        setImage(fileName);
-    }
-    else {
-        qWarning() << "Image location not found";
-        image = spritesCache->value("");
-    }
-}
-
-/**
  * Change the image texture to the given one
  * 
  * @param fileName Name of image file located in res/img (should look like "foo.png")
  */
-void Sprite::setImage(QString fileName) {
+void Sprite::setImage(const QString& fileName) {
     // If the image is in cache, simply take it from cache
     if (spritesCache->contains(fileName)) {
         image = spritesCache->value(fileName);
@@ -107,17 +85,6 @@ void Sprite::setImage(QString fileName) {
 // --- STATIC ---
 
 /**
- * Generate images location map
- */
-void Sprite::generateSpritesLoc() {
-    spritesLoc = new QMap<Sprites::SpriteImage, QString>();
-    spritesLoc->insert(Sprites::SpriteImage::None, "");
-    spritesLoc->insert(Sprites::SpriteImage::BoomZone, "boom.png");
-    spritesLoc->insert(Sprites::SpriteImage::Coin, "coin.png");
-    spritesLoc->insert(Sprites::SpriteImage::Player, "player.png");
-}
-
-/**
  * Initialize sprite cache
  */
 void Sprite::initSpritesCache() {
@@ -129,8 +96,6 @@ void Sprite::initSpritesCache() {
  * Delete cache of images.
  */
 void Sprite::deleteCachedSprites() {
-    delete spritesLoc;
-    spritesLoc = nullptr;
     delete spritesCache;
     spritesCache = nullptr;
 }

@@ -36,10 +36,10 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
         PLAYER_SPEED,
         PLAYER_BASE_POS,
         PLAYER_DIMS,
-        Sprites::SpriteImage::Player,
+        "player.png",
         Teams::Player
     );
-    pl->grabWeapon(new Gun(WeaponType::GunType::DesertEagle), Inventory::WeaponSlot_1);
+    pl->grabWeapon(Weapon::create("gun/red_laser_pistol.json"), Inventory::WeaponSlot_1);
     setControlledPlayer(pl);
     addEntity(pl);
 

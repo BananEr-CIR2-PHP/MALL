@@ -12,55 +12,55 @@
         "name": "Small HP potion",
         "type": "HP Potion",
         "strength": 5,
-        "sprite": "player.png",
-        "dims_X": 50,
-        "dims_Y": 50
+        "sprite": "small_red_potion.png",
+        "dims_X": 28,
+        "dims_Y": 46
     },
     {
         "name": "Medium HP potion",
         "type": "HP Potion",
         "strength": 15,
-        "sprite": "player.png",
-        "dims_X": 50,
-        "dims_Y": 50
+        "sprite": "medium_red_potion.png",
+        "dims_X": 28,
+        "dims_Y": 46
     },
     {
         "name": "Large HP potion",
         "type": "HP Potion",
         "strength": 50,
-        "sprite": "player.png",
-        "dims_X": 50,
-        "dims_Y": 50
+        "sprite": "large_red_potion.png",
+        "dims_X": 28,
+        "dims_Y": 46
     },
     {
         "name": "Small energy potion",
         "type": "Energy Potion",
         "strength": 50,
-        "sprite": "player.png",
-        "dims_X": 50,
-        "dims_Y": 50
+        "sprite": "small_blue_potion.png",
+        "dims_X": 28,
+        "dims_Y": 46
     },
     {
         "name": "Medium energy potion",
         "type": "Energy Potion",
         "strength": 150,
-        "sprite": "player.png",
-        "dims_X": 50,
-        "dims_Y": 50
+        "sprite": "medium_blue_potion.png",
+        "dims_X": 28,
+        "dims_Y": 46
     },
     {
         "name": "Large energy potion",
         "type": "Energy Potion",
         "strength": 500,
-        "sprite": "player.png",
-        "dims_X": 50,
-        "dims_Y": 50
+        "sprite": "large_blue_potion.png",
+        "dims_X": 28,
+        "dims_Y": 46
     },
     {
         "name": "Bronze coin",
         "type": "Gold",
         "strength": 1,
-        "sprite": "coin.png",
+        "sprite": "bronze_coin.png",
         "dims_X": 50,
         "dims_Y": 50
     },
@@ -68,7 +68,7 @@
         "name": "Silver coin",
         "type": "Gold",
         "strength": 10,
-        "sprite": "coin.png",
+        "sprite": "silver_coin.png",
         "dims_X": 50,
         "dims_Y": 50
     },
@@ -76,7 +76,7 @@
         "name": "Gold coin",
         "type": "Gold",
         "strength": 100,
-        "sprite": "coin.png",
+        "sprite": "golden_coin.png",
         "dims_X": 50,
         "dims_Y": 50
     },
@@ -84,7 +84,7 @@
         "name": "Rainbow coin",
         "type": "Gold",
         "strength": 1000,
-        "sprite": "coin.png",
+        "sprite": "rainbow_coin.png",
         "dims_X": 50,
         "dims_Y": 50
     },

@@ -34,7 +34,7 @@ Rocket::Rocket(const Rocket& other) : Missile(other), effectRange(other.effectRa
  * @param sprite Sprite image name (should look like "foo.png")
  * @param team The team this entity belongs to
  */
-Rocket::Rocket(const Effect effect, const qreal effectRange, const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, const QString sprite, Teams::Team team)
+Rocket::Rocket(const Effect effect, const qreal effectRange, const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, const QString& sprite, Teams::Team team)
     : Missile(velocity, range, damage, pierceEntities, position, dimensions, sprite, team), effectRange(effectRange)
 {
     this->effect = new Effect(effect);
@@ -52,7 +52,7 @@ Rocket::Rocket(const Effect effect, const qreal effectRange, const Vector2 veloc
  * @param sprite Sprite image name (should look like "foo.png")
  * @param team The team this entity belongs to
  */
-Rocket::Rocket(const Effect effect, const qreal effectRange, const Vector2 velocity, const qreal range, const Vector2 position, const Vector2 dimensions, const QString sprite, Teams::Team team)
+Rocket::Rocket(const Effect effect, const qreal effectRange, const Vector2 velocity, const qreal range, const Vector2 position, const Vector2 dimensions, const QString& sprite, Teams::Team team)
     : Missile(velocity, range, 0, false, position, dimensions, sprite, team), effectRange(effectRange)
 {
     this->effect = new Effect(effect);

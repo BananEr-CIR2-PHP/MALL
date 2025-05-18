@@ -37,7 +37,7 @@ Effect::Effect(Effects::EffectType type, qreal strength, qint64 durationLeft) : 
  * @param strength Strength of effect
  * @param durationLeft Duration left for the effect (ms)
  */
-Effect::Effect(const QString type, qreal strength, qint64 durationLeft) {
+Effect::Effect(const QString& type, qreal strength, qint64 durationLeft) {
     this->strength = strength;
     this->durationLeft = durationLeft;
 

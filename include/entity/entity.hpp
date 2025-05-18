@@ -25,8 +25,7 @@ protected:
 public:
     // Constructor/destructor
     Entity();
-    Entity(const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite=Sprites::SpriteImage::None, Teams::Team team = Teams::None);
-    Entity(const Vector2 position, const Vector2 dimensions, const QString sprite = "", Teams::Team team = Teams::None);
+    Entity(const Vector2 position, const Vector2 dimensions, const QString& sprite = "", Teams::Team team = Teams::None);
     virtual ~Entity();
 
     // Getters

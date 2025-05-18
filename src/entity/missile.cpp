@@ -29,25 +29,10 @@ Missile::Missile(const Missile& other) : Entity(other), velocity(other.velocity)
  * @param pierceEntities Whether this missile despawns on first entity hit or not
  * @param position Starting position of entity
  * @param dimensions Collision box dimensions. Box is centered on position.
- * @param sprite Sprite image type
- * @param team The team this entity belongs to
- */
-Missile::Missile(const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : 
-    Entity(position, dimensions, sprite, team), velocity(velocity), lifetime(range), damage(damage), pierceEntities(pierceEntities) { }
-
-/**
- * Constructor
- * 
- * @param velocity Speed and direction this missile moves to
- * @param range Max distance to travel before despawn
- * @param damage Damage this missile deals when hitting a living entity
- * @param pierceEntities Whether this missile despawns on first entity hit or not
- * @param position Starting position of entity
- * @param dimensions Collision box dimensions. Box is centered on position.
  * @param sprite Sprite image name (should look like "foo.png")
  * @param team The team this entity belongs to
  */
-Missile::Missile(const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, const QString sprite, Teams::Team team) :
+Missile::Missile(const Vector2 velocity, const qreal range, const qreal damage, const bool pierceEntities, const Vector2 position, const Vector2 dimensions, const QString& sprite, Teams::Team team) :
     Entity(position, dimensions, sprite, team), velocity(velocity), lifetime(range), damage(damage), pierceEntities(pierceEntities)
 {
 

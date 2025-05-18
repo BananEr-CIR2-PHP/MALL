@@ -21,7 +21,7 @@ public:
     Mob();
     Mob(const Mob& other);
     Mob(const QJsonObject& mobObject, Player* target = nullptr);
-    Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None, const qint64 score = 0, const QString& lootTable = "", Player* playerTarget = nullptr);
+    Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 position, const Vector2 dimensions, const QString& sprite = "", Teams::Team team = Teams::None, const qint64 score = 0, const QString& lootTable = "", Player* playerTarget = nullptr);
     ~Mob();
 
     virtual Mob* copy() const;
