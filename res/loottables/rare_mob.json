@@ -2,39 +2,35 @@
 "items": [
     {
         "item": "Nothing",
-        "weight": 50
+        "weight": 80
     },
     {
         "item": "Small HP potion",
-        "weight": 5
+        "weight": 1
     },
     {
         "item": "Medium HP potion",
-        "weight": 8
+        "weight": 3
     },
     {
         "item": "Small energy potion",
-        "weight": 5
+        "weight": 2
     },
     {
         "item": "Medium energy potion",
-        "weight": 8
-    },
-    {
-        "item": "Bronze coin",
         "weight": 5
     },
     {
         "item": "Silver coin",
-        "weight": 8
+        "weight": 5
     },
     {
-        "item": "Common weapon",
-        "weight": 9
-    },
-    {
-        "item": "Legendary weapon",
+        "item": "Gold coin",
         "weight": 1
+    },
+    {
+        "item": "Rare weapon",
+        "weight": 3
     }
 ]
 }

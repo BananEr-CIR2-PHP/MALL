@@ -2,23 +2,15 @@
 "items": [
     {
         "item": "gun/red_laser_pistol.json",
-        "weight": 68
+        "weight": 60
     },
     {
         "item": "gun/blue_laser_pistol.json",
         "weight": 20
     },
     {
-        "item": "rocket_launcher/incendiary_launcher.json",
-        "weight": 10
-    },
-    {
-        "item": "gun/bond_ppk.json",
-        "weight": 1
-    },
-    {
-        "item": "rocket_launcher/grenade_launcher.json",
-        "weight": 1
+        "item": "rocket_launcher/freezer.json",
+        "weight": 20
     }
 ]
 }

@@ -1,8 +1,12 @@
 {
 "items": [
     {
+        "item": "Nothing",
+        "weight": 35
+    },
+    {
         "item": "Large HP potion",
-        "weight": 20
+        "weight": 10
     },
     {
         "item": "Large energy potion",
@@ -18,7 +22,7 @@
     },
     {
         "item": "Legendary weapon",
-        "weight": 35
+        "weight": 10
     }
 ]
 }

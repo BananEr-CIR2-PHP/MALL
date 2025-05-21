@@ -2,15 +2,15 @@
 "items": [
     {
         "item": "gun/pink_laser_pistol.json",
-        "weight": 1
+        "weight": 10
     },
     {
         "item": "gun/bond_ppk.json",
-        "weight": 5
+        "weight": 60
     },
     {
         "item": "rocket_launcher/grenade_launcher.json",
-        "weight": 5
+        "weight": 30
     }
 ]
 }

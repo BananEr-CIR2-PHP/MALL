@@ -61,37 +61,47 @@
         "type": "Gold",
         "strength": 1,
         "sprite": "bronze_coin.png",
-        "dims_X": 50,
-        "dims_Y": 50
+        "dims_X": 25,
+        "dims_Y": 25
     },
     {
         "name": "Silver coin",
         "type": "Gold",
         "strength": 10,
         "sprite": "silver_coin.png",
-        "dims_X": 50,
-        "dims_Y": 50
+        "dims_X": 25,
+        "dims_Y": 25
     },
     {
         "name": "Gold coin",
         "type": "Gold",
         "strength": 100,
         "sprite": "golden_coin.png",
-        "dims_X": 50,
-        "dims_Y": 50
+        "dims_X": 25,
+        "dims_Y": 25
     },
     {
         "name": "Rainbow coin",
         "type": "Gold",
         "strength": 1000,
         "sprite": "rainbow_coin.png",
-        "dims_X": 50,
-        "dims_Y": 50
+        "dims_X": 25,
+        "dims_Y": 25
     },
     {
         "name": "Common weapon",
         "type": "Weapon",
         "loc": "common_weapon.json"
+    },
+    {
+        "name": "Rare weapon",
+        "type": "Weapon",
+        "loc": "rare_weapon.json"
+    },
+    {
+        "name": "Legendary weapon",
+        "type": "Weapon",
+        "loc": "legendary_weapon.json"
     }
 ]
 }
