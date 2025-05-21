@@ -286,8 +286,9 @@ void Player::onDeath() { }
  * Called when this Entity collides with another
  * 
  * @param other The entity this object collided with
+ * @param deltaTime Time elapsed since last frame, in milliseconds
  */
-void Player::onCollide(Entity* other) {
+void Player::onCollide(Entity* other, qint64 deltaTime) {
     if (Item* item = dynamic_cast<Item*>(other)) {
         if (grabKeyPressed) {
             gatherItem(item);
@@ -295,7 +296,7 @@ void Player::onCollide(Entity* other) {
     }
     else if (Mob* mob = dynamic_cast<Mob*>(other)) {
         if (mob->getTeam() != getTeam()) {
-            takeDamage(mob->getDamage());
+            takeDamage(mob->getDamage()*deltaTime*60/1000);     // values in json are in dmg per frame (60 fps)
         }
     }
 }

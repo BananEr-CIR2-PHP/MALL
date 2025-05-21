@@ -151,8 +151,9 @@ void Item::loadDefaultValues() {
  * Called when this Entity collides with another
  * 
  * @param other The entity this object collided with
+ * @param deltaTime Time elapsed since last frame, in milliseconds
  */
-void Item::onCollide(Entity* other) {
+void Item::onCollide(Entity* other, qint64 deltaTime) {
     if (Player* player = dynamic_cast<Player*>(other)) {
         touchingPlayer = true;
 

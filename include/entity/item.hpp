@@ -52,9 +52,9 @@ public:
     static Item* create(const QString& itemName, Vector2 position);
 
     // Inherited methods
-    virtual void onCollide(Entity* other);
-    virtual bool onUpdate(qint64 deltaTime);
-    virtual Entity* getSpawned();
+    void onCollide(Entity* other, qint64 deltaTime) override;
+    bool onUpdate(qint64 deltaTime) override;
+    Entity* getSpawned() override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) override;
     QRectF boundingRect() const override;
     QPainterPath shape() const override;

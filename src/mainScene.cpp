@@ -91,7 +91,7 @@ void MainScene::checkCollisions() {
     for (Entity* entity : *entities) {
         for (QGraphicsItem* graphicsItem : entity->collidingItems()) {
             if (Entity* otherEntity = dynamic_cast<Entity*>(graphicsItem)) {
-                entity->onCollide(otherEntity);
+                entity->onCollide(otherEntity, deltaTime);
             }
         }
     }
