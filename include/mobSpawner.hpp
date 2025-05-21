@@ -24,10 +24,13 @@ private:
     qsizetype i_nextSpawn = 0;      // Index of next mob to spawn
     qsizetype i_mobAmount = 0;
     qreal spawnRange = 0;
+    qint64 allWavesDuration = 0;
+    qint64 substractSceneTime = 0;
 
     void createMobsCache();
     void createSpawnCache(const QString& filename);
     bool createSpawnList(const QJsonArray& array);
+    void activateLoopReset();
 
 public:
     MobSpawner();

@@ -10,6 +10,7 @@
 MobSpawner::MobSpawner() {
     createMobsCache();
     spawnList = new QList<MobTrigger>();
+    activateLoopReset();
 }
 
 /**
@@ -20,6 +21,7 @@ MobSpawner::MobSpawner() {
 MobSpawner::MobSpawner(const QString& filename) {
     createMobsCache();
     createSpawnCache(filename);
+    activateLoopReset();
 }
 
 /**
@@ -38,6 +40,13 @@ void MobSpawner::createMobsCache() {
     mobs = new QMap<QString, Mob*>();
     Mob::loadAllMobs(mobs);
     RangedMob::loadAllMobs(mobs);
+}
+
+/**
+ * Activate the reset after reached the end of last wave
+ */
+void MobSpawner::activateLoopReset() {
+    allWavesDuration = spawnList->last().trigger;
 }
 
 /**
@@ -109,9 +118,11 @@ bool MobSpawner::createSpawnList(const QJsonArray& array) {
  * @return The next mob to spawn
  */
 Mob* MobSpawner::getSpawned(qint64 sceneTime, Player* target) {
-    // TODO: react when reached end of waves
-    if (i_nextSpawn < spawnList->size() && spawnList->at(i_nextSpawn).trigger < sceneTime) {
-        
+    // Wave reset when last ennemy has spawned
+    qint64 nextTrigger = spawnList->at(i_nextSpawn).trigger;
+    sceneTime -= substractSceneTime;
+
+    if (nextTrigger < sceneTime) {
         MobTrigger mobTrig = spawnList->at(i_nextSpawn);
         QString mobName = mobTrig.mobName;
 
@@ -120,6 +131,12 @@ Mob* MobSpawner::getSpawned(qint64 sceneTime, Player* target) {
         if (i_mobAmount >= mobTrig.amount) {
             i_mobAmount = 0;
             i_nextSpawn += 1;
+            if (i_nextSpawn >= spawnList->size()) {
+                i_nextSpawn = 0;
+            }
+            if (sceneTime > allWavesDuration) {
+                substractSceneTime += allWavesDuration;
+            }
         }
 
         // Create mob
