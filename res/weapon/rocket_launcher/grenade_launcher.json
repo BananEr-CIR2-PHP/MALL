@@ -1,7 +1,7 @@
 {
     "type": "RocketLauncher",
     "name": "Rocket launcher",
-    "energy_consumption": 15,
+    "energy_consumption": 30,
     "delay": 1200,
     "bullet_range": 400,
     "bullet_damage": 0,
@@ -14,7 +14,7 @@
     "dims_Y": 30,
     "sprite": "grenade_launcher.png",
     "effect_type": "Boom",
-    "effect_strength": 20,
+    "effect_strength": 5,
     "effect_duration": 1500,
     "effect_range": 40
 }

@@ -7,14 +7,14 @@
     "bullet_damage": 0,
     "bullet_pierces": false,
     "bullet_speed": 0.3,
-    "bullet_dims_X": 22,
-    "bullet_dims_Y": 25,
+    "bullet_dims_X": 45,
+    "bullet_dims_Y": 50,
     "bullet_sprite": "grenade.png",
     "dims_X": 51,
     "dims_Y": 30,
     "sprite": "grenade_launcher.png",
     "effect_type": "Frozen",
-    "effect_strength": 20,
+    "effect_strength": 0,
     "effect_duration": 1500,
     "effect_range": 60
 }

@@ -2,6 +2,8 @@
 #include "../../include/entity/mob.hpp"
 #include "../../include/entity/missile.hpp"
 
+#define SHOOT_MIN_SPEED 0.4
+
 // --- CONSTRUCTORS/DESTRUCTORS ---
 
 /**
@@ -460,6 +462,10 @@ QPainterPath Player::shape() const {
  * Use active weapon, if player is holding any
  */
 void Player::actionUseWeapon(Vector2 direction) {
+    if (getSpeedMultiplier() < SHOOT_MIN_SPEED) {
+        return;     // Can't shoot if stunned
+    }
+
     Weapon* heldWeapon;
     switch (activeWeaponSlot) {
         case Inventory::WeaponSlot_1:

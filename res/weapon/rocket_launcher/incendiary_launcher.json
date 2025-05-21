@@ -1,7 +1,7 @@
 {
     "type": "RocketLauncher",
     "name": "Incendiary grenade launcher",
-    "energy_consumption": 5,
+    "energy_consumption": 7,
     "delay": 1200,
     "bullet_range": 600,
     "bullet_damage": 0,
@@ -14,7 +14,7 @@
     "dims_Y": 30,
     "sprite": "grenade_launcher.png",
     "effect_type": "Burning",
-    "effect_strength": 20,
+    "effect_strength": 0.03,
     "effect_duration": 1500,
     "effect_range": 60
 }

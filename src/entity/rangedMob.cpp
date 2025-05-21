@@ -69,7 +69,9 @@ Mob* RangedMob::copy() const {
  * @return True if succeeded, false otherwise
  */
 bool RangedMob::loadFromJson(const QJsonObject& mobObject) {
-    setLife(mobObject["life"].toDouble());  // Code reuse from mob
+    qreal read_life = mobObject["life"].toDouble();
+    setMaxLife(read_life);
+    setLife(read_life);  // Code reuse from mob
     damage = mobObject["damage"].toDouble();
     setSpeed(mobObject["speed"].toDouble());
     setDims(Vector2(mobObject["dims_X"].toDouble(), mobObject["dims_Y"].toDouble()));

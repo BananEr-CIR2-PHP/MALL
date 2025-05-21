@@ -5,7 +5,7 @@
         "trigger": 3000,
         "spawn": [
             {
-                "mob": "red_slime",
+                "mob": "poison_slime",
                 "amount": 3
             }
         ]
@@ -14,7 +14,7 @@
         "trigger": 10000,
         "spawn": [
             {
-                "mob": "purple_bat",
+                "mob": "red_red_sahur",
                 "amount": 4
             }
         ]
