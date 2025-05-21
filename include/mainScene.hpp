@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QTimer>
+#include <QElapsedTimer>
 #include <QObject>
 #include "entity/entity.hpp"
 #include "entity/player.hpp"
@@ -13,6 +14,9 @@ class MainScene : public QGraphicsScene {
 
 private:
     QList<Entity*>* entities;
+    QElapsedTimer deltaTimer;
+    qint64 lastFrameTime;
+
     QTimer* gameTimer;
     qint64 deltaTime;   // Time between two frames
     qint64 sceneTime;   // Time passed since start of scene

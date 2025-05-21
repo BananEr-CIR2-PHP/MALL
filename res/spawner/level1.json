@@ -11,6 +11,15 @@
         ]
     },
     {
+        "trigger": 9000,
+        "spawn": [
+            {
+                "mob": "bat",
+                "amount": 300
+            }
+        ]
+    },
+    {
         "trigger": 10000,
         "spawn": [
             {

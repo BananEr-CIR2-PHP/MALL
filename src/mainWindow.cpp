@@ -55,7 +55,6 @@ void MainWindow::newGameClicked(MainScene *scene){
     view = new MainGraphicsView(scene);
     view->setRenderHint(QPainter::Antialiasing);
     QTimer timer;
-    QObject::connect(&timer, &QTimer::timeout, [scene](){scene->advance();});
     timer.start(1000 / 33);
     setCentralWidget(view);
 }
