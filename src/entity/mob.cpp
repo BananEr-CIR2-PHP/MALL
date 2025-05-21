@@ -207,7 +207,9 @@ void Mob::setScoreValue(const qint64 value) {
  * @return True if succeeded, false otherwise
  */
 bool Mob::loadFromJson(const QJsonObject& mobObject) {
-    setLife(mobObject["life"].toDouble());
+    qreal read_life = mobObject["life"].toDouble();
+    setMaxLife(read_life);
+    setLife(read_life);
     damage = mobObject["damage"].toDouble();
     setSpeed(mobObject["speed"].toDouble());
     setDims(Vector2(mobObject["dims_X"].toDouble(), mobObject["dims_Y"].toDouble()));

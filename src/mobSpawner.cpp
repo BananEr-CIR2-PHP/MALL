@@ -124,6 +124,7 @@ Mob* MobSpawner::getSpawned(qint64 sceneTime, Player* target) {
 
         // Create mob
         if (! mobs->contains(mobName)) {
+            qWarning() << "Could not spawn mob at" << sceneTime << "ms.";
             return nullptr;     // Avoid crash
         }
         Mob* newMob = mobs->value(mobName)->copy();

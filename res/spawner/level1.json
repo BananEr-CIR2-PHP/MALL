@@ -5,7 +5,7 @@
         "trigger": 3000,
         "spawn": [
             {
-                "mob": "trollface",
+                "mob": "red_slime",
                 "amount": 3
             }
         ]
@@ -14,17 +14,8 @@
         "trigger": 10000,
         "spawn": [
             {
-                "mob": "mini_player",
+                "mob": "purple_bat",
                 "amount": 4
-            }
-        ]
-    },
-    {
-        "trigger": 15000,
-        "spawn": [
-            {
-                "mob": "trollface",
-                "amount": 2
             }
         ]
     }

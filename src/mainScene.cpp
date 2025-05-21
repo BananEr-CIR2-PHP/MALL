@@ -10,7 +10,7 @@
 #define PLAYER_BASE_GOLD 0
 #define PLAYER_BASE_POS Vector2(0, 0)
 #define PLAYER_DIMS Vector2(50, 100)
-#define PLAYER_SPEED 0.1
+#define PLAYER_SPEED 0.5
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
 
@@ -39,7 +39,7 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
         "player.png",
         Teams::Player
     );
-    pl->grabWeapon(Weapon::create("gun/red_laser_pistol.json"), Inventory::WeaponSlot_1);
+    pl->grabWeapon(Weapon::create("gun/bond_ppk.json"), Inventory::WeaponSlot_1);
     setControlledPlayer(pl);
     addEntity(pl);
 
