@@ -9,7 +9,7 @@
 #define PLAYER_MAX_ENERGY 500
 #define PLAYER_BASE_GOLD 0
 #define PLAYER_BASE_POS Vector2(0, 0)
-#define PLAYER_DIMS Vector2(100, 100)
+#define PLAYER_DIMS Vector2(50, 100)
 #define PLAYER_SPEED 0.1
 
 // --- CONSTRUCTORS/DESTRUCTORS ---

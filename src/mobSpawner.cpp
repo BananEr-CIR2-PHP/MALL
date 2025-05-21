@@ -123,6 +123,9 @@ Mob* MobSpawner::getSpawned(qint64 sceneTime, Player* target) {
         }
 
         // Create mob
+        if (! mobs->contains(mobName)) {
+            return nullptr;     // Avoid crash
+        }
         Mob* newMob = mobs->value(mobName)->copy();
         if (target) {
             qreal angle = QRandomGenerator64::global()->bounded(360.0);

@@ -1,15 +1,81 @@
 {
 "mobs": [
     {
-        "name": "trollface",
+        "name": "bat",
         "life": 20,
         "damage": 1,
         "speed": 0.08,
-        "dims_X": 60,
-        "dims_Y": 60,
-        "sprite": "trollface.png",
+        "dims_X": 50,
+        "dims_Y": 14,
+        "sprite": "bat.png",
         "score": 1,
         "loot_table": "common_mob.json"
+    },
+    {
+        "name": "purple_bat",
+        "life": 20,
+        "damage": 1,
+        "speed": 0.08,
+        "dims_X": 50,
+        "dims_Y": 14,
+        "sprite": "purple_bat.png",
+        "score": 1,
+        "loot_table": "rare_mob.json"
+    },
+    {
+        "name": "green_slime",
+        "life": 20,
+        "damage": 1,
+        "speed": 0.08,
+        "dims_X": 75,
+        "dims_Y": 64,
+        "sprite": "slime.png",
+        "score": 1,
+        "loot_table": "common_mob.json"
+    },
+    {
+        "name": "red_slime",
+        "life": 20,
+        "damage": 1,
+        "speed": 0.08,
+        "dims_X": 75,
+        "dims_Y": 64,
+        "sprite": "red_slime.png",
+        "score": 1,
+        "loot_table": "common_mob.json"
+    },
+    {
+        "name": "purple_slime",
+        "life": 20,
+        "damage": 1,
+        "speed": 0.08,
+        "dims_X": 75,
+        "dims_Y": 64,
+        "sprite": "purple_slime.png",
+        "score": 1,
+        "loot_table": "rare_mob.json"
+    },
+    {
+        "name": "tung_tung_sahur",
+        "life": 20,
+        "damage": 1,
+        "speed": 0.08,
+        "dims_X": 100,
+        "dims_Y": 200,
+        "sprite": "tung_tung_sahur.png",
+        "score": 1,
+        "loot_table": "rare_mob.json"
+    },
+    {
+        "name": "pink_pink_sahur",
+        "life": 20,
+        "damage": 1,
+        "speed": 0.08,
+        "dims_X": 100,
+        "dims_Y": 200,
+        "sprite": "pink_pink_sahur.png",
+        "score": 1,
+        "loot_table": "legendary_mob.json"
     }
 ]
 }

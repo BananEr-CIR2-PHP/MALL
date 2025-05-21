@@ -17,15 +17,15 @@
             "damage": 1,
             "pierces": false,
             "speed": 0.15,
-            "dims_X": 50,
-            "dims_Y": 15,
-            "sprite": "coin.png"
+            "dims_X": 48,
+            "dims_Y": 13,
+            "sprite": "bullet.png"
         },
         "score": 2,
         "loot_table": "common_mob.json"
     },
     {
-        "name": "mini_trollface",
+        "name": "trollface",
         "life": 1,
         "damage": 0,
         "speed": 0.05,
@@ -33,6 +33,34 @@
         "dims_Y": 40,
         "sprite": "trollface.png",
         "fire_cooldown": 6000,
+        "min_shoot_distance": 300,
+        "max_shoot_distance": 400,
+        "bullet_type": "rocket",
+        "bullet": {
+            "effect_type": "Frozen",
+            "effect_strength": 5,
+            "effect_duration": 1200,
+            "effect_range": 40,
+            "range": 600,
+            "damage": 0,
+            "pierces": false,
+            "speed": 0.15,
+            "dims_X": 25,
+            "dims_Y": 22,
+            "sprite": "grenade.png"
+        },
+        "score": 5,
+        "loot_table": "rare_mob.json"
+    },
+    {
+        "name": "red_red_sahur",
+        "life": 1,
+        "damage": 0,
+        "speed": 0.05,
+        "dims_X": 40,
+        "dims_Y": 40,
+        "sprite": "red_red_sahur.png",
+        "fire_cooldown": 2000,
         "min_shoot_distance": 300,
         "max_shoot_distance": 400,
         "bullet_type": "rocket",
@@ -45,12 +73,12 @@
             "damage": 0,
             "pierces": false,
             "speed": 0.15,
-            "dims_X": 30,
-            "dims_Y": 30,
-            "sprite": "coin.png"
+            "dims_X": 25,
+            "dims_Y": 22,
+            "sprite": "grenade.png"
         },
         "score": 5,
-        "loot_table": "rare_mob.json"
+        "loot_table": "legendary_mob.json"
     }
 ]
 }

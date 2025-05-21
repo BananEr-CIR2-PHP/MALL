@@ -23,7 +23,7 @@
         "trigger": 15000,
         "spawn": [
             {
-                "mob": "mini_trollface",
+                "mob": "trollface",
                 "amount": 2
             }
         ]

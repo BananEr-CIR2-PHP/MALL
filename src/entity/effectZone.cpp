@@ -147,11 +147,11 @@ QString EffectZone::getEffectSprite(Effects::EffectType effectType) {
             break;
 
         case Effects::EffectType::Frozen:
-            img = "";   // TODO
+            img = "ice_zone.png";
             break;
 
         case Effects::EffectType::Poisoned:
-            img = "";   // TODO
+            img = "poison_zone.png";
             break;
 
         default:
