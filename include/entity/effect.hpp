@@ -16,7 +16,7 @@ public:
     Effect();
     Effect(const Effect& other);
     Effect(Effects::EffectType type, qreal strength, qint64 durationLeft);
-    Effect(const QString type, qreal strength, qint64 durationLeft);
+    Effect(const QString& type, qreal strength, qint64 durationLeft);
     ~Effect();
 
     // Getters

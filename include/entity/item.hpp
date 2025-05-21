@@ -8,7 +8,6 @@
 #include <QPainter>
 #include "entity.hpp"
 #include "../weapon/weapon.hpp"
-#include "../weapon/weaponType.hpp"
 
 namespace ItemType {
     enum ItemType {
@@ -48,7 +47,7 @@ public:
     Item(const Item& other);
     virtual Item* copy() const;
     Item(const QJsonObject& jsonItem, bool belongsToCache = false);
-    Item(const Vector2 position, const Vector2 dimensions, ItemType::ItemType itemType, Sprites::SpriteImage sprite=Sprites::SpriteImage::None, const QString& itemName = "", const qint64 itemStrength=0, bool belongsToCache = false);
+    Item(const Vector2 position, const Vector2 dimensions, ItemType::ItemType itemType, const QString& sprite="", const QString& itemName = "", const qint64 itemStrength=0, bool belongsToCache = false);
     ~Item();
     static Item* create(const QString& itemName, Vector2 position);
 

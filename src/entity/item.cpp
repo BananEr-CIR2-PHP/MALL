@@ -55,7 +55,7 @@ Item* Item::copy() const {
  * @param strength Strength of the item. Effect depends on the item type
  * @param belongsToCache Whether this item belongs to cache or not
  */
-Item::Item(const Vector2 position, const Vector2 dimensions, ItemType::ItemType itemType, Sprites::SpriteImage sprite, const QString& name, const qint64 strength, bool belongsToCache) :
+Item::Item(const Vector2 position, const Vector2 dimensions, ItemType::ItemType itemType, const QString& sprite, const QString& name, const qint64 strength, bool belongsToCache) :
     Entity(position, dimensions, sprite), itemType(itemType), itemStrength(strength), name(name), isInCache(belongsToCache)
 {
     if (!belongsToCache) {

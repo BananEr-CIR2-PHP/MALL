@@ -1,12 +1,16 @@
 {
 "items": [
     {
-        "item": "gun/desert_eagle.json",
-        "weight": 1
+        "item": "gun/red_laser_pistol.json",
+        "weight": 60
     },
     {
-        "item": "rocket_launcher/bazooka.json",
-        "weight": 1
+        "item": "gun/blue_laser_pistol.json",
+        "weight": 20
+    },
+    {
+        "item": "rocket_launcher/freezer.json",
+        "weight": 20
     }
 ]
 }

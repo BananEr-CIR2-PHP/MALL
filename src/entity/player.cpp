@@ -2,6 +2,8 @@
 #include "../../include/entity/mob.hpp"
 #include "../../include/entity/missile.hpp"
 
+#define SHOOT_MIN_SPEED 0.4
+
 // --- CONSTRUCTORS/DESTRUCTORS ---
 
 /**
@@ -31,7 +33,7 @@ Player::Player(const Player& other) : LivingEntity(other), energy(other.energy),
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  * @param team The team this entity belongs to
  */
-Player::Player(const qreal life, const qint64 energy, const qint64 gold, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) :
+Player::Player(const qreal life, const qint64 energy, const qint64 gold, const qreal speed, const Vector2 position, const Vector2 dimensions, const QString& sprite, Teams::Team team) :
     LivingEntity(life, speed, position, dimensions, sprite, team), energy(energy), maxEnergy(energy), gold(gold)
 {
 
@@ -366,7 +368,7 @@ Entity* Player::getSpawned() {
         }
 
         // Drop the weapon
-        Item* drop = new Item(itemPos, droppedWeapon->getDims(), ItemType::Weapon, Sprites::SpriteImage::None);
+        Item* drop = new Item(itemPos, droppedWeapon->getDims(), ItemType::Weapon, "");
         drop->setWeapon(droppedWeapon);
         droppedWeapon = nullptr;
         return drop;
@@ -460,6 +462,10 @@ QPainterPath Player::shape() const {
  * Use active weapon, if player is holding any
  */
 void Player::actionUseWeapon(Vector2 direction) {
+    if (getSpeedMultiplier() < SHOOT_MIN_SPEED) {
+        return;     // Can't shoot if stunned
+    }
+
     Weapon* heldWeapon;
     switch (activeWeaponSlot) {
         case Inventory::WeaponSlot_1:

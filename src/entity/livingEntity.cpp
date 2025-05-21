@@ -33,7 +33,7 @@ LivingEntity::LivingEntity(const LivingEntity& other) :
  * @param sprite A pointer to a sprite. Warning: given sprite should still be managed and deleted outside of this class.
  * @param team The team this entity belongs to
  */
-LivingEntity::LivingEntity(qreal life, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team) : Entity(position, dimensions, sprite, team) {
+LivingEntity::LivingEntity(qreal life, const qreal speed, const Vector2 position, const Vector2 dimensions, const QString& sprite, Teams::Team team) : Entity(position, dimensions, sprite, team) {
     this->life = life > 0 ? life : 1;   // Do not start with 0 HP
     maxLife = this->life;
     isDead = false;

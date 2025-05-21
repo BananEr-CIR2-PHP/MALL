@@ -48,7 +48,7 @@ public:
     // Constructors/destructors
     Player();
     Player(const Player& other);
-    Player(const qreal life, const qint64 energy, const qint64 gold, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite = Sprites::SpriteImage::None, Teams::Team team = Teams::None);
+    Player(const qreal life, const qint64 energy, const qint64 gold, const qreal speed, const Vector2 position, const Vector2 dimensions, const QString& sprite = "", Teams::Team team = Teams::None);
     ~Player();
 
     // Methods

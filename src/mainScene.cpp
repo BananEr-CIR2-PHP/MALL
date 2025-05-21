@@ -9,8 +9,8 @@
 #define PLAYER_MAX_ENERGY 500
 #define PLAYER_BASE_GOLD 0
 #define PLAYER_BASE_POS Vector2(0, 0)
-#define PLAYER_DIMS Vector2(100, 100)
-#define PLAYER_SPEED 0.1
+#define PLAYER_DIMS Vector2(50, 100)
+#define PLAYER_SPEED 0.5
 
 // --- CONSTRUCTORS/DESTRUCTORS ---
 
@@ -36,10 +36,10 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
         PLAYER_SPEED,
         PLAYER_BASE_POS,
         PLAYER_DIMS,
-        Sprites::SpriteImage::Player,
+        "player.png",
         Teams::Player
     );
-    pl->grabWeapon(new Gun(WeaponType::GunType::DesertEagle), Inventory::WeaponSlot_1);
+    pl->grabWeapon(Weapon::create("gun/blue_laser_pistol.json"), Inventory::WeaponSlot_1);
     setControlledPlayer(pl);
     addEntity(pl);
 

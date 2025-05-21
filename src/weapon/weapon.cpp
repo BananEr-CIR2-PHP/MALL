@@ -16,7 +16,7 @@
  * @param sprite Sprite of weapon
  * @param dimensions Dimensions of weapon
  */
-Weapon::Weapon(const QString name, const qint64 energyConsumption, const qint64 delay, const Vector2 dimensions, Sprites::SpriteImage sprite) {
+Weapon::Weapon(const QString& name, const qint64 energyConsumption, const qint64 delay, const Vector2 dimensions, const QString& sprite) {
     this->name = name;
     this->energyConsumption = energyConsumption;
     this->delay = (delay > 0) ? delay : 1;
@@ -80,18 +80,9 @@ Weapon* Weapon::create(const QString& filename) {
 /**
  * Set a new sprite for the weapon
  * 
- * @param sprite The new weapon sprite
- */
-void Weapon::setSprite(Sprites::SpriteImage sprite) {
-    this->sprite = new Sprite(sprite);
-}
-
-/**
- * Set a new sprite for the weapon
- * 
  * @param spriteName Name of sprite file (should look like "foo.png")
  */
-void Weapon::setSprite(const QString spriteName) {
+void Weapon::setSprite(const QString& spriteName) {
     this->sprite = new Sprite(spriteName);
 }
 

@@ -1,0 +1,16 @@
+{
+    "type": "Gun",
+    "name": "Bond's PPK",
+    "energy_consumption": 0,
+    "delay": 500,
+    "bullet_range": 1200,
+    "bullet_damage": 8,
+    "bullet_pierces": false,
+    "bullet_speed": 0.8,
+    "bullet_dims_X": 49,
+    "bullet_dims_Y": 13,
+    "bullet_sprite": "bullet.png",
+    "dims_X": 51,
+    "dims_Y": 30,
+    "sprite": "pistol.png"
+}

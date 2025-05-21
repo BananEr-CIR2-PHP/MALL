@@ -17,31 +17,6 @@ Gun::Gun() {
 /**
  * Constructor
  * 
- * @param gunType Type of gun
- */
-Gun::Gun(const WeaponType::GunType::GunType gunType) {
-    QString fileName;
-    switch (gunType) {
-        case WeaponType::GunType::DesertEagle:
-            fileName = "desert_eagle.json";
-            break;
-        default:
-            fileName = "";
-    }
-
-    if (fileName == "") {
-        initValuesDefault();
-    }
-    else {
-        if (! loadFromJSON(fileName)) {
-            initValuesDefault();
-        }
-    }
-}
-
-/**
- * Constructor
- * 
  * @param jsonGun Json object containing all gun infos
  */
 Gun::Gun(const QJsonObject& jsonGun) {
@@ -78,7 +53,7 @@ Gun::Gun(const Gun& other) :
  * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-Gun::Gun(const QString name, const qint64 energyConsumption, const qint64 delay, const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const QString bulletSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+Gun::Gun(const QString& name, const qint64 energyConsumption, const qint64 delay, const qreal bulletRange, const qreal bulletDamage, const bool bulletPierces, const qreal bulletSpeed, const Vector2 bulletDimensions, const QString& bulletSprite, Vector2 dimensions, const QString& sprite) :
     Weapon(name, energyConsumption, delay, dimensions, sprite), bulletRange(bulletRange), bulletDamage(bulletDamage), bulletPierces(bulletPierces),
     bulletSpeed(bulletSpeed), bulletDimensions(bulletDimensions), bulletSprite(bulletSprite)
 {
@@ -102,7 +77,7 @@ void Gun::initValuesDefault() {
     bulletSpeed = 0;
     bulletDimensions = Vector2::zero;
     bulletSprite = "";
-    setSprite(Sprites::SpriteImage::None);
+    setSprite("");
     dimensions = Vector2::zero;
     energyConsumption = 0;
     delay = 1;

@@ -49,7 +49,7 @@ Mob::Mob(const Mob& other) : LivingEntity(other), damage(other.damage), target(o
  * @param lootTable Loot table to pick loots from
  * @param playerTarget The target of this mob
  */
-Mob::Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 position, const Vector2 dimensions, Sprites::SpriteImage sprite, Teams::Team team, const qint64 score, const QString& lootTable, Player* playerTarget) :
+Mob::Mob(const qreal life, const qreal damage, const qreal speed, const Vector2 position, const Vector2 dimensions, const QString& sprite, Teams::Team team, const qint64 score, const QString& lootTable, Player* playerTarget) :
     LivingEntity(life, speed, position, dimensions, sprite, team), damage(damage), scoreValue(score), lootTable(lootTable), target(playerTarget)
 {
 
@@ -207,7 +207,9 @@ void Mob::setScoreValue(const qint64 value) {
  * @return True if succeeded, false otherwise
  */
 bool Mob::loadFromJson(const QJsonObject& mobObject) {
-    setLife(mobObject["life"].toDouble());
+    qreal read_life = mobObject["life"].toDouble();
+    setMaxLife(read_life);
+    setLife(read_life);
     damage = mobObject["damage"].toDouble();
     setSpeed(mobObject["speed"].toDouble());
     setDims(Vector2(mobObject["dims_X"].toDouble(), mobObject["dims_Y"].toDouble()));

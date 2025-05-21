@@ -11,13 +11,13 @@ private:
     Effect effect;
 
 protected:
-    Sprites::SpriteImage getEffectSprite(Effects::EffectType effectType);
+    QString getEffectSprite(Effects::EffectType effectType);
     EffectZone(const EffectZone& other);
 
 public:
     // Constructor/destructor
     EffectZone();
-    EffectZone(Effect effect, const Vector2 position, const qreal range, Sprites::SpriteImage sprite);
+    EffectZone(Effect effect, const Vector2 position, const qreal range, const QString& sprite);
     EffectZone(Effect effect, const Vector2 position, const qreal range);
     ~EffectZone();
 

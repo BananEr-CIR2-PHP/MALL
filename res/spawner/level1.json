@@ -5,7 +5,7 @@
         "trigger": 3000,
         "spawn": [
             {
-                "mob": "trollface",
+                "mob": "bat",
                 "amount": 3
             }
         ]
@@ -14,17 +14,242 @@
         "trigger": 10000,
         "spawn": [
             {
-                "mob": "mini_player",
+                "mob": "bat",
                 "amount": 4
             }
         ]
     },
     {
-        "trigger": 15000,
+        "trigger": 20000,
         "spawn": [
             {
-                "mob": "mini_trollface",
+                "mob": "bat",
+                "amount": 5
+            }
+        ]
+    },
+    {
+        "trigger": 20000,
+        "spawn": [
+            {
+                "mob": "green_slime",
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "trigger": 30000,
+        "spawn": [
+            {
+                "mob": "bat",
+                "amount": 8
+            }
+        ]
+    },
+    {
+        "trigger": 30000,
+        "spawn": [
+            {
+                "mob": "green_slime",
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "trigger": 35000,
+        "spawn": [
+            {
+                "mob": "mini_player",
+                "amount": 3
+            }
+        ]
+    },
+    {
+        "trigger": 45000,
+        "spawn": [
+            {
+                "mob": "green_slime",
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "trigger": 60000,
+        "spawn": [
+            {
+                "mob": "red_slime",
+                "amount": 3
+            }
+        ]
+    },
+    {
+        "trigger": 60000,
+        "spawn": [
+            {
+                "mob": "green_slime",
+                "amount": 5
+            }
+        ]
+    },
+    {
+        "trigger": 60000,
+        "spawn": [
+            {
+                "mob": "purple_bat",
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "trigger": 60000,
+        "spawn": [
+            {
+                "mob": "purple_bat",
+                "amount": 5
+            }
+        ]
+    },
+    {
+        "trigger": 65000,
+        "spawn": [
+            {
+                "mob": "mini_player",
+                "amount": 3
+            }
+        ]
+    },
+    {
+        "trigger": 75000,
+        "spawn": [
+            {
+                "mob": "green_slime",
+                "amount": 3
+            }
+        ]
+    },
+    {
+        "trigger": 75000,
+        "spawn": [
+            {
+                "mob": "poison_slime",
+                "amount": 5
+            }
+        ]
+    },
+    {
+        "trigger": 75000,
+        "spawn": [
+            {
+                "mob": "trollface",
+                "amount": 5
+            }
+        ]
+    },
+    {
+        "trigger": 75000,
+        "spawn": [
+            {
+                "mob": "red_slime",
+                "amount": 5
+            }
+        ]
+    },
+    {
+        "trigger": 85000,
+        "spawn": [
+            {
+                "mob": "red_slime",
+                "amount": 8
+            }
+        ]
+    },
+    {
+        "trigger": 90000,
+        "spawn": [
+            {
+                "mob": "tung_tung_sahur",
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "trigger": 105000,
+        "spawn": [
+            {
+                "mob": "tung_tung_sahur",
+                "amount": 3
+            }
+        ]
+    },
+    {
+        "trigger": 115000,
+        "spawn": [
+            {
+                "mob": "tung_tung_sahur",
+                "amount": 5
+            }
+        ]
+    },
+    {
+        "trigger": 115000,
+        "spawn": [
+            {
+                "mob": "red_red_sahur",
                 "amount": 2
+            }
+        ]
+    },
+    {
+        "trigger": 120000,
+        "spawn": [
+            {
+                "mob": "purple_bat",
+                "amount": 5
+            }
+        ]
+    },
+    {
+        "trigger": 120000,
+        "spawn": [
+            {
+                "mob": "purple_slime",
+                "amount": 5
+            }
+        ]
+    },
+    {
+        "trigger": 130000,
+        "spawn": [
+            {
+                "mob": "pink_pink_sahur",
+                "amount": 1
+            }
+        ]
+    },
+    {
+        "trigger": 130000,
+        "spawn": [
+            {
+                "mob": "red_red_sahur",
+                "amount": 3
+            }
+        ]
+    },
+    {
+        "trigger": 145000,
+        "spawn": [
+            {
+                "mob": "pink_pink_sahur",
+                "amount": 3
+            }
+        ]
+    },
+    {
+        "trigger": 155000,
+        "spawn": [
+            {
+                "mob": "bat",
+                "amount": 5
             }
         ]
     }

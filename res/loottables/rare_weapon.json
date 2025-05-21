@@ -1,0 +1,24 @@
+{
+"items": [
+    {
+        "item": "gun/red_laser_pistol.json",
+        "weight": 60
+    },
+    {
+        "item": "gun/bonk_ppk.json",
+        "weight": 10
+    },
+    {
+        "item": "rocket_launcher/incendiary_launcher.json",
+        "weight": 10
+    },
+    {
+        "item": "rocket_launcher/virus_launcher.json",
+        "weight": 10
+    },
+    {
+        "item": "rocket_launcher/freezer.json",
+        "weight": 10
+    }
+]
+}

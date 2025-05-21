@@ -18,33 +18,6 @@ RocketLauncher::RocketLauncher() {
 /**
  * Constructor
  * 
- * @param weaponType Type of rocket launcher
- */
-RocketLauncher::RocketLauncher(const WeaponType::RocketLauncherType::RocketLauncherType weaponType) {
-    QString fileName;
-    switch (weaponType) {
-        case WeaponType::RocketLauncherType::Bazooka:
-            fileName = "bazooka.json";
-            break;
-
-        default:
-            fileName = "";
-            break;
-    }
-
-    if (fileName == "") {
-        initValuesDefault();
-    }
-    else {
-        if (! loadFromJSON(fileName)) {
-            initValuesDefault();
-        }
-    }
-}
-
-/**
- * Constructor
- * 
  * @param jsonObject Json object containing all rocket launcher infos
  */
 RocketLauncher::RocketLauncher(const QJsonObject& jsonObject) {
@@ -82,7 +55,7 @@ RocketLauncher::RocketLauncher(const RocketLauncher& other) :
  * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-RocketLauncher::RocketLauncher(const QString name, const qint64 energyConsumption, const qint64 delay, const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketDamage, const bool rocketPierces, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+RocketLauncher::RocketLauncher(const QString& name, const qint64 energyConsumption, const qint64 delay, const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketDamage, const bool rocketPierces, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString& rocketSprite, Vector2 dimensions, const QString& sprite) :
     Gun(name, energyConsumption, delay, rocketRange, rocketDamage, rocketPierces, rocketSpeed, rocketDimensions, rocketSprite, dimensions, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
 {
 
@@ -103,7 +76,7 @@ RocketLauncher::RocketLauncher(const QString name, const qint64 energyConsumptio
  * @param dimensions Dimensions of weapon
  * @param sprite Sprite of weapon
  */
-RocketLauncher::RocketLauncher(const QString name, const qint64 energyConsumption, const qint64 delay, const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString rocketSprite, Vector2 dimensions, const Sprites::SpriteImage sprite) :
+RocketLauncher::RocketLauncher(const QString& name, const qint64 energyConsumption, const qint64 delay, const Effect rocketEffect, const qreal effectRange, const qreal rocketRange, const qreal rocketSpeed, const Vector2 rocketDimensions, const QString& rocketSprite, Vector2 dimensions, const QString& sprite) :
     Gun(name, energyConsumption, delay, rocketRange, 0, false, rocketSpeed, rocketDimensions, rocketSprite, dimensions, sprite), rocketEffect(rocketEffect), effectRange(effectRange)
 {
 
