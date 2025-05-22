@@ -46,6 +46,7 @@ void LootTables::addTable(const QString& tableName) {
         newLoots->append("Nothing");
         newWeights->append(1);
         saveDistribution(tableName, newLoots, newWeights);
+        delete newWeights;
         return;
     }
 
@@ -56,6 +57,7 @@ void LootTables::addTable(const QString& tableName) {
         newLoots->append("Nothing");
         newWeights->append(1);
         saveDistribution(tableName, newLoots, newWeights);
+        delete newWeights;
         return;
     }
 
@@ -68,6 +70,7 @@ void LootTables::addTable(const QString& tableName) {
     }
 
     saveDistribution(tableName, newLoots, newWeights);
+    delete newWeights;
 }
 
 /**

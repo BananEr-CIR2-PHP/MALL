@@ -83,6 +83,7 @@ Weapon* Weapon::create(const QString& filename) {
  * @param spriteName Name of sprite file (should look like "foo.png")
  */
 void Weapon::setSprite(const QString& spriteName) {
+    delete this->sprite;
     this->sprite = new Sprite(spriteName);
 }
 
