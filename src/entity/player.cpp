@@ -161,9 +161,8 @@ bool Player::gatherItem(Item* item) {
                 break;
             case ItemType::Weapon:
                 // If item has a weapon and player can drop its active weapon
-                if (item->hasWeapon() && dropWeapon(activeWeaponSlot)) {
-                    grabWeapon(item->takeWeapon(), activeWeaponSlot);
-                    succeeded = true;
+                if (item->hasWeapon()) {
+                    succeeded = grabWeapon(item->takeWeapon(), activeWeaponSlot);;
                 }
                 else {
                     succeeded = false;
@@ -194,7 +193,7 @@ bool Player::gatherItem(Item* item) {
  */
 bool Player::grabWeapon(Weapon* weapon, Inventory::WeaponSlot slot) {
     // If successfully dropped the active weapon, grab the weapon
-    if (!hasWeapon(slot)) {
+    if (dropWeapon(slot)) {
         prepareGeometryChange();
         switch (slot) {
             case Inventory::WeaponSlot_1:
@@ -207,6 +206,7 @@ bool Player::grabWeapon(Weapon* weapon, Inventory::WeaponSlot slot) {
         return true;
     }
     else {
+        delete weapon;
         return false;
     }
 }
