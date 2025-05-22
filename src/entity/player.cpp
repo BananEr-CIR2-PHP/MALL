@@ -330,14 +330,6 @@ bool Player::onUpdate(qint64 deltaTime) {
             (downKeyPressed ? 1 : 0) - (upKeyPressed ? 1 : 0)
         ).normalized();
 
-        // Update looking direction
-        if (direction.getX() < 0) {
-            setLookingLeft(true);
-        }
-        else if (direction.getX() > 0) {
-            setLookingLeft(false);
-        }
-
         // Update position
         setPos(getPos() + direction * getSpeed() * getSpeedMultiplier() * deltaTime);
     }
@@ -614,4 +606,12 @@ void Player::actionSetUsingWeapon(const bool isUsingWeapon) {
  */
 void Player::actionSetTargetDirection(const Vector2 direction) {
     targetDir = direction.normalized();
+
+    // Update looking direction
+    if (direction.getX() < 0) {
+        setLookingLeft(true);
+    }
+    else if (direction.getX() > 0) {
+        setLookingLeft(false);
+    }
 }
