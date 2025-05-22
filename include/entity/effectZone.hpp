@@ -23,9 +23,9 @@ public:
 
     // Inherited methods
     QPainterPath shape() const override;
-    virtual void onCollide(Entity* other);
-    virtual bool onUpdate(qint64 deltaTime);
-    virtual Entity* getSpawned();
+    void onCollide(Entity* other, qint64 deltaTime) override;
+    bool onUpdate(qint64 deltaTime) override;
+    Entity* getSpawned() override;
 
     // Methods related to effects
     void repelEntity(Entity* entity);

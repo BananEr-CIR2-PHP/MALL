@@ -81,11 +81,12 @@ void Missile::setSpeed(const Vector2 speed) {
  * Called when this Entity collides with another
  * 
  * @param other The entity this object collided with
+ * @param deltaTime Time elapsed since last frame, in milliseconds
  */
-void Missile::onCollide(Entity* other) {
+void Missile::onCollide(Entity* other, qint64 deltaTime) {
     if (LivingEntity* entity = dynamic_cast<LivingEntity*>(other)) {
         if (entity->getTeam() != getTeam()) {
-            entity->takeDamage(damage);
+            entity->takeDamage(damage*deltaTime*60/1000);       // values in json are in dmg per frame (60 fps)
 
             // If does not pierce entities, delete this entity
             if (!pierceEntities) {

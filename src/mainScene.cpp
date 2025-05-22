@@ -52,6 +52,9 @@ MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     connect(gameTimer, &QTimer::timeout, this, &MainScene::gameLoop);
 
     gameTimer->start(deltaTime);
+
+    deltaTimer.start();
+    lastFrameTime = deltaTimer.elapsed();
 }
 
 /**
@@ -88,7 +91,7 @@ void MainScene::checkCollisions() {
     for (Entity* entity : *entities) {
         for (QGraphicsItem* graphicsItem : entity->collidingItems()) {
             if (Entity* otherEntity = dynamic_cast<Entity*>(graphicsItem)) {
-                entity->onCollide(otherEntity);
+                entity->onCollide(otherEntity, deltaTime);
             }
         }
     }
@@ -148,7 +151,11 @@ void MainScene::spawnMobWave() {
  * Main game loop. Triggered every frame.
  */
 void MainScene::gameLoop() {
-    sceneTime += deltaTime;
+    // Change delta time
+    sceneTime = deltaTimer.elapsed();
+    deltaTime = sceneTime - lastFrameTime;
+    lastFrameTime = sceneTime;
+
     checkCollisions();
     updateEntities();
     cleanupScene();

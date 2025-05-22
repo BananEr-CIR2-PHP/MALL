@@ -73,8 +73,9 @@ QPainterPath EffectZone::shape() const {
  * Called when this Entity collides with another
  * 
  * @param other The entity this object collided with
+ * @param deltaTime Time elapsed since last frame, in milliseconds
  */
-void EffectZone::onCollide(Entity* other) {
+void EffectZone::onCollide(Entity* other, qint64 deltaTime) {
     switch (effect.getType()) {
         case Effects::EffectType::None:
             break;

@@ -28,7 +28,7 @@ public:
 
     // Inherited methods
     void onDeath() override;
-    void onCollide(Entity* other) override;
+    void onCollide(Entity* other, qint64 deltaTime) override;
     bool onUpdate(qint64 deltaTime) override;
     Entity* getSpawned() override;
 
