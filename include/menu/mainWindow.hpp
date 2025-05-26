@@ -21,6 +21,8 @@ public:
     virtual ~MainWindow(){};
     void newGameClicked(MainScene *scene);
     void centerOnSelectedPlayer(MainGraphicsView* view, MainScene* scene);
+    QString* getHeroName();
+    void setHeroName(QString* name);
 private:
     QLineEdit* pseudoInput = nullptr;
     QPushButton* newGame = nullptr;
@@ -28,6 +30,7 @@ private:
     QPushButton* scoreBoard = nullptr;
     MainScene* scene = nullptr;
     MainGraphicsView* view = nullptr;
+    QString* heroName = nullptr;
 };
 
 #endif

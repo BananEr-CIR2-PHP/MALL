@@ -20,6 +20,7 @@
 MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     // Scene options
     setSceneRect(-50000, -50000, 100000, 100000);       // Scene size
+    setFocus();
     setItemIndexMethod(QGraphicsScene::NoIndex);      // Collision detection method : linear
     entities = new QList<Entity*>();
     setSpawner("level1.json");
@@ -178,7 +179,6 @@ void MainScene::setSpawner(const QString& spawnerFilename) {
  */
 void MainScene::setControlledPlayer(Player* player) {
     mainPlayer = player;
-    mainPlayer->setFocus();
     
 }
 
