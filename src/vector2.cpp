@@ -276,3 +276,8 @@ qreal Vector2::angleWith(const Vector2 other) const {
 qreal Vector2::distanceWith(const Vector2 other) const {
     return (*this - other).magnitude();
 }
+
+
+QPointF Vector2::toPointF() const {
+    return QPointF(x, y);
+}

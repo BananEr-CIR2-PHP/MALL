@@ -60,6 +60,8 @@ public:
     Vector2 minimum(const Vector2 other) const;
     Vector2 maximum(const Vector2 other) const;
     qreal distanceWith(const Vector2 other) const;
+    QPointF toPointF() const;
+
 };
 
 #endif   // VECTOR2_HPP

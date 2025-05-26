@@ -19,7 +19,8 @@
  */
 MainScene::MainScene(QObject* parent, int fps) : QGraphicsScene(parent) {
     // Scene options
-    setSceneRect(0, 0, 900, 900);       // Scene size
+    setSceneRect(-50000, -50000, 100000, 100000);       // Scene size
+    setFocus();
     setItemIndexMethod(QGraphicsScene::NoIndex);      // Collision detection method : linear
     entities = new QList<Entity*>();
     setSpawner("level1.json");
@@ -160,6 +161,10 @@ void MainScene::gameLoop() {
     updateEntities();
     cleanupScene();
     spawnMobWave();
+    if(mainPlayer!=nullptr){
+        emit playerMoved(getMainPlayer());
+    }
+    
 
     if (mainPlayer && mainPlayer->getIsDead()) {
         // TODO: react to player death. Use gameScore to get the total score of the game
@@ -181,6 +186,7 @@ void MainScene::setSpawner(const QString& spawnerFilename) {
  */
 void MainScene::setControlledPlayer(Player* player) {
     mainPlayer = player;
+    
 }
 
 /**
@@ -286,4 +292,35 @@ void MainScene::keyReleaseEvent(QKeyEvent* event) {
     }
 
     QGraphicsScene::keyReleaseEvent(event);
+}
+
+/**
+ * Get the main player of the scene
+ *
+ * @return the main player
+ */
+Player* MainScene::getMainPlayer() {
+    return mainPlayer;
+}
+
+void MainScene::setBackgroundTile(const QString &image_path){
+    this->m_tileImage = QPixmap(image_path);
+}
+
+void MainScene::drawBackground(QPainter *painter, const QRectF &rect) {
+    if (m_tileImage.isNull())
+        return;
+    int startX = qFloor(rect.left() / m_tileImage.width()) * m_tileImage.width();
+    int startY = qFloor(rect.top() / m_tileImage.height()) * m_tileImage.height();
+    int numTilesX = qCeil(rect.width() / m_tileImage.width()) + 1;
+    int numTilesY = qCeil(rect.height() / m_tileImage.height()) + 1;
+    for (int y = 0; y < numTilesY; ++y) {
+        for (int x = 0; x < numTilesX; ++x) {
+            painter->drawPixmap(
+                startX + x * m_tileImage.width(),
+                startY + y * m_tileImage.height(),
+                m_tileImage
+            );
+        }
+    }
 }
